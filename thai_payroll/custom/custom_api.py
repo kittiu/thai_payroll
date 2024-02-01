@@ -167,7 +167,7 @@ def calc_total_housing_gov_policy(doc):
 
 
 def calc_total_economic_stimulus(doc):
-	return doc.custom_economic_stimulus_allowance
+	return doc.custom_economic_stimulus_allowance or 0
 
 
 def calc_total_donation(doc):
