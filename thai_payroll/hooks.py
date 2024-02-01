@@ -6,6 +6,88 @@ app_email = "kittiu@ecosoft.co.th"
 app_license = "mit"
 # required_apps = []
 
+fixtures = [
+	{
+		"doctype": "Employee Tax Exemption Category",
+		"filters": [["name", "in", ("Thai PIT",)]]
+	},
+	{
+		"doctype": "Employee Tax Exemption Sub Category",
+		"filters": [["name", "in", ("Thai Tax Exemption",)]]
+	},
+	{
+		"doctype": "Custom Field",
+		"filters": [
+			[
+				"name",
+				"in",
+				(
+					"Employee Tax Exemption Declaration-custom_column_break_se1vc",
+					"Employee Tax Exemption Declaration-custom_column_break_ofxie",
+					"Employee Tax Exemption Declaration-custom_exemption_group_5",
+					"Employee Tax Exemption Declaration-custom_exemption_group_4",
+					"Employee Tax Exemption Declaration-custom_exemption_group_3",
+					"Employee Tax Exemption Declaration-custom_exemption_group_2",
+					"Employee Tax Exemption Declaration-custom_exemption_group_1",
+					"Employee Tax Exemption Declaration-custom_column_break_ajygm",
+					"Employee Tax Exemption Declaration-custom_column_break_rzpq0",
+					"Employee Tax Exemption Declaration-custom_yearly_total_exemption",
+					"Employee Tax Exemption Declaration-custom_column_break_lacao",
+					"Employee Tax Exemption Declaration-custom_exemption_from_donation",
+					"Employee Tax Exemption Declaration-custom_exemption_from_government_economic_stimulus",
+					"Employee Tax Exemption Declaration-custom_column_break_jbejz",
+					"Employee Tax Exemption Declaration-custom_exemption_from_housing_and_government_policy",
+					"Employee Tax Exemption Declaration-custom_compensation_by_labor_law",
+					"Employee Tax Exemption Declaration-custom_column_break_eqffq",
+					"Employee Tax Exemption Declaration-custom_use_thai_pit_calculation",
+					"Company-custom_use_thai_pit_calculation",
+					"Company-custom_thai_payroll",
+					"Employee Tax Exemption Declaration-custom_donation_for_political_party",
+					"Employee Tax Exemption Declaration-custom_total_exemption",
+					"Employee Tax Exemption Declaration-custom_yearly_income_after_exemption",
+					"Employee Tax Exemption Declaration-custom_child_born_from_2561",
+					"Employee Tax Exemption Declaration-custom_child_born_before_2561",
+					"Employee Tax Exemption Declaration-custom_total_yearly_income",
+					"Employee Tax Exemption Declaration-custom_column_break_p78nx",
+					"Employee Tax Exemption Declaration-custom_yearly_bonus",
+					"Employee Tax Exemption Declaration-custom_column_break_t2icj",
+					"Employee Tax Exemption Declaration-custom_yearly_salary",
+					"Employee Tax Exemption Declaration-custom_yearly_income",
+					"Employee Tax Exemption Declaration-custom_column_break_9w5os",
+					"Employee Tax Exemption Declaration-custom_other_donation",
+					"Employee Tax Exemption Declaration-custom_economic_stimulus_allowance",
+					"Employee Tax Exemption Declaration-custom_donation_for_education",
+					"Employee Tax Exemption Declaration-custom_column_break_c59yc",
+					"Employee Tax Exemption Declaration-custom_invest_in_thai_esg",
+					"Employee Tax Exemption Declaration-custom_invest_in_auunity",
+					"Employee Tax Exemption Declaration-custom_invest_in_ssf",
+					"Employee Tax Exemption Declaration-custom_invest_in_rmf",
+					"Employee Tax Exemption Declaration-custom_column_break_szhdn",
+					"Employee Tax Exemption Declaration-custom_health_insurance_for_parents",
+					"Employee Tax Exemption Declaration-custom_health_insurance",
+					"Employee Tax Exemption Declaration-custom_life_insurance",
+					"Employee Tax Exemption Declaration-custom_column_break_8ugeq",
+					"Employee Tax Exemption Declaration-custom_interest_paid_for_housing_loan",
+					"Employee Tax Exemption Declaration-custom_pvd_contribution",
+					"Employee Tax Exemption Declaration-custom_pvd_housing_loan_insurance_investment_donations",
+					"Employee Tax Exemption Declaration-custom_column_break_wmbpx",
+					"Employee Tax Exemption Declaration-custom_disable_person_support",
+					"Employee Tax Exemption Declaration-custom_total_fathermother_exemption",
+					"Employee Tax Exemption Declaration-custom_spouse_fathermother_exemption",
+					"Employee Tax Exemption Declaration-custom_own_fathermother_exemption",
+					"Employee Tax Exemption Declaration-custom_column_break_p5f1h",
+					"Employee Tax Exemption Declaration-custom_total_child_exemption",
+					"Employee Tax Exemption Declaration-custom_spouse_exemption",
+					"Employee Tax Exemption Declaration-custom_exemption",
+					"Employee Tax Exemption Declaration-custom_expense",
+					"Employee Tax Exemption Declaration-custom_expense_and_exemption",
+					"Employee Tax Exemption Declaration-custom_tab_4",
+				),
+			]
+		],
+	},
+]
+
 # Includes in <head>
 # ------------------
 
@@ -122,13 +204,12 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Employee Tax Exemption Declaration": {
+        "before_insert": "thai_payroll.custom.custom_api.set_default_use_thai_pit_calculation",
+		"on_update": "thai_payroll.custom.custom_api.calculate_thai_tax_exemption",
+	},
+}
 
 # Scheduled Tasks
 # ---------------

@@ -1,0 +1,11 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Employee Tax Exemption Sub Category",
+  "exemption_category": "Thai PIT",
+  "is_active": 1,
+  "max_amount": 0.0,
+  "modified": "2024-01-26 15:08:46.346841",
+  "name": "Thai Tax Exemption"
+ }
+]
