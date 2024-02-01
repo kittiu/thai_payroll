@@ -123,6 +123,8 @@ def calc_total_saving_invest_insurance(doc):
 				doc.set(i, doc.get(i) - diff)
 				diff = 0
 				break
+	# Social Security
+	doc.custom_social_security = min(doc.custom_social_security or 0, 9000)
 	# Labor Law Compensation
 	doc.custom_compensation_by_labor_law = min(doc.custom_compensation_by_labor_law or 0, 300000)
 	# Insurances
@@ -143,6 +145,7 @@ def calc_total_saving_invest_insurance(doc):
 		doc.custom_invest_in_rmf,
 		doc.custom_invest_in_ssf,
 		doc.custom_invest_in_auunity,
+		doc.custom_social_security,
 		doc.custom_compensation_by_labor_law,
 		doc.custom_life_insurance,
 		doc.custom_health_insurance,
@@ -164,7 +167,7 @@ def calc_total_housing_gov_policy(doc):
 
 
 def calc_total_economic_stimulus(doc):
-	return doc.custom_compensation_by_labor_law
+	return doc.custom_economic_stimulus_allowance
 
 
 def calc_total_donation(doc):

@@ -22,6 +22,8 @@ fixtures = [
 				"name",
 				"in",
 				(
+					"Company-custom_use_thai_pit_calculation",
+					"Company-custom_thai_payroll",
 					"Employee Tax Exemption Declaration-custom_column_break_se1vc",
 					"Employee Tax Exemption Declaration-custom_column_break_ofxie",
 					"Employee Tax Exemption Declaration-custom_exemption_group_5",
@@ -40,8 +42,6 @@ fixtures = [
 					"Employee Tax Exemption Declaration-custom_compensation_by_labor_law",
 					"Employee Tax Exemption Declaration-custom_column_break_eqffq",
 					"Employee Tax Exemption Declaration-custom_use_thai_pit_calculation",
-					"Company-custom_use_thai_pit_calculation",
-					"Company-custom_thai_payroll",
 					"Employee Tax Exemption Declaration-custom_donation_for_political_party",
 					"Employee Tax Exemption Declaration-custom_total_exemption",
 					"Employee Tax Exemption Declaration-custom_yearly_income_after_exemption",
@@ -82,6 +82,7 @@ fixtures = [
 					"Employee Tax Exemption Declaration-custom_expense",
 					"Employee Tax Exemption Declaration-custom_expense_and_exemption",
 					"Employee Tax Exemption Declaration-custom_tab_4",
+                    "Employee Tax Exemption Declaration-custom_social_security",
 				),
 			]
 		],
