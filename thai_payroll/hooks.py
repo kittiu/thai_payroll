@@ -208,7 +208,7 @@ fixtures = [
 doc_events = {
 	"Employee Tax Exemption Declaration": {
         "before_insert": "thai_payroll.custom.custom_api.set_default_use_thai_pit_calculation",
-		"on_update": "thai_payroll.custom.custom_api.calculate_thai_tax_exemption",
+		"validate": "thai_payroll.custom.custom_api.calculate_thai_tax_exemption",
 	},
 }
 
