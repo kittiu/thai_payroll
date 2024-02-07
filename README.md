@@ -4,4 +4,4 @@ Payroll with Thailand's regulations
 
 #### License
 
-mit
+MIT
