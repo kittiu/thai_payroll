@@ -183,3 +183,85 @@ def calc_total_donation(doc):
 		doc.custom_donation_for_education * 2,  # 2X for education
 		doc.custom_other_donation
 	])
+
+
+def salary_slip_onload(doc, method):
+	wht_cert = frappe.get_all(
+		"Withholding Tax Cert Employee",
+		filters={"voucher_type": "Salary Slip","voucher_no": doc.name}
+	)
+	if wht_cert:
+		doc.set_onload("wht_cert", wht_cert[0].name)
+
+@frappe.whitelist()
+def make_withholding_tax_cert_employee(doc):
+	sal = json.loads(doc)
+	cert = frappe.new_doc("Withholding Tax Cert Employee")
+	cert.employee = sal["employee"]
+	employee = frappe.get_doc("Employee", cert.employee)
+	cert.employee_name = employee and employee.employee_name or ""
+	cert.employee_tax_id = employee and employee.pan_number or ""
+	cert.employee_address = employee and employee.permanent_address or ""
+	cert.voucher_type = "Salary Slip"
+	cert.voucher_no = sal["name"]
+	cert.company_address = frappe.db.get_value(
+		"Company", sal["company"], "custom_company_address_on_withholding_tax_cert"
+	)
+	cert.income_tax_form = "PND1"
+	cert.date = sal["end_date"]
+	cert.append(
+		"withholding_tax_items",
+		{
+			"type_of_income": "1",
+			"description": "เงินเดือน ค่าจ้าง ฯลฯ 40(1)",
+			"tax_base": sal["ctc"],
+			"tax_amount": sal["total_income_tax"],
+		},
+	)
+	return cert
+
+
+# @frappe.whitelist()
+# def get_withholding_tax_employee(filters, doc):
+	# filters = literal_eval(filters)
+	# pay = json.loads(doc)
+	# wht = frappe.get_doc("Withholding Tax Type", filters["wht_type"])
+	# company = frappe.get_doc("Company", pay["company"])
+	# base_amount = 0
+	# for ref in pay.get("references"):
+	# 	if ref.get("reference_doctype") not in [
+	# 			"Purchase Invoice",
+	# 			"Expense Claim",
+	# 			"Journal Entry"
+	# 		]:
+	# 		return
+	# 	if not ref.get("allocated_amount") or not ref.get("total_amount"):
+	# 		continue
+	# 	# Find gl entry of ref doc that has undue amount
+	# 	gl_entries = frappe.db.get_all(
+	# 		"GL Entry",
+	# 		filters={
+	# 			"voucher_type": ref["reference_doctype"],
+	# 			"voucher_no": ref["reference_name"],
+	# 		},
+	# 		fields=[
+	# 			"name",
+	# 			"account",
+	# 			"debit",
+	# 			"credit",
+	# 		],
+	# 	)
+	# 	for gl in gl_entries:
+	# 		credit = gl["credit"]
+	# 		debit = gl["debit"]
+	# 		alloc_percent = ref["allocated_amount"] / ref["total_amount"]
+	# 		report_type = frappe.get_cached_value("Account", gl["account"], "report_type")
+	# 		if report_type == "Profit and Loss":
+	# 			base_amount += alloc_percent * (credit - debit)
+	# return {
+	# 	# "account": wht.account,
+	# 	# "cost_center": company.cost_center,
+	# 	# "base": base_amount,
+	# 	# "rate": wht.percent,
+	# 	"amount": 
+	# }

@@ -15,6 +15,10 @@ fixtures = [
 		"doctype": "Employee Tax Exemption Sub Category",
 		"filters": [["name", "in", ("Thai Tax Exemption",)]]
 	},
+    {
+		"doctype": "Property Setter",
+        "filters": [["name", "in", ("Salary Slip-custom_connections-show_dashboard",)]]
+	},
 	{
 		"doctype": "Custom Field",
 		"filters": [
@@ -24,6 +28,9 @@ fixtures = [
 				(
 					"Company-custom_use_thai_pit_calculation",
 					"Company-custom_thai_payroll",
+                    "Company-custom_company_address_on_withholding_tax_cert",
+                    "Company-custom_column_break_4lgs1",
+                    "Salary Slip-custom_connections",
 					"Employee Tax Exemption Declaration-custom_column_break_se1vc",
 					"Employee Tax Exemption Declaration-custom_column_break_ofxie",
 					"Employee Tax Exemption Declaration-custom_exemption_group_5",
@@ -111,7 +118,10 @@ fixtures = [
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+	"Salary Slip": "public/js/salary_slip.js",
+	"Company": "public/js/company.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -210,6 +220,9 @@ doc_events = {
         "before_insert": "thai_payroll.custom.custom_api.set_default_use_thai_pit_calculation",
 		"validate": "thai_payroll.custom.custom_api.calculate_thai_tax_exemption",
 	},
+    "Salary Slip": {
+        "onload": "thai_payroll.custom.custom_api.salary_slip_onload"
+	}
 }
 
 # Scheduled Tasks
@@ -248,9 +261,9 @@ doc_events = {
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "thai_payroll.task.get_dashboard_data"
-# }
+override_doctype_dashboards = {
+	"Salary Slip": "thai_payroll.custom.dashboard_overrides.get_dashboard_data_for_salary_slip",
+}
 
 # exempt linked doctypes from being automatically cancelled
 #
