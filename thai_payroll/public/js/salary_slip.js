@@ -14,17 +14,11 @@ frappe.ui.form.on("Salary Slip", {
 			} else {
 				$('[data-doctype="Withholding Tax Cert Employee"]').find("button").show();
 				frm.add_custom_button(__("Withholding Tax Cert Employee"), function() {
-					frappe.call({
-						method: "thai_payroll.custom.custom_api.make_withholding_tax_cert_employee",
-						args: {
-							doc: frm.doc,
-						},
-						callback: function (r) {
-							var doclist = frappe.model.sync(r.message);
-							frappe.set_route("Form", doclist[0].doctype, doclist[0].name);
-						},
-					});
-				}, __("Create"));
+					frappe.model.open_mapped_doc({
+						method: "thai_payroll.custom.salary_slip.make_withholding_tax_cert_employee",
+						frm: frm
+					}) }, __('Create')
+				);
 			}
 		}
 	},

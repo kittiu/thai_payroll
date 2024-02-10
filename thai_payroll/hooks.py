@@ -4,7 +4,7 @@ app_publisher = "Kitti U."
 app_description = "Payroll with Thailand\'s regulations"
 app_email = "kittiu@ecosoft.co.th"
 app_license = "mit"
-required_apps = ["erpnext", "hrms"]
+required_apps = ["erpnext", "hrms", "thai_base"]
 
 fixtures = [
 	{
@@ -122,7 +122,9 @@ doctype_js = {
 	"Salary Slip": "public/js/salary_slip.js",
 	"Company": "public/js/company.js",
 }
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {
+	"Salary Slip": "public/js/salary_slip_list.js",
+}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -217,11 +219,11 @@ doctype_js = {
 
 doc_events = {
 	"Employee Tax Exemption Declaration": {
-        "before_insert": "thai_payroll.custom.custom_api.set_default_use_thai_pit_calculation",
-		"validate": "thai_payroll.custom.custom_api.calculate_thai_tax_exemption",
+        "before_insert": "thai_payroll.custom.employee_tax_exemption_declaration.set_default_use_thai_pit_calculation",
+		"validate": "thai_payroll.custom.employee_tax_exemption_declaration.calculate_thai_tax_exemption",
 	},
     "Salary Slip": {
-        "onload": "thai_payroll.custom.custom_api.salary_slip_onload"
+        "onload": "thai_payroll.custom.salary_slip.onload"
 	}
 }
 
