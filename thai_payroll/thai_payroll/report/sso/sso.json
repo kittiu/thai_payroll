@@ -1,0 +1,54 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2024-02-18 08:27:03.773391",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "mandatory": 1,
+   "options": "Company",
+   "wildcard_filter": 0
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date",
+   "mandatory": 1,
+   "wildcard_filter": 0
+  }
+ ],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Ramasri",
+ "letterhead": null,
+ "modified": "2024-02-18 08:27:03.773391",
+ "modified_by": "Administrator",
+ "module": "Thai Payroll",
+ "name": "SSO",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select\n    replace(emp.custom_citizen_id, '-', '') as '\u0e40\u0e25\u0e02\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e1b\u0e23\u0e30\u0e0a\u0e32\u0e0a\u0e19:Data',\n    emp.salutation as '\u0e04\u0e33\u0e19\u0e33\u0e2b\u0e19\u0e49\u0e32\u0e0a\u0e37\u0e48\u0e2d:Data',\n    emp.first_name as '\u0e0a\u0e37\u0e48\u0e2d\u0e1c\u0e39\u0e49\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e15\u0e19:Data',\n    emp.last_name as '\u0e19\u0e32\u0e21\u0e2a\u0e01\u0e38\u0e25\u0e1c\u0e39\u0e49\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e15\u0e19:Data',\n    round(ss.gross_pay, 2) as '\u0e04\u0e48\u0e32\u0e08\u0e49\u0e32\u0e07:Float',\n    round(sd.amount, 2) as '\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e07\u0e34\u0e19\u0e2a\u0e21\u0e17\u0e1a:Float'\nfrom `tabSalary Slip` ss join `tabEmployee` emp on ss.employee = emp.name\n    join `tabCompany` c on ss.company = c.name\n    join `tabSalary Detail` sd on sd.parent = ss.name\n    join `tabSalary Component` sc on sc.name = sd.salary_component and sc.salary_component_abbr = 'SSO'\nwhere posting_date >= %(from_date)s and posting_date <= %(to_date)s\n    and ss.docstatus = 1 and sd.amount > 0\n    and emp.company = %(company)s\norder by emp.name",
+ "ref_doctype": "Salary Slip",
+ "report_name": "SSO",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "HR Manager"
+  },
+  {
+   "role": "HR User"
+  }
+ ]
+}
