@@ -4,7 +4,7 @@ app_publisher = "Kitti U."
 app_description = "Payroll with Thailand\'s regulations"
 app_email = "kittiu@ecosoft.co.th"
 app_license = "mit"
-required_apps = ["erpnext", "hrms", "thai_base"]
+required_apps = ["erpnext", "hrms"]
 
 fixtures = [
 	{
