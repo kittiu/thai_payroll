@@ -17,7 +17,10 @@ fixtures = [
 	},
     {
 		"doctype": "Property Setter",
-        "filters": [["name", "in", ("Salary Slip-custom_connections-show_dashboard",)]]
+        "filters": [["name", "in", (
+            "Salary Slip-custom_connections-show_dashboard",
+            "Withholding Tax Cert Employee-main-default_print_format"
+        )]]
 	},
 	{
 		"doctype": "Custom Field",
