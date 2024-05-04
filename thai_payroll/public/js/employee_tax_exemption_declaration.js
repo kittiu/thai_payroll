@@ -11,6 +11,8 @@ frappe.ui.form.on("Employee Tax Exemption Declaration", {
 			callback: function (r) {
 				console.log(r.message)
 				frm.set_value("custom_yearly_salary", r.message);
+				frm.set_value("custom_yearly_bonus", 0);
+				frm.set_value("custom_total_yearly_income", r.message);
 			},
 		});
 	},
