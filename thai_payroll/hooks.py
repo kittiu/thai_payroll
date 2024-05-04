@@ -94,6 +94,7 @@ fixtures = [
 					"Employee Tax Exemption Declaration-custom_expense_and_exemption",
 					"Employee Tax Exemption Declaration-custom_tab_4",
                     "Employee Tax Exemption Declaration-custom_social_security",
+                    "Employee Tax Exemption Declaration-custom_get_yearly_salary",
 				),
 			]
 		],
@@ -125,6 +126,7 @@ fixtures = [
 doctype_js = {
 	"Salary Slip": "public/js/salary_slip.js",
 	"Company": "public/js/company.js",
+	"Employee Tax Exemption Declaration": "public/js/employee_tax_exemption_declaration.js",
 }
 doctype_list_js = {
 	"Salary Slip": "public/js/salary_slip_list.js",
