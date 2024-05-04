@@ -6,6 +6,7 @@ import urllib3
 from frappe import _
 from frappe.model.meta import get_field_precision
 from frappe.utils import flt
+from hrms.payroll.report.income_tax_computation.income_tax_computation import IncomeTaxComputationReport
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -185,29 +186,13 @@ def calc_total_donation(doc):
 	])
 
 
-# @frappe.whitelist()
-# def make_withholding_tax_cert_employee(doc):
-# 	sal = json.loads(doc)
-# 	cert = frappe.new_doc("Withholding Tax Cert Employee")
-# 	cert.employee = sal["employee"]
-# 	employee = frappe.get_doc("Employee", cert.employee)
-# 	cert.employee_name = employee and employee.employee_name or ""
-# 	cert.employee_tax_id = employee and employee.pan_number or ""
-# 	cert.employee_address = employee and employee.permanent_address or ""
-# 	cert.voucher_type = "Salary Slip"
-# 	cert.voucher_no = sal["name"]
-# 	cert.company_address = frappe.db.get_value(
-# 		"Company", sal["company"], "custom_company_address_on_withholding_tax_cert"
-# 	)
-# 	cert.income_tax_form = "PND1"
-# 	cert.date = sal["end_date"]
-# 	cert.append(
-# 		"withholding_tax_items",
-# 		{
-# 			"type_of_income": "1",
-# 			"description": "เงินเดือน ค่าจ้าง ฯลฯ 40(1)",
-# 			"tax_base": sal["ctc"],
-# 			"tax_amount": sal["total_income_tax"],
-# 		},
-# 	)
-# 	return cert
+@frappe.whitelist()
+def get_employee_yearly_salary(company, payroll_period, employee):
+	# Simulate run report with CTC
+	itcr = IncomeTaxComputationReport(filters={
+		"company": company,
+		"payroll_period": payroll_period,
+		"employee": employee,
+	})
+	itcr.run()
+	return itcr.employees and itcr.employees[employee].ctc or 0
