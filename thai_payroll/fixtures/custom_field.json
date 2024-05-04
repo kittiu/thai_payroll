@@ -228,7 +228,7 @@
   "columns": 0,
   "default": null,
   "depends_on": null,
-  "description": null,
+  "description": "CTC from Report Income Tax Computation",
   "docstatus": 0,
   "doctype": "Custom Field",
   "dt": "Employee Tax Exemption Declaration",
