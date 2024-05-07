@@ -19,7 +19,10 @@ fixtures = [
 		"doctype": "Property Setter",
         "filters": [["name", "in", (
             "Salary Slip-custom_connections-show_dashboard",
-            "Withholding Tax Cert Employee-main-default_print_format"
+            "Withholding Tax Cert Employee-main-default_print_format",
+            "Employee Tax Exemption Declaration-declarations-allow_on_submit",
+            "Employee Tax Exemption Declaration-total_exemption_amount-allow_on_submit",
+            "Employee Tax Exemption Declaration-total_declared_amount-allow_on_submit",
         )]]
 	},
 	{
@@ -227,6 +230,7 @@ doc_events = {
 	"Employee Tax Exemption Declaration": {
         "before_insert": "thai_payroll.custom.employee_tax_exemption_declaration.set_default_use_thai_pit_calculation",
 		"validate": "thai_payroll.custom.employee_tax_exemption_declaration.calculate_thai_tax_exemption",
+        "before_update_after_submit": "thai_payroll.custom.employee_tax_exemption_declaration.calculate_thai_tax_exemption",
 	},
     "Salary Slip": {
         "onload": "thai_payroll.custom.salary_slip.onload"
