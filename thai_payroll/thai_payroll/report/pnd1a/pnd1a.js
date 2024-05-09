@@ -45,5 +45,17 @@ frappe.query_reports["PND1a"] = {
 			reqd: 1,
 			width: "100px",
 		},
+		{
+			fieldname: "docstatus",
+			label: __("Document Status"),
+			fieldtype: "Select",
+			options: [
+                {value: 0, label: "Draft"},
+                {value: 1, label: "Submitted"},
+                {value: 2, label: "Cancelled"},
+            ],
+			default: 1,
+			reqd: 1,
+		},
 	],
 };
