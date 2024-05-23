@@ -1,0 +1,51 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-24 12:03:54.534489",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "severance_pay_rates"
+ ],
+ "fields": [
+  {
+   "fieldname": "severance_pay_rates",
+   "fieldtype": "Table",
+   "label": "Severance Pay Rates",
+   "options": "Severance Pay Rate"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-05-24 12:21:13.710894",
+ "modified_by": "Administrator",
+ "module": "Thai Payroll",
+ "name": "Severance Pay Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

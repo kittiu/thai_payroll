@@ -12,6 +12,13 @@ fixtures = [
 		"filters": [["name", "in", ("Thai PIT",)]]
 	},
 	{
+		"doctype": "Income Tax Slab",
+		"filters": [["name", "in", (
+            "Thai PIT (2556)",
+            "Thai PIT for Severance Pay (2556)",
+        )]]
+	},
+	{
 		"doctype": "Employee Tax Exemption Sub Category",
 		"filters": [["name", "in", ("Thai Tax Exemption",)]]
 	},
