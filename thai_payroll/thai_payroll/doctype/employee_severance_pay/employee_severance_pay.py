@@ -72,6 +72,8 @@ class EmployeeSeverancePay(Document):
 		settings = frappe.get_doc(
 			"Severance Pay Settings", "Severance Pay Settings"
 		)
+		if not settings.severance_pay_rates:
+			frappe.throw(_("Severance Pay Rates is not setup yet"))
 		# Find months of severance from rate table
 		rates = list(filter(lambda x: x.working_years <= self.diff_years, settings.severance_pay_rates))
 		rates.sort(key=lambda x: x.working_years)
@@ -85,8 +87,8 @@ class EmployeeSeverancePay(Document):
 		self.first_expense = 	self.work_years * 7000
 
 		self.severance_amount = self.severance_months * self.last_month_salary
-		self.income_amount = self.severance_amount + self.one_time_amount
-		self.total_income_amount = self.income_amount - self.deduction_amount
+		self.income_amount = self.severance_amount + (self.one_time_amount or 0)
+		self.total_income_amount = self.income_amount - (self.deduction_amount or 0)
 
 		if self.income_amount < self.total_work_years_salary:
 			self.income_for_expense_calc = self.income_amount
