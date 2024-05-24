@@ -1,0 +1,313 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-05-23 14:40:30.315441",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "employee",
+  "employee_name",
+  "date_of_joining",
+  "relieving_date",
+  "column_break_ydch",
+  "diff_years",
+  "diff_days",
+  "severance_months",
+  "work_years",
+  "column_break_nkzy",
+  "company",
+  "currency",
+  "income_tax_slab",
+  "section_break_smfs",
+  "severance_amount",
+  "one_time_amount",
+  "income_amount",
+  "deduction_amount",
+  "total_income_amount",
+  "column_break_eeku",
+  "last_month_salary",
+  "total_work_years_salary",
+  "column_break_lfhp",
+  "income_for_expense_calc",
+  "first_expense",
+  "first_remaining",
+  "second_expense",
+  "total_expense_amount",
+  "section_break_fzbi",
+  "net_income",
+  "fill_net_income_manually",
+  "column_break_egeg",
+  "computed_tax_amount",
+  "section_break_bk49",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_bk49",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Employee Severance Pay",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "options": "HR-SVR-.YY.-.MM.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ydch",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_smfs",
+   "fieldtype": "Section Break",
+   "label": "Income / Expense"
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e0a\u0e14\u0e40\u0e0a\u0e22\u0e15\u0e32\u0e21\u0e01\u0e0e\u0e2b\u0e21\u0e32\u0e22\u0e41\u0e23\u0e07\u0e07\u0e32\u0e19 (1)",
+   "fieldname": "severance_amount",
+   "fieldtype": "Float",
+   "label": "Severance Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_eeku",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e43\u0e2b\u0e49\u0e04\u0e23\u0e31\u0e49\u0e07\u0e40\u0e14\u0e35\u0e22\u0e27 (2)",
+   "fieldname": "one_time_amount",
+   "fieldtype": "Float",
+   "label": "One Time Amount"
+  },
+  {
+   "description": "\u0e2b\u0e31\u0e01\u0e44\u0e14\u0e49 190,000 \u0e01\u0e23\u0e13\u0e35\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e2b\u0e23\u0e37\u0e2d\u0e2d\u0e32\u0e22\u0e38\u0e21\u0e32\u0e01\u0e01\u0e27\u0e48\u0e32 65 \u0e1b\u0e35 (4)",
+   "fieldname": "deduction_amount",
+   "fieldtype": "Float",
+   "label": "Deduction Amount"
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e04\u0e07\u0e40\u0e2b\u0e25\u0e37\u0e2d (5) = (3) - (4)",
+   "fieldname": "total_income_amount",
+   "fieldtype": "Float",
+   "label": "Total Income Amount",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e2a\u0e38\u0e14\u0e17\u0e49\u0e32\u0e22 (6)",
+   "fieldname": "last_month_salary",
+   "fieldtype": "Float",
+   "label": "Last Month Salary",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e35\u0e17\u0e33\u0e07\u0e32\u0e19 \u0e43\u0e19\u0e01\u0e23\u0e13\u0e35\u0e21\u0e35\u0e40\u0e28\u0e29\u0e02\u0e2d\u0e07\u0e1b\u0e35 \u0e2b\u0e32\u0e01\u0e21\u0e35\u0e27\u0e31\u0e19\u0e17\u0e33\u0e07\u0e32\u0e19\u0e15\u0e31\u0e49\u0e07\u0e41\u0e15\u0e48 183 \u0e27\u0e31\u0e19\u0e02\u0e36\u0e49\u0e19\u0e44\u0e1b \u0e43\u0e2b\u0e49\u0e19\u0e31\u0e1a\u0e40\u0e1b\u0e47\u0e19 1 \u0e1b\u0e35 \u0e2b\u0e32\u0e01\u0e19\u0e49\u0e2d\u0e22\u0e01\u0e27\u0e48\u0e32 183 \u0e27\u0e31\u0e19 \u0e43\u0e2b\u0e49\u0e1b\u0e31\u0e14\u0e17\u0e34\u0e49\u0e07",
+   "fieldname": "work_years",
+   "fieldtype": "Int",
+   "label": "Work Years",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e2a\u0e38\u0e14\u0e17\u0e49\u0e32\u0e22 * \u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e35\u0e17\u0e35\u0e48\u0e17\u0e33\u0e07\u0e32\u0e19 (7)",
+   "fieldname": "total_work_years_salary",
+   "fieldtype": "Float",
+   "label": "Total Work Years Salary",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e17\u0e35\u0e48\u0e16\u0e37\u0e2d\u0e40\u0e1b\u0e47\u0e19\u0e10\u0e32\u0e19\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e04\u0e33\u0e19\u0e27\u0e13\u0e2b\u0e32\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22 (8) = min(  (3), (7) )",
+   "fieldname": "income_for_expense_calc",
+   "fieldtype": "Float",
+   "label": "Income Base For Expense Calculation",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22\u0e2a\u0e48\u0e27\u0e19\u0e41\u0e23\u0e01 = 7,000 * \u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e35\u0e17\u0e35\u0e48\u0e17\u0e33\u0e07\u0e32\u0e19 (9)",
+   "fieldname": "first_expense",
+   "fieldtype": "Float",
+   "label": "First Expense",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e22\u0e2d\u0e14\u0e04\u0e07\u0e40\u0e2b\u0e25\u0e37\u0e2d\u0e41\u0e23\u0e01 (10) = (8) - (9)",
+   "fieldname": "first_remaining",
+   "fieldtype": "Float",
+   "label": "First Remaining",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22\u0e2a\u0e48\u0e27\u0e19\u0e17\u0e35\u0e48\u0e2a\u0e2d\u0e07 (11) = (10) * 50%",
+   "fieldname": "second_expense",
+   "fieldtype": "Float",
+   "label": "Second Expense",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e23\u0e27\u0e21\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22 (12) = (9) + (11)",
+   "fieldname": "total_expense_amount",
+   "fieldtype": "Float",
+   "label": "Total Expense Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lfhp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e2a\u0e38\u0e17\u0e18\u0e34 = \u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e04\u0e07\u0e40\u0e2b\u0e25\u0e37\u0e2d - \u0e23\u0e27\u0e21\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22",
+   "fieldname": "net_income",
+   "fieldtype": "Float",
+   "label": "Net Income",
+   "read_only_depends_on": "eval:!doc.fill_net_income_manually"
+  },
+  {
+   "description": "\u0e20\u0e32\u0e29\u0e35\u0e04\u0e33\u0e19\u0e27\u0e13\u0e08\u0e32\u0e01\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e2a\u0e38\u0e17\u0e18\u0e34",
+   "fieldname": "computed_tax_amount",
+   "fieldtype": "Float",
+   "label": "Computed Tax Amount",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e27\u0e31\u0e19\u0e40\u0e23\u0e34\u0e48\u0e21\u0e07\u0e32\u0e19",
+   "fetch_from": "employee.date_of_joining",
+   "fieldname": "date_of_joining",
+   "fieldtype": "Date",
+   "label": "Date of Joining",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e27\u0e31\u0e19\u0e2a\u0e38\u0e14\u0e17\u0e49\u0e32\u0e22\u0e17\u0e35\u0e48\u0e17\u0e33\u0e07\u0e32\u0e19",
+   "fetch_from": "employee.relieving_date",
+   "fieldname": "relieving_date",
+   "fieldtype": "Date",
+   "label": "Relieving Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_fzbi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_egeg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e2d\u0e31\u0e15\u0e23\u0e32\u0e20\u0e32\u0e29\u0e35\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e01\u0e23\u0e13\u0e35\u0e40\u0e07\u0e34\u0e19\u0e0a\u0e14\u0e40\u0e0a\u0e22",
+   "fieldname": "income_tax_slab",
+   "fieldtype": "Link",
+   "label": "Income Tax Slab",
+   "options": "Income Tax Slab",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_nkzy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e40\u0e15\u0e47\u0e21\u0e1b\u0e35",
+   "fieldname": "diff_years",
+   "fieldtype": "Int",
+   "label": "Diff Years",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e40\u0e28\u0e29\u0e27\u0e31\u0e19",
+   "fieldname": "diff_days",
+   "fieldtype": "Int",
+   "label": "Diff Days",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e17\u0e35\u0e48\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e0a\u0e14\u0e0a\u0e14\u0e40\u0e0a\u0e22\u0e15\u0e32\u0e21\u0e15\u0e32\u0e23\u0e32\u0e07",
+   "fieldname": "severance_months",
+   "fieldtype": "Int",
+   "label": "Severance Months",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e23\u0e27\u0e21\u0e40\u0e07\u0e34\u0e19\u0e0a\u0e14\u0e40\u0e0a\u0e22\u0e41\u0e25\u0e30\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49 (3) = (1) + (2)",
+   "fieldname": "income_amount",
+   "fieldtype": "Float",
+   "label": "Income Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "fill_net_income_manually",
+   "fieldtype": "Check",
+   "label": "Fill Net Income Manually"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-05-24 14:10:48.422389",
+ "modified_by": "Administrator",
+ "module": "Thai Payroll",
+ "name": "Employee Severance Pay",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

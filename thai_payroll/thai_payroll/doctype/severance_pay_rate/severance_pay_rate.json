@@ -1,0 +1,49 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-24 11:54:21.733091",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "working_years",
+  "working_days",
+  "months"
+ ],
+ "fields": [
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e0a\u0e14\u0e40\u0e0a\u0e22\u0e40\u0e1b\u0e47\u0e19\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e02\u0e2d\u0e07\u0e40\u0e07\u0e34\u0e19\u0e40\u0e14\u0e37\u0e2d\u0e19\u0e2a\u0e38\u0e14\u0e17\u0e49\u0e32\u0e22\u0e17\u0e35\u0e48\u0e08\u0e30\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a",
+   "fieldname": "months",
+   "fieldtype": "Int",
+   "hide_days": 1,
+   "in_list_view": 1,
+   "label": "Serverance Pay in Months"
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e35\u0e17\u0e35\u0e48\u0e44\u0e14\u0e49\u0e17\u0e33\u0e07\u0e32\u0e19",
+   "fieldname": "working_years",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Working Years"
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e27\u0e31\u0e19\u0e17\u0e35\u0e48\u0e44\u0e14\u0e49\u0e17\u0e33\u0e07\u0e32\u0e19",
+   "fieldname": "working_days",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Working Days"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-24 12:02:17.940069",
+ "modified_by": "Administrator",
+ "module": "Thai Payroll",
+ "name": "Severance Pay Rate",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
