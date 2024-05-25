@@ -5,7 +5,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "severance_pay_rates"
+  "severance_pay_rates",
+  "income_tax_slab"
  ],
  "fields": [
   {
@@ -13,12 +14,18 @@
    "fieldtype": "Table",
    "label": "Severance Pay Rates",
    "options": "Severance Pay Rate"
+  },
+  {
+   "fieldname": "income_tax_slab",
+   "fieldtype": "Link",
+   "label": "Income Tax Slab",
+   "options": "Income Tax Slab"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-24 12:21:13.710894",
+ "modified": "2024-05-25 13:57:57.625425",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Severance Pay Settings",

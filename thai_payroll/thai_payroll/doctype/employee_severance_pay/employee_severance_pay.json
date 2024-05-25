@@ -11,11 +11,11 @@
   "employee_name",
   "date_of_joining",
   "relieving_date",
+  "work_years",
   "column_break_ydch",
   "diff_years",
   "diff_days",
   "severance_months",
-  "work_years",
   "column_break_nkzy",
   "company",
   "currency",
@@ -28,6 +28,7 @@
   "total_income_amount",
   "column_break_eeku",
   "last_month_salary",
+  "fill_last_month_salary_manually",
   "total_work_years_salary",
   "column_break_lfhp",
   "income_for_expense_calc",
@@ -136,7 +137,8 @@
    "fieldname": "last_month_salary",
    "fieldtype": "Float",
    "label": "Last Month Salary",
-   "read_only": 1
+   "read_only": 1,
+   "read_only_depends_on": "eval:!doc.fill_last_month_salary_manually"
   },
   {
    "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e35\u0e17\u0e33\u0e07\u0e32\u0e19 \u0e43\u0e19\u0e01\u0e23\u0e13\u0e35\u0e21\u0e35\u0e40\u0e28\u0e29\u0e02\u0e2d\u0e07\u0e1b\u0e35 \u0e2b\u0e32\u0e01\u0e21\u0e35\u0e27\u0e31\u0e19\u0e17\u0e33\u0e07\u0e32\u0e19\u0e15\u0e31\u0e49\u0e07\u0e41\u0e15\u0e48 183 \u0e27\u0e31\u0e19\u0e02\u0e36\u0e49\u0e19\u0e44\u0e1b \u0e43\u0e2b\u0e49\u0e19\u0e31\u0e1a\u0e40\u0e1b\u0e47\u0e19 1 \u0e1b\u0e35 \u0e2b\u0e32\u0e01\u0e19\u0e49\u0e2d\u0e22\u0e01\u0e27\u0e48\u0e32 183 \u0e27\u0e31\u0e19 \u0e43\u0e2b\u0e49\u0e1b\u0e31\u0e14\u0e17\u0e34\u0e49\u0e07",
@@ -195,7 +197,7 @@
    "description": "\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e2a\u0e38\u0e17\u0e18\u0e34 = \u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e04\u0e07\u0e40\u0e2b\u0e25\u0e37\u0e2d - \u0e23\u0e27\u0e21\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22",
    "fieldname": "net_income",
    "fieldtype": "Float",
-   "label": "Net Income",
+   "label": "Net Income for Tax Compute",
    "read_only_depends_on": "eval:!doc.fill_net_income_manually"
   },
   {
@@ -281,12 +283,18 @@
    "fieldname": "fill_net_income_manually",
    "fieldtype": "Check",
    "label": "Fill Net Income Manually"
+  },
+  {
+   "default": "0",
+   "fieldname": "fill_last_month_salary_manually",
+   "fieldtype": "Check",
+   "label": "Fill Last Month Salary Manually"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-24 14:10:48.422389",
+ "modified": "2024-05-25 16:41:57.480959",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Employee Severance Pay",

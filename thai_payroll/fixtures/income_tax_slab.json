@@ -2,6 +2,7 @@
  {
   "allow_tax_exemption": 1,
   "amended_from": null,
+  "company": null,
   "currency": "THB",
   "disabled": 0,
   "docstatus": 0,
@@ -89,6 +90,7 @@
  {
   "allow_tax_exemption": 1,
   "amended_from": null,
+  "company": null,
   "currency": "THB",
   "disabled": 0,
   "docstatus": 0,

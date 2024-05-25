@@ -35,7 +35,10 @@ class EmployeeSeverancePay(Document):
 		self._compute_working_years()
 		self._compute_income_expense(ss)
 		self._compute_tax_amount()
-
+		
+	def on_submit(self):
+		self._update_employee_severance()
+		
 	def _get_last_salary_slip(self):
 		ss = frappe.get_all(
 			"Salary Slip",
@@ -82,7 +85,7 @@ class EmployeeSeverancePay(Document):
 		self.severance_months = rates and rates[-1].months or 0
 		
 		ssa = salary_slip._salary_structure_assignment
-		self.last_month_salary = ssa.base
+		self.last_month_salary = ssa.base if not self.fill_last_month_salary_manually else 0
 		self.total_work_years_salary = self.last_month_salary * self.work_years
 		self.first_expense = 	self.work_years * 7000
 
@@ -107,3 +110,8 @@ class EmployeeSeverancePay(Document):
 		self.computed_tax_amount = calculate_tax_by_tax_slab(
 			self.net_income, tax_slab, eval_locals={}
 		)
+
+	def _update_employee_severance(self):
+		employee = frappe.get_doc("Employee", self.employee)
+		employee.custom_employee_severance_pay = self.name
+		employee.save()

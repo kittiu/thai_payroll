@@ -14,6 +14,14 @@ frappe.ui.form.on("Employee Severance Pay", {
 				},
 			};
 		});
-    }
+    },
+
+	onload: function (frm) {
+		if (!frm.doc.income_tax_slab) {
+			frappe.db.get_single_value("Severance Pay Settings", "income_tax_slab").then((value) => {
+				if (value) { frm.set_value("income_tax_slab", value); }
+			})
+		}
+	}
 
 });
