@@ -45,6 +45,12 @@ fixtures = [
                     "Company-custom_column_break_4lgs1",
                     "Salary Slip-custom_connections",
                     "Employee-custom_citizen_id",
+                    "Employee-custom_severance_tax_amount",
+					"Employee-custom_severance_pay_amount",
+					"Employee-custom_column_break_zaf2m",
+					"Employee-custom_column_break_nnjsi",
+					"Employee-custom_employee_severance_pay",
+					"Employee-custom_severance_pay",
 					"Employee Tax Exemption Declaration-custom_column_break_se1vc",
 					"Employee Tax Exemption Declaration-custom_column_break_ofxie",
 					"Employee Tax Exemption Declaration-custom_exemption_group_5",
@@ -136,6 +142,7 @@ fixtures = [
 doctype_js = {
 	"Salary Slip": "public/js/salary_slip.js",
 	"Company": "public/js/company.js",
+	"Employee": "public/js/employee.js",
 	"Employee Tax Exemption Declaration": "public/js/employee_tax_exemption_declaration.js",
 }
 doctype_list_js = {
