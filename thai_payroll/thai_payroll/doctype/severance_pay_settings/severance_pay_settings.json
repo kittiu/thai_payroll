@@ -16,6 +16,7 @@
    "options": "Severance Pay Rate"
   },
   {
+   "description": "Default Income Tax Slab for Employee Severance Pay",
    "fieldname": "income_tax_slab",
    "fieldtype": "Link",
    "label": "Income Tax Slab",
@@ -25,7 +26,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-25 13:57:57.625425",
+ "modified": "2024-05-25 20:56:57.286767",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Severance Pay Settings",

@@ -38,6 +38,9 @@ class EmployeeSeverancePay(Document):
 		
 	def on_submit(self):
 		self._update_employee_severance()
+
+	def on_cancel(self):
+		self._update_employee_severance(remove=True)
 		
 	def _get_last_salary_slip(self):
 		ss = frappe.get_all(
@@ -111,7 +114,7 @@ class EmployeeSeverancePay(Document):
 			self.net_income, tax_slab, eval_locals={}
 		)
 
-	def _update_employee_severance(self):
+	def _update_employee_severance(self, remove=False):
 		employee = frappe.get_doc("Employee", self.employee)
-		employee.custom_employee_severance_pay = self.name
+		employee.custom_employee_severance_pay = self.name if not remove else None
 		employee.save()

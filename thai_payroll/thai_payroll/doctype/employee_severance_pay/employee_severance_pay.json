@@ -25,7 +25,6 @@
   "one_time_amount",
   "income_amount",
   "deduction_amount",
-  "total_income_amount",
   "column_break_eeku",
   "last_month_salary",
   "fill_last_month_salary_manually",
@@ -37,6 +36,8 @@
   "second_expense",
   "total_expense_amount",
   "section_break_fzbi",
+  "total_income_amount",
+  "column_break_ufcc",
   "net_income",
   "fill_net_income_manually",
   "column_break_egeg",
@@ -289,12 +290,16 @@
    "fieldname": "fill_last_month_salary_manually",
    "fieldtype": "Check",
    "label": "Fill Last Month Salary Manually"
+  },
+  {
+   "fieldname": "column_break_ufcc",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-25 16:41:57.480959",
+ "modified": "2024-05-25 20:28:37.033638",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Employee Severance Pay",
