@@ -44,6 +44,8 @@ fixtures = [
                     "Company-custom_company_address_on_withholding_tax_cert",
                     "Company-custom_column_break_4lgs1",
                     "Salary Slip-custom_connections",
+                    "Salary Slip-custom_employee_status",
+                    "Salary Slip-custom_allow_salary_slip",
                     "Employee-custom_citizen_id",
                     "Employee-custom_severance_tax_amount",
 					"Employee-custom_severance_pay_amount",
@@ -232,9 +234,9 @@ doctype_list_js = {
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+    "Salary Slip": "thai_payroll.custom.salary_slip.SalarySlipThaiPayroll",
+}
 
 # Document Events
 # ---------------

@@ -1,4 +1,13 @@
 import frappe
+from hrms.payroll.doctype.salary_slip.salary_slip import SalarySlip
+
+class SalarySlipThaiPayroll(SalarySlip):
+
+	@property
+	def relieving_date(self):
+		if self.custom_allow_salary_slip:
+			return None
+		return super().relieving_date
 
 
 def onload(doc, method):
