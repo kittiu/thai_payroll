@@ -85,10 +85,12 @@ def calc_total_personal_family(doc):
 		+ int(doc.custom_child_born_from_2561 or 0) * 60000
 	)
 	# Parents
-	doc.custom_total_fathermother_exemption = (
-		int(doc.custom_own_fathermother_exemption or 0) * 30000
-		+ int(doc.custom_spouse_fathermother_exemption or 0) * 30000
-	)
+	doc.custom_total_fathermother_exemption = sum([
+		doc.custom_own_father_exemption,
+		doc.custom_own_mother_exemption,
+		doc.custom_spouse_father_exemption,
+		doc.custom_spouse_mother_exemption
+   ]) * 30000
 	# Disable Person
 	doc.custom_disable_person_support = doc.custom_disable_person_support and 60000 or 0
 	return sum([
@@ -101,12 +103,22 @@ def calc_total_personal_family(doc):
 
 
 def calc_total_saving_invest_insurance(doc):
+	# Total Custom Contribution combined must not over 15% of total income
+	doc.custom_total_contribution = sum([
+		doc.custom_pvd_contribution,
+		doc.custom_school_contribution,
+		doc.custom_gpf_contribution,
+	])
+	# Show warning if total contribution > 15% of total income
+	if doc.custom_total_contribution > 0.15 * (doc.custom_total_yearly_income or 0):
+		frappe.msgprint(_("All 3 contributions combined should not over 15% of total income"))
 	# Investments, total combined <= 500,000
 	invests = {
-		"custom_pvd_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
+		"custom_total_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_rmf": 0.3 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_ssf": 0.3 * (doc.custom_total_yearly_income or 0),
-		"custom_invest_in_auunity": 132000
+		"custom_invest_in_auunity": 132000,
+		"custom_pension_life_insurance": min(0.15 * (doc.custom_pension_life_insurance or 0), 200000),
 	}
 	total_invest = 0
 	invest_keys = list(invests.keys())
@@ -114,7 +126,7 @@ def calc_total_saving_invest_insurance(doc):
 		doc.set(i, min(doc.get(i) or 0, invests[i]))
 		total_invest += doc.get(i)
 	invest_keys.reverse()
-	diff = total_invest - 500000
+	diff = total_invest - 500000  # 500,000 is the limit
 	for i in invest_keys:
 		if diff > 0:
 			if diff > doc.get(i):
@@ -130,6 +142,7 @@ def calc_total_saving_invest_insurance(doc):
 	doc.custom_compensation_by_labor_law = min(doc.custom_compensation_by_labor_law or 0, 300000)
 	# Insurances
 	doc.custom_life_insurance = min(doc.custom_life_insurance or 0, 100000)
+	doc.custom_spouse_life_insurance = min(doc.custom_spouse_life_insurance or 0, 10000)
 	doc.custom_health_insurance = min(doc.custom_health_insurance or 0, 25000)
 	if doc.custom_life_insurance + doc.custom_health_insurance > 100000:
 		doc.custom_health_insurance = 100000 - doc.custom_life_insurance
@@ -142,13 +155,16 @@ def calc_total_saving_invest_insurance(doc):
 		100000
 	)
 	return sum([
-		doc.custom_pvd_contribution,
+		doc.custom_total_contribution,
 		doc.custom_invest_in_rmf,
 		doc.custom_invest_in_ssf,
 		doc.custom_invest_in_auunity,
+		doc.custom_pension_life_insurance,
 		doc.custom_social_security,
 		doc.custom_compensation_by_labor_law,
+		doc.custom_maternity_expense,
 		doc.custom_life_insurance,
+		doc.custom_spouse_life_insurance,
 		doc.custom_health_insurance,
 		doc.custom_health_insurance_for_parents,
 		doc.custom_invest_in_thai_esg
