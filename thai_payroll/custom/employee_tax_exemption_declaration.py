@@ -105,9 +105,9 @@ def calc_total_personal_family(doc):
 def calc_total_saving_invest_insurance(doc):
 	# Total Custom Contribution combined must not over 15% of total income
 	doc.custom_total_contribution = sum([
-		doc.custom_pvd_contribution,
-		doc.custom_school_contribution,
-		doc.custom_gpf_contribution,
+		doc.custom_pvd_contribution or 0,
+		doc.custom_school_contribution or 0,
+		doc.custom_gpf_contribution or 0
 	])
 	# Show warning if total contribution > 15% of total income
 	if doc.custom_total_contribution > 0.15 * (doc.custom_total_yearly_income or 0):
