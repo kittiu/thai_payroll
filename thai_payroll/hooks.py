@@ -102,7 +102,7 @@ fixtures = [
 					"Employee Tax Exemption Declaration-custom_pvd_contribution",
                     "Employee Tax Exemption Declaration-custom_school_contribution",
                     "Employee Tax Exemption Declaration-custom_gpf_contribution",
-                    "Employee Tax Exemption Declaration-custom_total_contribution"
+                    "Employee Tax Exemption Declaration-custom_total_contribution",
                     "Employee Tax Exemption Declaration-custom_maternity_expense",
 					"Employee Tax Exemption Declaration-custom_pvd_housing_loan_insurance_investment_donations",
 					"Employee Tax Exemption Declaration-custom_column_break_wmbpx",
