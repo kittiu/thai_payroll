@@ -96,6 +96,7 @@ fixtures = [
 					"Employee Tax Exemption Declaration-custom_health_insurance_for_parents",
 					"Employee Tax Exemption Declaration-custom_health_insurance",
 					"Employee Tax Exemption Declaration-custom_life_insurance",
+					"Employee Tax Exemption Declaration-custom_spouse_life_insurance",
 					"Employee Tax Exemption Declaration-custom_column_break_8ugeq",
 					"Employee Tax Exemption Declaration-custom_interest_paid_for_housing_loan",
 					"Employee Tax Exemption Declaration-custom_pvd_contribution",
