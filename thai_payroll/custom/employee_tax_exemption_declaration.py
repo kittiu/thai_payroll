@@ -155,19 +155,19 @@ def calc_total_saving_invest_insurance(doc):
 		100000
 	)
 	return sum([
-		doc.custom_total_contribution,
-		doc.custom_invest_in_rmf,
-		doc.custom_invest_in_ssf,
-		doc.custom_invest_in_auunity,
-		doc.custom_pension_life_insurance,
-		doc.custom_social_security,
-		doc.custom_compensation_by_labor_law,
-		doc.custom_maternity_expense,
-		doc.custom_life_insurance,
-		doc.custom_spouse_life_insurance,
-		doc.custom_health_insurance,
-		doc.custom_health_insurance_for_parents,
-		doc.custom_invest_in_thai_esg
+		doc.custom_total_contribution or 0,
+		doc.custom_invest_in_rmf or 0,
+		doc.custom_invest_in_ssf or 0,
+		doc.custom_invest_in_auunity or 0,
+		doc.custom_pension_life_insurance or 0,
+		doc.custom_social_security or 0,
+		doc.custom_compensation_by_labor_law or 0,
+		doc.custom_maternity_expense or 0,
+		doc.custom_life_insurance or 0,
+		doc.custom_spouse_life_insurance or 0,
+		doc.custom_health_insurance or 0,
+		doc.custom_health_insurance_for_parents or 0,
+		doc.custom_invest_in_thai_esg or 0
 	])
 
 
