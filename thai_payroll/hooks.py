@@ -46,6 +46,8 @@ fixtures = [
                     "Salary Slip-custom_connections",
                     "Salary Slip-custom_employee_status",
                     "Salary Slip-custom_allow_salary_slip",
+                    "Salary Slip-custom_latest_slip",
+                    "Salary Slip-custom_payroll_period",
                     "Employee-custom_citizen_id",
                     "Employee-custom_severance_tax_amount",
 					"Employee-custom_severance_pay_amount",
@@ -257,7 +259,10 @@ doc_events = {
         "before_update_after_submit": "thai_payroll.custom.employee_tax_exemption_declaration.calculate_thai_tax_exemption",
 	},
     "Salary Slip": {
-        "onload": "thai_payroll.custom.salary_slip.onload"
+        "onload": "thai_payroll.custom.salary_slip.onload",
+        "on_update": "thai_payroll.custom.salary_slip.update_payroll_period",
+        "on_submit": "thai_payroll.custom.salary_slip.update_last_submitted_slip",
+        "on_cancel": "thai_payroll.custom.salary_slip.update_last_submitted_slip",
 	}
 }
 
@@ -298,7 +303,7 @@ doc_events = {
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 override_doctype_dashboards = {
-	"Salary Slip": "thai_payroll.custom.dashboard_overrides.get_dashboard_data_for_salary_slip",
+	"Payroll Period": "thai_payroll.custom.dashboard_overrides.get_dashboard_data_for_payroll_period",
 }
 
 # exempt linked doctypes from being automatically cancelled

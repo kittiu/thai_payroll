@@ -21,6 +21,7 @@
   "tax_payer",
   "column_break_9",
   "date",
+  "payroll_period",
   "section_break_11",
   "withholding_tax_items",
   "section_break_12",
@@ -160,12 +161,19 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "payroll_period",
+   "fieldtype": "Link",
+   "label": "Payroll Period",
+   "options": "Payroll Period",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-03 16:07:10.433298",
+ "modified": "2024-07-19 12:24:54.845294",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Withholding Tax Cert Employee",
