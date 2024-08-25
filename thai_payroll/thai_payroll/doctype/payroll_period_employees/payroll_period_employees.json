@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-21 11:56:34.661329",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "column_break_mkag",
+  "department",
+  "designation",
+  "section_break_ostt",
+  "has_tax_exemption_declaration",
+  "column_break_dgbf",
+  "recent_tax_exemption"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Designation"
+  },
+  {
+   "fieldname": "column_break_mkag",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Has active Employee Tax Exemption Declaration for this period.",
+   "fieldname": "has_tax_exemption_declaration",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Has Tax Exemption Declaration"
+  },
+  {
+   "fieldname": "section_break_ostt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_dgbf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Recent Employee Tax Exemption Declaration, if exists, will be used when create new one.",
+   "fieldname": "recent_tax_exemption",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recent Tax Exemption Declaration",
+   "options": "Employee Tax Exemption Declaration"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-25 13:59:12.930734",
+ "modified_by": "Administrator",
+ "module": "Thai Payroll",
+ "name": "Payroll Period Employees",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

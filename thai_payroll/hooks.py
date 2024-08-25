@@ -123,6 +123,19 @@ fixtures = [
 					"Employee Tax Exemption Declaration-custom_tab_4",
                     "Employee Tax Exemption Declaration-custom_social_security",
                     "Employee Tax Exemption Declaration-custom_get_yearly_salary",
+					"Payroll Period-custom_status",
+					"Payroll Period-custom_error_message",
+					"Payroll Period-custom_failure_details",
+					"Payroll Period-custom_employees",
+					"Payroll Period-custom_section_break_mr4ch",
+					"Payroll Period-custom_tab_3",
+					"Payroll Period-custom_number_of_employees",
+					"Payroll Period-custom_grade",
+					"Payroll Period-custom_designation",
+					"Payroll Period-custom_column_break_r7sls",
+					"Payroll Period-custom_department",
+					"Payroll Period-custom_branch",
+					"Payroll Period-custom_filter_employees",
 				),
 			]
 		],
@@ -156,6 +169,7 @@ doctype_js = {
 	"Company": "public/js/company.js",
 	"Employee": "public/js/employee.js",
 	"Employee Tax Exemption Declaration": "public/js/employee_tax_exemption_declaration.js",
+	"Payroll Period": "public/js/payroll_period.js",
 }
 doctype_list_js = {
 	"Salary Slip": "public/js/salary_slip_list.js",
@@ -246,6 +260,7 @@ doctype_list_js = {
 
 override_doctype_class = {
     "Salary Slip": "thai_payroll.custom.salary_slip.SalarySlipThaiPayroll",
+    "Payroll Period": "thai_payroll.custom.payroll_period.PayrollPeriodThaiPayroll",
 }
 
 # Document Events
