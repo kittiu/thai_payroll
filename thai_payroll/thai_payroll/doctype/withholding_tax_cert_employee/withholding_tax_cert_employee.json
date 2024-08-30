@@ -65,7 +65,7 @@
    "fieldname": "income_tax_form",
    "fieldtype": "Select",
    "label": "Income Tax Form",
-   "options": "\nPND1",
+   "options": "\nPND1a",
    "reqd": 1
   },
   {

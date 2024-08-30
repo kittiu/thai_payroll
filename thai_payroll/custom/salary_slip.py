@@ -66,7 +66,7 @@ def make_withholding_tax_cert_employee(source_name, target_doc=None):
 		target.company_address = frappe.db.get_value(
 		    "Company", source.company, "custom_company_address_on_withholding_tax_cert"
 	    )
-		target.income_tax_form = "PND1"
+		target.income_tax_form = "PND1a"
 		target.voucher_type = "Salary Slip"
 		target.payroll_period = source.custom_payroll_period
 		target.append(
@@ -75,7 +75,7 @@ def make_withholding_tax_cert_employee(source_name, target_doc=None):
 				type_of_income="1",
 				description="เงินเดือน ค่าจ้าง ฯลฯ 40(1)",
 				tax_base=source.ctc,
-				tax_amount=source.total_income_tax
+				tax_amount=source.income_tax_deducted_till_date
 			),
 		)
 
