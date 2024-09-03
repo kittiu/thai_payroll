@@ -7,7 +7,7 @@ from frappe import _
 from frappe.model.meta import get_field_precision
 from frappe.utils import flt
 from hrms.payroll.report.income_tax_computation.income_tax_computation import IncomeTaxComputationReport
-
+from hrms.payroll.doctype.payroll_entry.payroll_entry import get_start_end_dates
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -204,11 +204,18 @@ def calc_total_donation(doc):
 
 @frappe.whitelist()
 def get_employee_yearly_salary(company, payroll_period, employee):
-	# Simulate run report with CTC
-	itcr = IncomeTaxComputationReport(filters={
-		"company": company,
-		"payroll_period": payroll_period,
-		"employee": employee,
-	})
-	itcr.run()
-	return itcr.employees and itcr.employees[employee].ctc or 0
+	emp = frappe.get_cached_doc("Employee", employee)
+	pp = frappe.get_cached_doc("Payroll Period", payroll_period)
+	ss = frappe.new_doc("Salary Slip")
+	ss.company = company
+	ss.employee = employee
+	ss.start_date = emp.date_of_joining if pp.start_date < emp.date_of_joining else pp.start_date
+	ss.salary_structure = ss.check_sal_struct()
+	ss.payroll_frequency = frappe.db.get_value(
+		"Salary Structure", ss.salary_structure, "payroll_frequency"
+	)
+	ss.end_date = get_start_end_dates(
+		ss.payroll_frequency, ss.start_date
+	).end_date
+	ss.process_salary_structure()
+	return ss.ctc

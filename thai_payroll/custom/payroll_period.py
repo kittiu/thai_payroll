@@ -187,19 +187,20 @@ def create_tax_exemption_for_employees(
 					employees[emp]
 				).as_dict()
 				recent_doc.update(doc)
-				yearly_salary = get_employee_yearly_salary(args.company, args.payroll_period, emp)
-				recent_doc.update({
-					"docstatus": 0,
-					"custom_yearly_salary": yearly_salary,
-					"custom_yearly_bonus": 0,
-					"declarations": []
-				})
 				doc = recent_doc
 			else:  # Create new tax exemption declaration
 				doc.update({
 					"doctype": "Employee Tax Exemption Declaration",
 					"employee": emp
 				})
+			# Reset yearly salary based on latest exemption if exists
+			yearly_salary = get_employee_yearly_salary(args.company, args.payroll_period, emp)
+			doc.update({
+				"docstatus": 0,
+				"custom_yearly_salary": yearly_salary,
+				"custom_yearly_bonus": 0,
+				"declarations": []
+			})
 			frappe.get_doc(doc).insert()
 			count += 1
 			if publish_progress:
