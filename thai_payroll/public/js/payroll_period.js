@@ -13,6 +13,8 @@ frappe.ui.form.on("Payroll Period", {
 				frm.call("create_tax_exemption_declarations");
 			}).addClass("btn-primary");
 		}
+		// Child Table > 50 Rows
+		frm.get_field("custom_employees").grid.grid_pagination.page_length = 1000;
 	},
 
 	onload: function (frm) {
