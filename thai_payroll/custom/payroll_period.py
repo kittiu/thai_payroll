@@ -196,6 +196,8 @@ def create_tax_exemption_for_employees(
 			# Reset yearly salary based on latest exemption if exists
 			yearly_salary = get_employee_yearly_salary(args.company, args.payroll_period, emp)
 			doc.update({
+				"name": None,
+				"amended_from": None,
 				"docstatus": 0,
 				"custom_yearly_salary": yearly_salary,
 				"custom_yearly_bonus": 0,

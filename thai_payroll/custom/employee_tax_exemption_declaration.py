@@ -211,6 +211,8 @@ def get_employee_yearly_salary(company, payroll_period, employee):
 	ss.employee = employee
 	ss.start_date = emp.date_of_joining if pp.start_date < emp.date_of_joining else pp.start_date
 	ss.salary_structure = ss.check_sal_struct()
+	if not ss.salary_structure:
+		return 0
 	ss.payroll_frequency = frappe.db.get_value(
 		"Salary Structure", ss.salary_structure, "payroll_frequency"
 	)
