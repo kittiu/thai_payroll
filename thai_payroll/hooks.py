@@ -6,14 +6,6 @@ app_email = "kittiu@ecosoft.co.th"
 app_license = "mit"
 required_apps = ["erpnext", "hrms"]
 
-
-# Monkey patching
-# ------------------
-import erpnext.utilities.bulk_transaction as bt
-import thai_payroll.custom.bulk_transaction as custom_bt
-bt.task = custom_bt.task
-
-
 fixtures = [
 	{
 		"doctype": "Employee Tax Exemption Category",
