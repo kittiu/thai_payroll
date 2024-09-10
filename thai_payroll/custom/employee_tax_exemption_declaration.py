@@ -93,6 +93,7 @@ def calc_total_personal_family(doc):
    ]) * 30000
 	# Disable Person
 	# doc.custom_disable_person_support = doc.custom_disable_person_support and 60000 or 0
+	doc.custom_disable_person_support = doc.custom_disable_person_support or 0
 	return sum([
 		doc.custom_exemption,
 		doc.custom_spouse_exemption,
