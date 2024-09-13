@@ -11,6 +11,7 @@
   "department",
   "designation",
   "section_break_ostt",
+  "has_salary_structure_assignment",
   "has_tax_exemption_declaration",
   "column_break_dgbf",
   "recent_tax_exemption"
@@ -71,12 +72,20 @@
    "in_list_view": 1,
    "label": "Recent Tax Exemption Declaration",
    "options": "Employee Tax Exemption Declaration"
+  },
+  {
+   "default": "0",
+   "description": "Has active Salary Structure Assignment that cover this period.",
+   "fieldname": "has_salary_structure_assignment",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Has Salary Structure Assignment"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-25 13:59:12.930734",
+ "modified": "2024-09-13 20:16:41.881392",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Payroll Period Employees",

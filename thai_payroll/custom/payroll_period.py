@@ -4,6 +4,7 @@ from frappe import _
 from hrms.payroll.doctype.payroll_period.payroll_period import PayrollPeriod
 from thai_payroll.custom.employee_tax_exemption_declaration import get_employee_yearly_salary
 from frappe.utils import get_link_to_form
+from frappe.query_builder import Order
 
 
 class PayrollPeriodThaiPayroll(PayrollPeriod):
@@ -43,10 +44,16 @@ class PayrollPeriodThaiPayroll(PayrollPeriod):
 		Creates tax exemption for employee if not already created.
 		"""
 		self.check_permission("write")
-		# Create Tax Exemption for employee not already has it
+		emp_without_ssa = [
+			"{}: {}".format(emp.employee, emp.employee_name)
+			for emp in self.custom_employees if not emp.has_salary_structure_assignment
+		]
 		emp_to_create = [
 			emp.employee for emp in self.custom_employees
-			if not emp.has_tax_exemption_declaration
+			if (
+				emp.has_salary_structure_assignment
+				and not emp.has_tax_exemption_declaration
+			)
 		]
 		if emp_to_create:
 			args = frappe._dict(
@@ -74,16 +81,19 @@ class PayrollPeriodThaiPayroll(PayrollPeriod):
 					publish_progress=False
 				)
 		else:
-			frappe.msgprint(_("No employees without Tax Exemption Declaration"))
+			frappe.msgprint(_("No Tax Exemption Declaration created"))
 			self.custom_number_of_employees = 0
 			self.custom_employees = []
 			self.save()
 			frappe.publish_realtime("completed_tax_exemption_creation", user=frappe.session.user)
+		if emp_without_ssa:
+			frappe.msgprint(_("Employee without Salary Structure Assignment:<br> {0}").format("<br>".join(emp_without_ssa)))
 
 
 def get_employee_list(filters):
 	emp_list = get_filtered_employees(filters)
 	check_emp_recent_tax_exemption(filters, emp_list)
+	check_emp_salary_assignment_exists(filters.payroll_period, emp_list)
 	check_emp_tax_exemption_exists(filters.payroll_period, emp_list)
 	return emp_list
 
@@ -136,6 +146,32 @@ def check_emp_recent_tax_exemption(filters, emp_list):
 	emp_with_ted = {emp["employee"]: emp["name"] for emp in emp_with_ted}
 	for emp in emp_list:
 		emp["recent_tax_exemption"] = emp_with_ted.get(emp.employee)
+
+
+def check_emp_salary_assignment_exists(payroll_period, emp_list):
+	period_doc = frappe.get_cached_doc("Payroll Period", payroll_period)
+	employees = [emp.employee for emp in emp_list]
+	emp_with_ssa = []
+	for employee in employees:
+		ssa = frappe.qb.DocType("Salary Structure Assignment")
+		query = (
+			frappe.qb.from_(ssa)
+			.select(ssa.salary_structure)
+			.where(
+				(ssa.docstatus == 1)
+				& (ssa.employee == employee)
+				& (ssa.from_date <= period_doc.end_date)
+			)
+			.orderby(ssa.from_date, order=Order.desc)
+			.limit(1)
+		)
+		st_name = query.run()
+		if st_name:
+			emp_with_ssa.append(employee)
+	emp_list = [emp for emp in emp_list if emp.employee in emp_with_ssa]
+	for emp in emp_list:
+		emp["has_salary_structure_assignment"] = 1
+	return emp_with_ssa
 
 
 def check_emp_tax_exemption_exists(payroll_period, emp_list):
