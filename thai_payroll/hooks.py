@@ -8,19 +8,11 @@ required_apps = ["erpnext", "hrms"]
 
 fixtures = [
 	{
-		"doctype": "Employee Tax Exemption Category",
-		"filters": [["name", "in", ("Thai PIT",)]]
-	},
-	{
 		"doctype": "Income Tax Slab",
 		"filters": [["name", "in", (
             "Thai PIT (2556)",
             "Thai PIT for Severance Pay (2556)",
         )]]
-	},
-	{
-		"doctype": "Employee Tax Exemption Sub Category",
-		"filters": [["name", "in", ("Thai Tax Exemption",)]]
 	},
     {
 		"doctype": "Property Setter",
@@ -30,6 +22,8 @@ fixtures = [
             "Employee Tax Exemption Declaration-declarations-allow_on_submit",
             "Employee Tax Exemption Declaration-total_exemption_amount-allow_on_submit",
             "Employee Tax Exemption Declaration-total_declared_amount-allow_on_submit",
+            "Employee Tax Exemption Declaration Category-main-field_order",
+            "Employee Tax Exemption Declaration Category-max_amount-in_list_view",
         )]]
 	},
 	{
@@ -123,6 +117,7 @@ fixtures = [
 					"Employee Tax Exemption Declaration-custom_tab_4",
                     "Employee Tax Exemption Declaration-custom_social_security",
                     "Employee Tax Exemption Declaration-custom_get_yearly_salary",
+                    "Employee Tax Exemption Declaration Category-custom_input_amount",
 					"Payroll Period-custom_status",
 					"Payroll Period-custom_error_message",
 					"Payroll Period-custom_failure_details",

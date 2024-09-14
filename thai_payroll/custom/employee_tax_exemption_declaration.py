@@ -24,34 +24,35 @@ def calculate_thai_tax_exemption(doc, method):
 	# Total income per year
 	doc.custom_total_yearly_income = (doc.custom_yearly_salary or 0) + (doc.custom_yearly_bonus or 0)
 	# -- 1. Exemption for Personal and Family --
-	total_personal_family = calc_total_personal_family(doc)
+	_total_personal_family = calc_total_personal_family(doc)
 	# -- 2. Exemption for Savings, Investments and Insurances --
-	total_saving_invest_insurance = calc_total_saving_invest_insurance(doc)
+	_total_saving_invest_insurance = calc_total_saving_invest_insurance(doc)
 	# -- 3. Exemption from Housing and Government Policy --
-	total_housing_gov_policy = calc_total_housing_gov_policy(doc)
+	_total_housing_gov_policy = calc_total_housing_gov_policy(doc)
 	# -- 4. Exemption from Government Economic Stimulus --
-	total_economic_stimulus = calc_total_economic_stimulus(doc)
+	_total_economic_stimulus = calc_total_economic_stimulus(doc)
 	# Total exemption before donation
 	# Expense (50% of total income bue not over 100,000)
-	doc.custom_expense = min(0.5 * (doc.custom_total_yearly_income or 0), 100000)
+	doc._custom_expense = min(0.5 * (doc.custom_total_yearly_income or 0), 100000)
 	total_exemption = sum([
-		total_personal_family,
-		total_saving_invest_insurance,
-		total_housing_gov_policy,
-		total_economic_stimulus,
-		doc.custom_expense
+		_total_personal_family,
+		_total_saving_invest_insurance,
+		_total_housing_gov_policy,
+		_total_economic_stimulus,
+		doc._custom_expense
 	])
 	doc.custom_yearly_income_after_exemption = doc.custom_total_yearly_income - total_exemption
 	if doc.custom_yearly_income_after_exemption < 0:
 		doc.custom_yearly_income_after_exemption = 0
 	# -- 5. Exemption from Donation --
-	total_donation = calc_total_donation(doc)
+	_total_donation = calc_total_donation(doc)
 	# Summary of Exemptions
-	doc.custom_exemption_group_1 = total_personal_family
-	doc.custom_exemption_group_2 = total_saving_invest_insurance
-	doc.custom_exemption_group_3 = total_housing_gov_policy
-	doc.custom_exemption_group_4 = total_economic_stimulus
-	doc.custom_exemption_group_5 = total_donation
+	doc.custom_expense = doc._custom_expense
+	doc.custom_exemption_group_1 = _total_personal_family
+	doc.custom_exemption_group_2 = _total_saving_invest_insurance
+	doc.custom_exemption_group_3 = _total_housing_gov_policy
+	doc.custom_exemption_group_4 = _total_economic_stimulus
+	doc.custom_exemption_group_5 = _total_donation
 	doc.custom_total_exemption = sum([
 		doc.custom_expense,
 		doc.custom_exemption_group_1,
@@ -62,28 +63,23 @@ def calculate_thai_tax_exemption(doc, method):
 	])
 	# Finally create declaration lines
 	doc.declarations = []
-	doc.append(
-		"declarations",
-		{
-			"exemption_sub_category": "Thai Tax Exemption",
-			"exemption_category": "Thai PIT",
-			"max_amount": 10000000,
-			"amount": doc.custom_total_exemption,
-		}
-	)
+	compute_exemption_declarations(doc)
 	doc.validate()
 
 
 def calc_total_personal_family(doc):
 	# Personal Exemption, 60,000
 	doc.custom_exemption = 60000
+	doc._custom_exemption = doc.custom_exemption
 	# Spose Exemption
-	doc.custom_spouse_exemption = doc.custom_spouse_exemption and 60000 or 0
+	# doc.custom_spouse_exemption = doc.custom_spouse_exemption and 60000 or 0
+	doc._custom_spouse_exemption = doc.custom_spouse_exemption and 60000 or 0
 	# Child in education, 30,000
 	doc.custom_total_child_exemption = (
 		int(doc.custom_child_born_before_2561 or 0) * 30000
 		+ int(doc.custom_child_born_from_2561 or 0) * 60000
 	)
+	doc._custom_total_child_exemption = doc.custom_total_child_exemption
 	# Parents
 	doc.custom_total_fathermother_exemption = sum([
 		doc.custom_own_father_exemption,
@@ -91,15 +87,16 @@ def calc_total_personal_family(doc):
 		doc.custom_spouse_father_exemption,
 		doc.custom_spouse_mother_exemption
    ]) * 30000
+	doc._custom_total_fathermother_exemption = doc.custom_total_fathermother_exemption
 	# Disable Person
 	# doc.custom_disable_person_support = doc.custom_disable_person_support and 60000 or 0
-	doc.custom_disable_person_support = doc.custom_disable_person_support or 0
+	doc._custom_disable_person_support = doc.custom_disable_person_support or 0
 	return sum([
-		doc.custom_exemption,
-		doc.custom_spouse_exemption,
-		doc.custom_total_child_exemption,
-		doc.custom_total_fathermother_exemption,
-		doc.custom_disable_person_support
+		doc._custom_exemption,
+		doc._custom_spouse_exemption,
+		doc._custom_total_child_exemption,
+		doc._custom_total_fathermother_exemption,
+		doc._custom_disable_person_support
 	])
 
 
@@ -124,83 +121,163 @@ def calc_total_saving_invest_insurance(doc):
 	total_invest = 0
 	invest_keys = list(invests.keys())
 	for i in invest_keys:
-		doc.set(i, min(doc.get(i) or 0, invests[i]))
-		total_invest += doc.get(i)
+		# Set _custom_invest...
+		doc.set("_{}".format(i), min(doc.get(i) or 0, invests[i]))
+		total_invest += doc.get("_{}".format(i))
 	invest_keys.reverse()
 	diff = total_invest - 500000  # 500,000 is the limit
 	for i in invest_keys:
 		if diff > 0:
-			if diff > doc.get(i):
-				diff -= doc.get(i)
-				doc.set(i, 0)
+			if diff > doc.get("_{}".format(i)):
+				diff -= doc.get("_{}".format(i))
+				doc.set("_{}".format(i), 0)
 			elif diff > 0:
-				doc.set(i, doc.get(i) - diff)
+				doc.set("_{}".format(i), doc.get("_{}".format(i)) - diff)
 				diff = 0
 				break
 	# Social Security
-	doc.custom_social_security = min(doc.custom_social_security or 0, 9000)
+	doc._custom_social_security = min(doc.custom_social_security or 0, 9000)
 	# Labor Law Compensation
-	doc.custom_compensation_by_labor_law = min(doc.custom_compensation_by_labor_law or 0, 300000)
+	doc._custom_compensation_by_labor_law = min(doc.custom_compensation_by_labor_law or 0, 300000)
+	# Mothernity
+	doc._custom_maternity_expense = doc.custom_maternity_expense or 0
 	# Insurances
-	doc.custom_life_insurance = min(doc.custom_life_insurance or 0, 100000)
-	doc.custom_spouse_life_insurance = min(doc.custom_spouse_life_insurance or 0, 10000)
-	doc.custom_health_insurance = min(doc.custom_health_insurance or 0, 25000)
-	if doc.custom_life_insurance + doc.custom_health_insurance > 100000:
-		doc.custom_health_insurance = 100000 - doc.custom_life_insurance
+	doc._custom_life_insurance = min(doc.custom_life_insurance or 0, 100000)
+	doc._custom_spouse_life_insurance = min(doc.custom_spouse_life_insurance or 0, 10000)
+	doc._custom_health_insurance = min(doc.custom_health_insurance or 0, 25000)
+	if doc._custom_life_insurance + doc._custom_health_insurance > 100000:
+		doc._custom_health_insurance = 100000 - doc._custom_life_insurance
 	# Insurance for parents
-	doc.custom_health_insurance_for_parents = min(doc.custom_health_insurance_for_parents or 0, 15000)
+	doc._custom_health_insurance_for_parents = min(doc.custom_health_insurance_for_parents or 0, 15000)
 	# Thai ESG 30% of income and < 100000
-	doc.custom_invest_in_thai_esg = min(
+	doc._custom_invest_in_thai_esg = min(
 		doc.custom_invest_in_thai_esg or 0,
 		0.3 * doc.custom_total_yearly_income,
 		100000
 	)
 	return sum([
-		doc.custom_total_contribution or 0,
-		doc.custom_invest_in_rmf or 0,
-		doc.custom_invest_in_ssf or 0,
-		doc.custom_invest_in_auunity or 0,
-		doc.custom_pension_life_insurance or 0,
-		doc.custom_social_security or 0,
-		doc.custom_compensation_by_labor_law or 0,
-		doc.custom_maternity_expense or 0,
-		doc.custom_life_insurance or 0,
-		doc.custom_spouse_life_insurance or 0,
-		doc.custom_health_insurance or 0,
-		doc.custom_health_insurance_for_parents or 0,
-		doc.custom_invest_in_thai_esg or 0
+		doc._custom_total_contribution or 0,
+		doc._custom_invest_in_rmf or 0,
+		doc._custom_invest_in_ssf or 0,
+		doc._custom_invest_in_auunity or 0,
+		doc._custom_pension_life_insurance or 0,
+		doc._custom_social_security or 0,
+		doc._custom_compensation_by_labor_law or 0,
+		doc._custom_maternity_expense or 0,
+		doc._custom_life_insurance or 0,
+		doc._custom_spouse_life_insurance or 0,
+		doc._custom_health_insurance or 0,
+		doc._custom_health_insurance_for_parents or 0,
+		doc._custom_invest_in_thai_esg or 0
 	])
 
 
 def calc_total_housing_gov_policy(doc):
 	# Interest for loan
-	doc.custom_interest_paid_for_housing_loan = min(doc.custom_interest_paid_for_housing_loan or 0, 100000)
+	doc._custom_interest_paid_for_housing_loan = min(doc.custom_interest_paid_for_housing_loan or 0, 100000)
 	# Donation political party
-	doc.custom_donation_for_political_party = min(doc.custom_donation_for_political_party or 0, 10000)
+	doc._custom_donation_for_political_party = min(doc.custom_donation_for_political_party or 0, 10000)
 	# Insurance, max 100,000
 	return sum([
-		doc.custom_interest_paid_for_housing_loan,
-		doc.custom_donation_for_political_party
+		doc._custom_interest_paid_for_housing_loan,
+		doc._custom_donation_for_political_party
 	])
 
 
 def calc_total_economic_stimulus(doc):
-	return doc.custom_economic_stimulus_allowance or 0
+	doc._custom_economic_stimulus_allowance = doc.custom_economic_stimulus_allowance or 0
+	return sum([
+		doc._custom_economic_stimulus_allowance
+	])
 
 
 def calc_total_donation(doc):
-	doc.custom_donation_for_education = min(
+	doc._custom_donation_for_education = min(
 		doc.custom_donation_for_education or 0,
 		0.1 * (doc.custom_yearly_income_after_exemption or 0)
-	)
-	doc.custom_other_donation = min(
+	) * 2  # 2X for education
+	doc._custom_other_donation = min(
 		doc.custom_other_donation or 0,
 		0.1 * (doc.custom_yearly_income_after_exemption or 0)
 	)
 	return sum([
-		doc.custom_donation_for_education * 2,  # 2X for education
-		doc.custom_other_donation
+		doc._custom_donation_for_education,
+		doc._custom_other_donation
 	])
+
+
+EXEMPTIONS = {
+	"หักค่าใช้จ่าย": {
+		"หักค่าใช้จ่ายไม่เกิน 100,000 บาท": "custom_expense"
+	},
+	"กลุ่มที่ 1 สิทธิลดหย่อนส่วนตัวและครอบครัว": {
+		"ค่าลดหย่อนส่วนตัว 60,000 บาท": "custom_exemption",
+		"กรณีคู่สมรสไม่มีรายได้": "custom_spouse_exemption",
+		"เลี้ยงดูบุตร": "custom_total_child_exemption",
+		"เลี้ยงดูบิดามารดากรณีไม่มีรายได้": "custom_total_fathermother_exemption",
+		"เป็นผู้ดูแลในบัตรประจำตัวของคนพิการ": "custom_disable_person_support",
+	},
+	"กลุ่มที่ 2 ค่าลดหย่อน/ยกเว้น ด้านการออม การลงทุน และประกัน": {
+		"กองทุน PVD/PSC/GPF": "custom_total_contribution",
+		"กองทุน RMF": "custom_invest_in_rmf", 
+		"กองทุน SSF": "custom_invest_in_ssf",
+		"กองทุนการออมแห่งชาติ": "custom_invest_in_auunity",
+		"ค่าเบี้ยประกันชีวิตแบบบำนาญ": "custom_pension_life_insurance",
+		"เงินสมทบกองทุนประกันสังคม": "custom_social_security",
+		"เงินค่าชดเชยที่ได้รับตามกฎหมายแรงงาน": "custom_compensation_by_labor_law",
+		"ค่าฝากครรภ์และค่าคลอดบุตร": "custom_maternity_expense",
+		"ประกันชีวิต": "custom_life_insurance",
+		"ประกันชีวิตคู่สมรส": "custom_spouse_life_insurance",
+		"ประกันสุขภาพ ": "custom_health_insurance",
+		"จ่ายค่าประกันสุขภาพ บิดา/มารดา": "custom_health_insurance_for_parents",
+		"กองทุน Thai ESG": "custom_invest_in_thai_esg",
+	},
+	"กลุ่มที่ 3 ค่าลดหย่อน/ยกเว้น จากสินทรัพย์และมาตรการนโยบายภาครัฐ": {
+		"ดอกเบื้ยเงินกู้ที่อยู่อาศัย": "custom_interest_paid_for_housing_loan",
+		"เงินบริจาคพรรคการเมือง": "custom_donation_for_political_party",
+	},
+	"กลุ่มที่ 4 ค่าลดหย่อนจากนโยบายกระตุ้นเศรษฐกิจภาครัฐ เช่น ช้อปดีมีคืน": {
+		"ลดหย่อนจากการกระตุ้นเศรษฐกิจตามที่กฏหมายกำหนด": "custom_economic_stimulus_allowance",
+	},
+	"กลุ่มที่ 5 เงินบริจาค": {
+		"บริจาคเพื่อการศึกษา (2 เท่า)": "custom_donation_for_education",
+		"บริจาคอื่นๆ": "custom_other_donation",
+	},
+}
+
+
+def compute_exemption_declarations(doc):
+	create_exemption_categ()
+	for categ in EXEMPTIONS.keys():
+		for sub_categ in EXEMPTIONS[categ].keys():
+			key = EXEMPTIONS[categ][sub_categ]
+			doc.append(
+				"declarations",
+				{
+					"exemption_sub_category": sub_categ,
+					"exemption_category": categ,
+					"max_amount": 999999999,
+					"custom_input_amount": doc.get(key, 0),
+					"amount": doc.get("_{}".format(key), 0),
+				}
+			)
+
+
+def create_exemption_categ():
+	# Create Exemption Categories if not already exists
+	for categ in EXEMPTIONS.keys():
+		doc = frappe.get_doc({
+			"doctype": "Employee Tax Exemption Category",
+			"name": categ,
+		})
+		doc.insert(ignore_permissions=True, ignore_if_duplicate=True)
+		for sub_categ in EXEMPTIONS[categ].keys():
+			doc = frappe.get_doc({
+				"doctype": "Employee Tax Exemption Sub Category",
+				"exemption_category": categ,
+				"name": sub_categ,
+			})
+			doc.insert(ignore_permissions=True, ignore_if_duplicate=True)
 
 
 @frappe.whitelist()
