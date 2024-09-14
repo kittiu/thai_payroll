@@ -21,8 +21,14 @@ def set_default_use_thai_pit_calculation(doc, method):
 def calculate_thai_tax_exemption(doc, method):
 	if not doc.custom_use_thai_pit_calculation:
 		return
+	# -- Exemption before calc total yearly income
+	_total_first_exemption = calc_total_first_exemption(doc)
 	# Total income per year
-	doc.custom_total_yearly_income = (doc.custom_yearly_salary or 0) + (doc.custom_yearly_bonus or 0)
+	doc.custom_total_yearly_income = sum([
+		(doc.custom_yearly_salary or 0),
+		(doc.custom_yearly_bonus or 0),
+		-_total_first_exemption
+	])
 	# -- 1. Exemption for Personal and Family --
 	_total_personal_family = calc_total_personal_family(doc)
 	# -- 2. Exemption for Savings, Investments and Insurances --
@@ -67,6 +73,18 @@ def calculate_thai_tax_exemption(doc, method):
 	doc.validate()
 
 
+def calc_total_first_exemption(doc):
+	doc._custom_elderly_exemption = min((doc.custom_elderly_exemption or 0), 190000)
+	doc._custom_elderly_spouse_exemption = min((doc.custom_elderly_spouse_exemption or 0), 190000)
+	doc._custom_disable_person_exemption = min((doc.custom_disable_person_exemption or 0), 190000)
+	doc._custom_compensation_by_labor_law = min((doc.custom_compensation_by_labor_law or 0), 300000)
+	return sum([
+		doc._custom_elderly_exemption,
+		doc._custom_elderly_spouse_exemption,
+		doc._custom_disable_person_exemption,
+		doc._custom_compensation_by_labor_law
+	])
+
 def calc_total_personal_family(doc):
 	# Personal Exemption, 60,000
 	doc.custom_exemption = 60000
@@ -107,16 +125,15 @@ def calc_total_saving_invest_insurance(doc):
 		doc.custom_school_contribution or 0,
 		doc.custom_gpf_contribution or 0
 	])
-	# Show warning if total contribution > 15% of total income
-	if doc.custom_total_contribution > 0.15 * (doc.custom_total_yearly_income or 0):
-		frappe.msgprint(_("All 3 contributions combined should not over 15% of total income"))
 	# Investments, total combined <= 500,000
 	invests = {
-		"custom_total_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
+		"custom_pvd_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
+		"custom_school_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
+		"custom_gpf_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_rmf": 0.3 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_ssf": 0.3 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_auunity": 132000,
-		"custom_pension_life_insurance": min(0.15 * (doc.custom_pension_life_insurance or 0), 200000),
+		"custom_pension_life_insurance": min(0.15 * (doc.custom_total_yearly_income or 0), 200000),
 	}
 	total_invest = 0
 	invest_keys = list(invests.keys())
@@ -137,8 +154,6 @@ def calc_total_saving_invest_insurance(doc):
 				break
 	# Social Security
 	doc._custom_social_security = min(doc.custom_social_security or 0, 9000)
-	# Labor Law Compensation
-	doc._custom_compensation_by_labor_law = min(doc.custom_compensation_by_labor_law or 0, 300000)
 	# Mothernity
 	doc._custom_maternity_expense = doc.custom_maternity_expense or 0
 	# Insurances
@@ -156,13 +171,14 @@ def calc_total_saving_invest_insurance(doc):
 		100000
 	)
 	return sum([
-		doc._custom_total_contribution or 0,
+		doc._custom_pvd_contribution or 0,
+		doc._custom_school_contribution or 0,
+		doc._custom_gpf_contribution or 0,
 		doc._custom_invest_in_rmf or 0,
 		doc._custom_invest_in_ssf or 0,
 		doc._custom_invest_in_auunity or 0,
 		doc._custom_pension_life_insurance or 0,
 		doc._custom_social_security or 0,
-		doc._custom_compensation_by_labor_law or 0,
 		doc._custom_maternity_expense or 0,
 		doc._custom_life_insurance or 0,
 		doc._custom_spouse_life_insurance or 0,
@@ -207,8 +223,14 @@ def calc_total_donation(doc):
 
 
 EXEMPTIONS = {
+	"หักเงินที่ได้รับการยกเว้น": {
+		"ผู้มีเงินได้อายุเกิน 65 ปี ได้รับยกเว้น": "custom_elderly_exemption",
+		"คู่สมรสผู้มีเงินได้อายุเกิน 65 ปีขึ้นไป ได้รับยกเว้น": "custom_elderly_spouse_exemption",
+		"ผู้มีเงินได้เป็นผุ้พิการและมีอายุไม่เกิน 65 ปีบริบูรณ์": "custom_disable_person_exemption",
+		"เงินชดเชยที่ได้รับตามกฎหมายแรงงาน": "custom_compensation_by_labor_law",
+	},
 	"หักค่าใช้จ่าย": {
-		"หักค่าใช้จ่ายไม่เกิน 100,000 บาท": "custom_expense"
+		"หักค่าใช้จ่ายไม่เกิน 100,000 บาท": "custom_expense",
 	},
 	"กลุ่มที่ 1 สิทธิลดหย่อนส่วนตัวและครอบครัว": {
 		"ค่าลดหย่อนส่วนตัว 60,000 บาท": "custom_exemption",
@@ -218,13 +240,14 @@ EXEMPTIONS = {
 		"เป็นผู้ดูแลในบัตรประจำตัวของคนพิการ": "custom_disable_person_support",
 	},
 	"กลุ่มที่ 2 ค่าลดหย่อน/ยกเว้น ด้านการออม การลงทุน และประกัน": {
-		"กองทุน PVD/PSC/GPF": "custom_total_contribution",
+		"กองทุนสำรองเลี้ยงชีพ": "custom_pvd_contribution",
+		"กองทุนสงเคราะห์ครูโรงเรียนเอกชน": "custom_school_contribution",
+		"กองทุนบําเหน็จบํานาญข้าราชการ": "custom_gpf_contribution",
 		"กองทุน RMF": "custom_invest_in_rmf", 
 		"กองทุน SSF": "custom_invest_in_ssf",
 		"กองทุนการออมแห่งชาติ": "custom_invest_in_auunity",
 		"ค่าเบี้ยประกันชีวิตแบบบำนาญ": "custom_pension_life_insurance",
 		"เงินสมทบกองทุนประกันสังคม": "custom_social_security",
-		"เงินค่าชดเชยที่ได้รับตามกฎหมายแรงงาน": "custom_compensation_by_labor_law",
 		"ค่าฝากครรภ์และค่าคลอดบุตร": "custom_maternity_expense",
 		"ประกันชีวิต": "custom_life_insurance",
 		"ประกันชีวิตคู่สมรส": "custom_spouse_life_insurance",
