@@ -310,15 +310,17 @@ def get_employee_yearly_salary(company, payroll_period, employee):
 	ss = frappe.new_doc("Salary Slip")
 	ss.company = company
 	ss.employee = employee
-	ss.start_date = emp.date_of_joining if pp.start_date < emp.date_of_joining else pp.start_date
+	ss.start_date = max(emp.date_of_joining, pp.start_date)
 	ss.salary_structure = ss.check_sal_struct()
 	if not ss.salary_structure:
 		return 0
 	ss.payroll_frequency = frappe.db.get_value(
 		"Salary Structure", ss.salary_structure, "payroll_frequency"
 	)
-	ss.end_date = get_start_end_dates(
+	date_detail = get_start_end_dates(
 		ss.payroll_frequency, ss.start_date
-	).end_date
+	)
+	ss.start_date = date_detail.start_date
+	ss.end_date = date_detail.end_date
 	ss.process_salary_structure()
 	return ss.ctc
