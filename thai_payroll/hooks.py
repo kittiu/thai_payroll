@@ -376,3 +376,5 @@ override_doctype_dashboards = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+
+bulk_transaction_task_mapper = ["thai_payroll.custom.bulk_transaction.get_task_mapper"]
