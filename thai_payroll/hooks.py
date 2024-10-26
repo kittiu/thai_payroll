@@ -134,6 +134,7 @@ fixtures = [
 					"Payroll Period-custom_department",
 					"Payroll Period-custom_branch",
 					"Payroll Period-custom_filter_employees",
+                    "Salary Component-custom_base_on_30_days",
 				),
 			]
 		],
@@ -276,7 +277,10 @@ doc_events = {
         "on_update": "thai_payroll.custom.salary_slip.update_payroll_period",
         "on_submit": "thai_payroll.custom.salary_slip.update_last_submitted_slip",
         "on_cancel": "thai_payroll.custom.salary_slip.update_last_submitted_slip",
-	}
+	},
+    "Salary Component": {
+		"validate": "thai_payroll.custom.salary_component.validate_depends_on_payment_days",
+    }
 }
 
 # Scheduled Tasks

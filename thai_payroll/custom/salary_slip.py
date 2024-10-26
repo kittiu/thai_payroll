@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import cint, flt, getdate, rounded
 from hrms.payroll.doctype.salary_slip.salary_slip import SalarySlip
 
 class SalarySlipThaiPayroll(SalarySlip):
@@ -8,6 +9,71 @@ class SalarySlipThaiPayroll(SalarySlip):
 		if self.custom_allow_salary_slip:
 			return None
 		return super().relieving_date
+
+	def get_amount_based_on_payment_days(self, row):
+		base_30_days = frappe.db.get_value(
+			"Salary Component",
+			row.salary_component,
+			"custom_base_on_30_days",
+			cache=True
+		)
+		if not base_30_days:
+			return super().get_amount_based_on_payment_days(row)
+		
+		# Thai Payroll override
+		amount, additional_amount = row.amount, row.additional_amount
+		timesheet_component = self._salary_structure_doc.salary_component
+
+		if (
+			self.salary_structure
+			and cint(row.depends_on_payment_days)
+			and cint(self.total_working_days)
+			and not (
+				row.additional_salary and row.default_amount
+			)  # to identify overwritten additional salary
+			and (
+				row.salary_component != timesheet_component
+				or getdate(self.start_date) < self.joining_date
+				or (self.relieving_date and getdate(self.end_date) > self.relieving_date)
+			)
+		):
+			# base_30_days
+			additional_amount = flt(
+				(
+					flt(row.additional_amount)/30 * flt(self.payment_days)
+	 				if flt(self.payment_days) < cint(self.total_working_days)
+					else flt(row.additional_amount)
+				),
+				row.precision("additional_amount"),
+			)
+			amount = (
+				flt(
+					(
+						flt(row.default_amount)/30 * flt(self.payment_days)
+						if flt(self.payment_days) < cint(self.total_working_days)
+						else flt(row.default_amount)
+					),
+					row.precision("amount"),
+				)
+				+ additional_amount
+			)
+
+		elif (
+			not self.payment_days
+			and row.salary_component != timesheet_component
+			and cint(row.depends_on_payment_days)
+		):
+			amount, additional_amount = 0, 0
+		elif not row.amount:
+			amount = flt(row.default_amount) + flt(row.additional_amount)
+
+		# apply rounding
+		if frappe.db.get_value(
+			"Salary Component", row.salary_component, "round_to_the_nearest_integer", cache=True
+		):
+			amount, additional_amount = rounded(amount or 0), rounded(additional_amount or 0)
+
+		return amount, additional_amount
 
 
 def onload(doc, method):
