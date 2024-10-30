@@ -304,13 +304,28 @@ def create_exemption_categ():
 
 
 @frappe.whitelist()
-def get_employee_yearly_salary(company, payroll_period, employee):
+def get_employee_yearly_salary(company, payroll_period, employee, on_date=None):
+	""" Find most up to date yearly salary, except when on_date is specified """
 	emp = frappe.get_cached_doc("Employee", employee)
 	pp = frappe.get_cached_doc("Payroll Period", payroll_period)
 	ss = frappe.new_doc("Salary Slip")
 	ss.company = company
 	ss.employee = employee
-	ss.start_date = max(emp.date_of_joining, pp.start_date)
+	if on_date:
+		# Go back in time, normally used for project go live
+		ss.start_date = on_date
+	else:
+		# Find most updated last slip date in this period
+		last_slip_date = frappe.db.get_value(
+			"Salary Slip", {"employee": employee, "end_date": ["<=", pp.end_date], "docstatus": 1},
+			"end_date",
+			order_by="end_date DESC"
+		)
+		dates = [emp.date_of_joining, pp.start_date]
+		if last_slip_date:
+			dates.append(last_slip_date)
+		# Find latest submitted salary slip in this period if any
+		ss.start_date = max(dates)
 	ss.salary_structure = ss.check_sal_struct()
 	if not ss.salary_structure:
 		return 0
