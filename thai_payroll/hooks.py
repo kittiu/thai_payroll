@@ -121,6 +121,9 @@ fixtures = [
                     "Employee Tax Exemption Declaration-custom_elderly_spouse_exemption",
                     "Employee Tax Exemption Declaration Category-custom_input_amount",
                     "Employee Tax Exemption Declaration-custom_disable_person_exemption",
+                    "Employee Tax Exemption Declaration-custom_is_opening_entry",
+                    "Employee Tax Exemption Declaration-custom_opening_entry_date",
+                    "Employee Tax Exemption Declaration-custom_get_yearly_pvd_contribution",
 					"Payroll Period-custom_status",
 					"Payroll Period-custom_error_message",
 					"Payroll Period-custom_failure_details",
@@ -135,6 +138,8 @@ fixtures = [
 					"Payroll Period-custom_branch",
 					"Payroll Period-custom_filter_employees",
                     "Salary Component-custom_base_on_30_days",
+                    "Salary Structure Assignment-custom_pvd_contribution_till_date",
+                    "Salary Structure-custom_pvd_component",
 				),
 			]
 		],

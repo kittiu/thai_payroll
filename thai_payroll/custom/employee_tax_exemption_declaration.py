@@ -1,12 +1,8 @@
-import json
-from ast import literal_eval
-
+from datetime import timedelta
 import frappe
 import urllib3
 from frappe import _
-from frappe.model.meta import get_field_precision
-from frappe.utils import flt
-from hrms.payroll.report.income_tax_computation.income_tax_computation import IncomeTaxComputationReport
+from frappe.utils import ceil, getdate
 from hrms.payroll.doctype.payroll_entry.payroll_entry import get_start_end_dates
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -127,7 +123,7 @@ def calc_total_saving_invest_insurance(doc):
 	])
 	# Investments, total combined <= 500,000
 	invests = {
-		"custom_pvd_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
+		"custom_pvd_contribution": 0.15 * (doc.custom_total_yearly_income or 0) + 10000,
 		"custom_school_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
 		"custom_gpf_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_rmf": 0.3 * (doc.custom_total_yearly_income or 0),
@@ -164,11 +160,11 @@ def calc_total_saving_invest_insurance(doc):
 		doc._custom_health_insurance = 100000 - doc._custom_life_insurance
 	# Insurance for parents
 	doc._custom_health_insurance_for_parents = min(doc.custom_health_insurance_for_parents or 0, 15000)
-	# Thai ESG 30% of income and < 100000
+	# Thai ESG 30% of income and < 300000
 	doc._custom_invest_in_thai_esg = min(
 		doc.custom_invest_in_thai_esg or 0,
 		0.3 * doc.custom_total_yearly_income,
-		100000
+		300000
 	)
 	return sum([
 		doc._custom_pvd_contribution or 0,
@@ -303,17 +299,18 @@ def create_exemption_categ():
 			doc.insert(ignore_permissions=True, ignore_if_duplicate=True)
 
 
-@frappe.whitelist()
-def get_employee_yearly_salary(company, payroll_period, employee, on_date=None):
-	""" Find most up to date yearly salary, except when on_date is specified """
+def parepare_salary_slip(company, payroll_period, employee, is_opening_entry=None, opening_entry_date=None):
 	emp = frappe.get_cached_doc("Employee", employee)
 	pp = frappe.get_cached_doc("Payroll Period", payroll_period)
 	ss = frappe.new_doc("Salary Slip")
 	ss.company = company
 	ss.employee = employee
-	if on_date:
+	# If employee left, use last date of employee
+	if getdate(opening_entry_date) > getdate(emp.relieving_date):
+		opening_entry_date = emp.relieving_date
+	if is_opening_entry and opening_entry_date:
 		# Go back in time, normally used for project go live
-		ss.start_date = on_date
+		ss.start_date = opening_entry_date
 	else:
 		# Find most updated last slip date in this period
 		last_slip_date = frappe.db.get_value(
@@ -338,4 +335,52 @@ def get_employee_yearly_salary(company, payroll_period, employee, on_date=None):
 	ss.start_date = date_detail.start_date
 	ss.end_date = date_detail.end_date
 	ss.process_salary_structure()
+	return ss
+
+
+@frappe.whitelist()
+def get_employee_yearly_salary(company, payroll_period, employee, is_opening_entry=None, opening_entry_date=None):
+	""" Find most up to date yearly salary, except when on_date is specified """
+	ss = parepare_salary_slip(company, payroll_period, employee, is_opening_entry, opening_entry_date)
 	return ss.ctc
+
+
+@frappe.whitelist()
+def get_employee_yearly_pvd_contribution(company, payroll_period, employee, is_opening_entry=None, opening_entry_date=None):
+	prev_period_pvd_amount = 0
+	current_period_pvd_amount = 0
+	future_period_pvd_amount = 0
+
+	pp = frappe.get_cached_doc("Payroll Period", payroll_period)
+	ss = parepare_salary_slip(company, payroll_period, employee, is_opening_entry, opening_entry_date)
+
+	pvd_component = ss._salary_structure_doc.get("custom_pvd_component")
+
+	# Previous period pvd amount
+	prev_period_pvd_amount = ss.get_salary_slip_details(
+		pp.start_date,
+		ss.start_date,
+		parentfield="deductions",
+		salary_component=pvd_component,
+	)
+
+	# Current period pvd amount
+	for d in ss.get("deductions"):
+		if d.salary_component == pvd_component:
+			current_period_pvd_amount += d.amount
+
+	# Future period pvd amount
+	for d in ss._salary_structure_doc.get("deductions"):
+		if d.salary_component == pvd_component:
+			if d.amount_based_on_formula:
+				for sub_period in range(1, ceil(ss.remaining_sub_periods)):
+					future_period_pvd_amount += ss.get_amount_from_formula(d, sub_period)
+			else:
+				future_period_pvd_amount += d.amount * (ceil(ss.remaining_sub_periods) - 1)
+
+	# Opening entry pvd amount
+	pvd_contribution_till_date = ss.get_opening_for("custom_pvd_contribution_till_date", ss.start_date, ss.end_date)
+
+	return (
+		prev_period_pvd_amount + current_period_pvd_amount + future_period_pvd_amount + pvd_contribution_till_date
+	) or 0

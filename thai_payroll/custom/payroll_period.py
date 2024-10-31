@@ -237,6 +237,8 @@ def create_tax_exemption_for_employees(
 				"docstatus": 0,
 				"custom_yearly_salary": yearly_salary,
 				"custom_yearly_bonus": 0,
+				"custom_is_opening_entry": 0,  # Not an opening entry
+				"custom_opening_entry_date": 0,
 				"declarations": []
 			})
 			frappe.get_doc(doc).insert()
