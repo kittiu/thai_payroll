@@ -37,6 +37,7 @@ fixtures = [
 					"Company-custom_thai_payroll",
                     "Company-custom_company_address_on_withholding_tax_cert",
                     "Company-custom_column_break_4lgs1",
+                    "Company-custom_auto_revise_tax_exemption_declaration",
                     "Salary Slip-custom_connections",
                     "Salary Slip-custom_employee_status",
                     "Salary Slip-custom_allow_salary_slip",
@@ -49,6 +50,9 @@ fixtures = [
 					"Employee-custom_column_break_nnjsi",
 					"Employee-custom_employee_severance_pay",
 					"Employee-custom_severance_pay",
+                    "Employee-custom_pvd_type",
+                    "Employee-custom_pvd_employee",
+                    "Employee-custom_pvd_company",
 					"Employee Tax Exemption Declaration-custom_column_break_se1vc",
 					"Employee Tax Exemption Declaration-custom_column_break_ofxie",
 					"Employee Tax Exemption Declaration-custom_exemption_group_5",
@@ -137,6 +141,8 @@ fixtures = [
 					"Payroll Period-custom_department",
 					"Payroll Period-custom_branch",
 					"Payroll Period-custom_filter_employees",
+                    "Payroll Period-custom_is_opening_period",
+                    "Payroll Period-custom_opening_period_date",
                     "Salary Component-custom_base_on_30_days",
                     "Salary Structure Assignment-custom_pvd_contribution_till_date",
                     "Salary Structure-custom_pvd_component",
@@ -273,7 +279,6 @@ override_doctype_class = {
 
 doc_events = {
 	"Employee Tax Exemption Declaration": {
-        "before_insert": "thai_payroll.custom.employee_tax_exemption_declaration.set_default_use_thai_pit_calculation",
 		"validate": "thai_payroll.custom.employee_tax_exemption_declaration.calculate_thai_tax_exemption",
         "before_update_after_submit": "thai_payroll.custom.employee_tax_exemption_declaration.calculate_thai_tax_exemption",
 	},

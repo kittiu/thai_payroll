@@ -7,13 +7,6 @@ from hrms.payroll.doctype.payroll_entry.payroll_entry import get_start_end_dates
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-def set_default_use_thai_pit_calculation(doc, method):
-	if not doc.custom_use_thai_pit_calculation:
-		doc.custom_use_thai_pit_calculation = frappe.db.get_value(
-			"Company", doc.company, "custom_use_thai_pit_calculation"
-		) or 0
-
-
 def calculate_thai_tax_exemption(doc, method):
 	if not doc.custom_use_thai_pit_calculation:
 		return
@@ -305,24 +298,23 @@ def parepare_salary_slip(company, payroll_period, employee, is_opening_entry=Non
 	ss = frappe.new_doc("Salary Slip")
 	ss.company = company
 	ss.employee = employee
+	dates = [emp.date_of_joining, pp.start_date]
 	# If employee left, use last date of employee
 	if getdate(opening_entry_date) > getdate(emp.relieving_date):
 		opening_entry_date = emp.relieving_date
 	if is_opening_entry and opening_entry_date:
 		# Go back in time, normally used for project go live
-		ss.start_date = opening_entry_date
-	else:
-		# Find most updated last slip date in this period
-		last_slip_date = frappe.db.get_value(
-			"Salary Slip", {"employee": employee, "end_date": ["<=", pp.end_date], "docstatus": 1},
-			"end_date",
-			order_by="end_date DESC"
-		)
-		dates = [emp.date_of_joining, pp.start_date]
-		if last_slip_date:
-			dates.append(last_slip_date)
-		# Find latest submitted salary slip in this period if any
-		ss.start_date = max(dates)
+		dates.append(getdate(opening_entry_date))
+	# Find most updated last slip date in this period
+	last_slip_date = frappe.db.get_value(
+		"Salary Slip", {"employee": employee, "end_date": ["<=", pp.end_date], "docstatus": 1},
+		"end_date",
+		order_by="end_date DESC"
+	)
+	if last_slip_date:
+		dates.append(last_slip_date)
+	# Use the most recent date possible
+	ss.start_date = max(dates)
 	ss.salary_structure = ss.check_sal_struct()
 	if not ss.salary_structure:
 		return 0

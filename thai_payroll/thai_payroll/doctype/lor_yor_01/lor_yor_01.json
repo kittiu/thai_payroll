@@ -1,0 +1,510 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-01 13:44:01.579659",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "column_break_asgo",
+  "tax_id",
+  "address",
+  "column_break_mupw",
+  "company",
+  "currency",
+  "section_break_zzgn",
+  "1_personal_column",
+  "personal_status",
+  "marital_status",
+  "column_break_jqur",
+  "spouse_financial_status",
+  "3_children_column",
+  "total_children",
+  "child_exemption_1",
+  "child_exemption_1_amount",
+  "child_exemption_2",
+  "child_exemption_2_amount",
+  "section_break_kgos",
+  "4_parents_support_column",
+  "own_father_exemption",
+  "own_mother_exemption",
+  "total_own_parent_exemption",
+  "spouse_father_exemption",
+  "spouse_mother_exemption",
+  "total_spouse_parent_exemption",
+  "column_break_nhhr",
+  "disable_persons_in_support",
+  "total_disable_person_support",
+  "6_insurance_for_parents_column",
+  "insurance_own_father",
+  "insurance_own_mother",
+  "insurance_spouse_father",
+  "insurance_spouse_mother",
+  "total_parent_insurance",
+  "section_break_qsnl",
+  "7_life_insurance_column",
+  "life_insurance",
+  "column_break_tcos",
+  "health_insurance",
+  "column_break_sztd",
+  "pvd_contribution",
+  "section_break_qtea",
+  "10_retirement_mutual_fund_investment_column",
+  "rmf_investment",
+  "column_break_bqnn",
+  "ssf_investment",
+  "column_break_aspw",
+  "interest_paid_for_housing_loan",
+  "section_break_whec",
+  "13_social_security_column",
+  "sso_contribution",
+  "column_break_cody",
+  "donation_for_education",
+  "column_break_rull",
+  "other_donation",
+  "detail_of_other_donation",
+  "section_break_sfvf",
+  "16_thai_esg_column",
+  "thai_esg_investment",
+  "column_break_asfw",
+  "economic_stimulus_allowance",
+  "column_break_igrh",
+  "section_break_lpt2",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_lpt2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Lor Yor 01",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "description": "\u0e23\u0e2b\u0e31\u0e2a\u0e1e\u0e19\u0e31\u0e01\u0e07\u0e32\u0e19",
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_asgo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e40\u0e25\u0e02\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e1c\u0e39\u0e49\u0e40\u0e2a\u0e35\u0e22\u0e20\u0e32\u0e29\u0e35\u0e2d\u0e32\u0e01\u0e23",
+   "fieldname": "tax_id",
+   "fieldtype": "Data",
+   "label": "Tax ID"
+  },
+  {
+   "description": "\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48",
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "section_break_zzgn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "\u0e2a\u0e16\u0e32\u0e19\u0e20\u0e32\u0e1e",
+   "fieldname": "personal_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Personal Status",
+   "options": "\n\u0e42\u0e2a\u0e14\n\u0e2a\u0e21\u0e23\u0e2a\n\u0e2b\u0e21\u0e49\u0e32\u0e22\n\u0e15\u0e32\u0e22\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_jqur",
+   "fieldtype": "Column Break",
+   "label": "2. Spouse"
+  },
+  {
+   "description": "\u0e2a\u0e16\u0e32\u0e19\u0e20\u0e32\u0e1e\u0e01\u0e32\u0e23\u0e2a\u0e21\u0e23\u0e2a",
+   "fieldname": "marital_status",
+   "fieldtype": "Select",
+   "label": "Marital Status",
+   "options": "\n\u0e2a\u0e21\u0e23\u0e2a\u0e41\u0e25\u0e30\u0e2d\u0e22\u0e39\u0e48\u0e23\u0e48\u0e27\u0e21\u0e01\u0e31\u0e19\u0e15\u0e25\u0e2d\u0e14\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35\n\u0e2a\u0e21\u0e23\u0e2a\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35\n\u0e2b\u0e22\u0e48\u0e32\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35\n\u0e15\u0e32\u0e22\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35"
+  },
+  {
+   "description": "\u0e2a\u0e16\u0e32\u0e19\u0e30\u0e01\u0e32\u0e23\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a",
+   "fieldname": "spouse_financial_status",
+   "fieldtype": "Select",
+   "label": "Spouse Financial Status",
+   "options": "\n\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\n\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "reqd": 1
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1a\u0e38\u0e15\u0e23\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14",
+   "fieldname": "total_children",
+   "fieldtype": "Int",
+   "label": "Total Children",
+   "options": "\n1\n2\n3\n4\n5\n6\n7\n8"
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1a\u0e38\u0e15\u0e23\u0e17\u0e35\u0e48\u0e21\u0e35\u0e2a\u0e34\u0e17\u0e18\u0e34\u0e2b\u0e31\u0e01\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e04\u0e19\u0e25\u0e30 30,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "child_exemption_1",
+   "fieldtype": "Select",
+   "label": "Child Exemption 1",
+   "options": "\n1\n2\n3\n4\n5\n6\n7\n8"
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1a\u0e38\u0e15\u0e23\u0e17\u0e35\u0e48\u0e21\u0e35\u0e2a\u0e34\u0e17\u0e18\u0e34\u0e2b\u0e31\u0e01\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19 (\u0e15\u0e31\u0e49\u0e07\u0e41\u0e15\u0e48\u0e04\u0e19\u0e17\u0e35\u0e48\u0e2a\u0e2d\u0e07\u0e40\u0e1b\u0e47\u0e19\u0e15\u0e49\u0e19\u0e44\u0e1b \u0e17\u0e35\u0e48\u0e40\u0e01\u0e34\u0e14\u0e43\u0e19\u0e2b\u0e23\u0e37\u0e2d\u0e2b\u0e25\u0e31\u0e07\u0e1b\u0e35 \u0e1e.\u0e28. 2561) \u0e04\u0e19\u0e25\u0e30 60,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "child_exemption_2",
+   "fieldtype": "Select",
+   "label": "Child Exemption 2",
+   "options": "\n1\n2\n3\n4\n5\n6\n7\n8"
+  },
+  {
+   "bold": 1,
+   "fieldname": "child_exemption_1_amount",
+   "fieldtype": "Currency",
+   "label": "Child Exemption 1 Amount"
+  },
+  {
+   "bold": 1,
+   "fieldname": "child_exemption_2_amount",
+   "fieldtype": "Currency",
+   "label": "Child Exemption 2 Amount"
+  },
+  {
+   "default": "0",
+   "description": "\u0e1a\u0e34\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "insurance_own_father",
+   "fieldtype": "Check",
+   "label": "Own Father"
+  },
+  {
+   "default": "0",
+   "description": "\u0e21\u0e32\u0e23\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "insurance_own_mother",
+   "fieldtype": "Check",
+   "label": "Own Mother"
+  },
+  {
+   "default": "0",
+   "description": "\u0e1a\u0e34\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "insurance_spouse_father",
+   "fieldtype": "Check",
+   "label": "Spouse Father"
+  },
+  {
+   "default": "0",
+   "description": "\u0e21\u0e32\u0e23\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "insurance_spouse_mother",
+   "fieldtype": "Check",
+   "label": "Spouse Mother"
+  },
+  {
+   "fieldname": "section_break_qsnl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e40\u0e1a\u0e35\u0e49\u0e22\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e0a\u0e35\u0e27\u0e34\u0e15\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e20\u0e32\u0e22\u0e43\u0e19\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35(\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e44\u0e14\u0e49\u0e15\u0e32\u0e21\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07\u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 10,000 \u0e1a\u0e32\u0e17 \u0e2a\u0e48\u0e27\u0e19\u0e17\u0e35\u0e48\u0e40\u0e01\u0e34\u0e19 10,000 \u0e1a\u0e32\u0e17 \u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e22\u0e01\u0e40\u0e27\u0e49\u0e19\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e2b\u0e25\u0e31\u0e07\u0e2b\u0e31\u0e01\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22\u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 90,000 \u0e1a\u0e32\u0e17 \u0e01\u0e23\u0e13\u0e35\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e41\u0e25\u0e30\u0e04\u0e27\u0e32\u0e21\u0e40\u0e1b\u0e47\u0e19\u0e2a\u0e32\u0e21\u0e35\u0e20\u0e23\u0e34\u0e22\u0e32\u0e21\u0e35\u0e2d\u0e22\u0e39\u0e48\u0e15\u0e25\u0e2d\u0e14\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35 \u0e2b\u0e31\u0e01\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e44\u0e14\u0e49\u0e2d\u0e35\u0e01 \u0e15\u0e32\u0e21\u0e08\u0e33\u0e19\u0e27\u0e19\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07 \u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 10,000 \u0e1a\u0e32\u0e17 \u0e01\u0e23\u0e13\u0e35\u0e04\u0e27\u0e32\u0e21\u0e40\u0e1b\u0e47\u0e19\u0e2a\u0e32\u0e21\u0e35\u0e20\u0e23\u0e34\u0e22\u0e32\u0e21\u0e34\u0e44\u0e14\u0e49\u0e21\u0e35\u0e2d\u0e22\u0e39\u0e48\u0e15\u0e25\u0e2d\u0e14\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35 \u0e08\u0e30\u0e19\u0e33\u0e40\u0e1a\u0e35\u0e49\u0e22\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e0a\u0e35\u0e27\u0e34\u0e15\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e21\u0e32\u0e2b\u0e31\u0e01\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49",
+   "fieldname": "life_insurance",
+   "fieldtype": "Currency",
+   "label": "Life Insurance"
+  },
+  {
+   "fieldname": "section_break_qtea",
+   "fieldtype": "Section Break"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e40\u0e1a\u0e35\u0e49\u0e22\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e2a\u0e38\u0e02\u0e20\u0e32\u0e1e\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e20\u0e32\u0e22\u0e43\u0e19\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35(\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e44\u0e14\u0e49\u0e15\u0e32\u0e21\u0e08\u0e33\u0e19\u0e27\u0e19\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07\u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 15,000 \u0e1a\u0e32\u0e17 \u0e41\u0e25\u0e30\u0e40\u0e21\u0e37\u0e48\u0e2d\u0e23\u0e27\u0e21\u0e01\u0e31\u0e1a \u0e04\u0e48\u0e32\u0e40\u0e1a\u0e35\u0e49\u0e22\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e0a\u0e35\u0e27\u0e34\u0e15\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e01\u0e23\u0e21\u0e18\u0e23\u0e23\u0e21\u0e4c\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e0a\u0e35\u0e27\u0e34\u0e15\u0e17\u0e35\u0e48\u0e21\u0e35\u0e01\u0e33\u0e2b\u0e19\u0e14\u0e40\u0e27\u0e25\u0e32\u0e15\u0e31\u0e49\u0e07\u0e41\u0e15\u0e48 10 \u0e1b\u0e35\u0e02\u0e36\u0e49\u0e19\u0e44\u0e1b \u0e15\u0e49\u0e2d\u0e07\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 100,000 \u0e1a\u0e32\u0e17)",
+   "fieldname": "health_insurance",
+   "fieldtype": "Currency",
+   "label": "Health Insurance"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e2a\u0e30\u0e2a\u0e21\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e40\u0e02\u0e49\u0e32\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e2a\u0e33\u0e23\u0e2d\u0e07\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e0a\u0e35\u0e1e \u0e2b\u0e23\u0e37\u0e2d\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e01\u0e32\u0e23\u0e2d\u0e2d\u0e21\u0e41\u0e2b\u0e48\u0e07\u0e0a\u0e32\u0e15\u0e34\u0e2b\u0e23\u0e37\u0e2d\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19 \u0e01\u0e1a\u0e02.\u0e2b\u0e23\u0e37\u0e2d\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e2a\u0e07\u0e40\u0e04\u0e23\u0e32\u0e30\u0e2b\u0e4c\u0e04\u0e23\u0e39\u0e42\u0e23\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e2d\u0e01\u0e0a\u0e19 (\u0e2b\u0e31\u0e01\u0e44\u0e14\u0e49\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 500,000 \u0e1a\u0e32\u0e17) \u0e20\u0e32\u0e22\u0e43\u0e19\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35",
+   "fieldname": "pvd_contribution",
+   "fieldtype": "Currency",
+   "label": "PVD Contribution"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e0b\u0e37\u0e49\u0e2d\u0e2b\u0e19\u0e48\u0e27\u0e22\u0e25\u0e07\u0e17\u0e38\u0e19\u0e43\u0e19\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e23\u0e27\u0e21\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e01\u0e32\u0e23\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e0a\u0e35\u0e1e (\u0e40\u0e09\u0e1e\u0e32\u0e30\u0e2a\u0e48\u0e27\u0e19\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19\u0e23\u0e49\u0e2d\u0e22\u0e25\u0e30 15 \u0e02\u0e2d\u0e07\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e42\u0e14\u0e22\u0e40\u0e21\u0e37\u0e48\u0e2d\u0e23\u0e27\u0e21\u0e01\u0e31\u0e1a\u0e40\u0e07\u0e34\u0e19\u0e2a\u0e30\u0e2a\u0e21 \u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e40\u0e02\u0e49\u0e32\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e2a\u0e33\u0e23\u0e2d\u0e07\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e0a\u0e35\u0e1e \u0e2b\u0e23\u0e37\u0e2d\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e01\u0e32\u0e23\u0e2d\u0e2d\u0e21\u0e41\u0e2b\u0e48\u0e07\u0e0a\u0e32\u0e15\u0e34\u0e2b\u0e23\u0e37\u0e2d\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19 \u0e01\u0e1a\u0e02. \u0e2b\u0e23\u0e37\u0e2d\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e2a\u0e07\u0e40\u0e04\u0e23\u0e32\u0e30\u0e2b\u0e4c\u0e04\u0e23\u0e39\u0e42\u0e23\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e2d\u0e01\u0e0a\u0e19\u0e41\u0e25\u0e49\u0e27 \u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 500,000 \u0e1a\u0e32\u0e17) \u0e20\u0e32\u0e22\u0e43\u0e19\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35",
+   "fieldname": "rmf_investment",
+   "fieldtype": "Currency",
+   "label": "RMF Investment"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e0b\u0e37\u0e49\u0e2d\u0e2b\u0e19\u0e48\u0e27\u0e22\u0e25\u0e07\u0e17\u0e38\u0e19\u0e43\u0e19\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e23\u0e27\u0e21\u0e2b\u0e38\u0e49\u0e19\u0e23\u0e30\u0e22\u0e30\u0e22\u0e32\u0e27 (\u0e40\u0e09\u0e1e\u0e32\u0e30\u0e2a\u0e48\u0e27\u0e19\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19\u0e23\u0e49\u0e2d\u0e22\u0e25\u0e30 15 \u0e02\u0e2d\u0e07\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 500,000 \u0e1a\u0e32\u0e17) \u0e20\u0e32\u0e22\u0e43\u0e19\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35",
+   "fieldname": "ssf_investment",
+   "fieldtype": "Currency",
+   "label": "SSF Investment"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e14\u0e2d\u0e01\u0e40\u0e1a\u0e35\u0e49\u0e22\u0e40\u0e07\u0e34\u0e19\u0e01\u0e39\u0e49\u0e22\u0e37\u0e21\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e0b\u0e37\u0e49\u0e2d \u0e40\u0e0a\u0e48\u0e32\u0e0b\u0e37\u0e49\u0e2d \u0e2b\u0e23\u0e37\u0e2d\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e2d\u0e32\u0e04\u0e32\u0e23\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48\u0e2d\u0e32\u0e28\u0e31\u0e22 (\u0e15\u0e32\u0e21\u0e08\u0e33\u0e19\u0e27\u0e19\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07\u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 100,000 \u0e1a\u0e32\u0e17)",
+   "fieldname": "interest_paid_for_housing_loan",
+   "fieldtype": "Currency",
+   "label": "Interest Paid for Housing Loan"
+  },
+  {
+   "fieldname": "section_break_whec",
+   "fieldtype": "Section Break"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e2a\u0e21\u0e17\u0e1a\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e2a\u0e31\u0e07\u0e04\u0e21\u0e20\u0e32\u0e22\u0e43\u0e19\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35",
+   "fieldname": "sso_contribution",
+   "fieldtype": "Currency",
+   "label": "SSO Contribution"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e1a\u0e23\u0e34\u0e08\u0e32\u0e04\u0e2a\u0e19\u0e31\u0e1a\u0e2a\u0e19\u0e38\u0e19\u0e01\u0e32\u0e23\u0e28\u0e36\u0e01\u0e29\u0e32",
+   "fieldname": "donation_for_education",
+   "fieldtype": "Currency",
+   "label": "Donation for Education"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e1a\u0e23\u0e34\u0e08\u0e32\u0e04\u0e2d\u0e37\u0e48\u0e19\u0e46",
+   "fieldname": "other_donation",
+   "fieldtype": "Currency",
+   "label": "Other Donation"
+  },
+  {
+   "fieldname": "column_break_tcos",
+   "fieldtype": "Column Break",
+   "label": "8. Health Insurance"
+  },
+  {
+   "fieldname": "column_break_sztd",
+   "fieldtype": "Column Break",
+   "label": "9. Provident Fund"
+  },
+  {
+   "fieldname": "column_break_bqnn",
+   "fieldtype": "Column Break",
+   "label": "11. Long Term Equity Fund Investment"
+  },
+  {
+   "fieldname": "column_break_aspw",
+   "fieldtype": "Column Break",
+   "label": "12.Housing Loan Interest"
+  },
+  {
+   "fieldname": "column_break_cody",
+   "fieldtype": "Column Break",
+   "label": "14. Donation for Education"
+  },
+  {
+   "fieldname": "column_break_rull",
+   "fieldtype": "Column Break",
+   "label": "15. Other Donation"
+  },
+  {
+   "fieldname": "1_personal_column",
+   "fieldtype": "Column Break",
+   "label": "1. Personal"
+  },
+  {
+   "fieldname": "3_children_column",
+   "fieldtype": "Column Break",
+   "label": "3. Children"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e2b\u0e31\u0e01\u0e44\u0e14\u0e49\u0e40\u0e17\u0e48\u0e32\u0e17\u0e35\u0e48\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e44\u0e14\u0e49\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07\u0e41\u0e15\u0e48\u0e23\u0e27\u0e21\u0e41\u0e25\u0e49\u0e27\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 15,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "total_parent_insurance",
+   "fieldtype": "Currency",
+   "label": "Total Parent Insurance"
+  },
+  {
+   "fieldname": "section_break_kgos",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "description": "\u0e1a\u0e34\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "own_father_exemption",
+   "fieldtype": "Check",
+   "label": "Own Father Exemption"
+  },
+  {
+   "default": "0",
+   "description": "\u0e1a\u0e34\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "spouse_father_exemption",
+   "fieldtype": "Check",
+   "label": "Spouse Father Exemption"
+  },
+  {
+   "default": "0",
+   "description": "\u0e21\u0e32\u0e23\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "own_mother_exemption",
+   "fieldtype": "Check",
+   "label": "Own Mother Exemption"
+  },
+  {
+   "default": "0",
+   "description": "\u0e21\u0e32\u0e23\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "spouse_mother_exemption",
+   "fieldtype": "Check",
+   "label": "Spouse Mother Exemption"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e2d\u0e38\u0e1b\u0e01\u0e32\u0e23\u0e30\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e1a\u0e34\u0e14\u0e32-\u0e21\u0e32\u0e23\u0e14\u0e32 \u0e02\u0e2d\u0e07\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49 \u0e2b\u0e31\u0e01\u0e44\u0e14\u0e49\u0e04\u0e19\u0e25\u0e30 30,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "total_own_parent_exemption",
+   "fieldtype": "Currency",
+   "label": "Total Own Parent Exemption"
+  },
+  {
+   "fieldname": "column_break_nhhr",
+   "fieldtype": "Column Break",
+   "label": "5. Disable Person Support"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e2d\u0e38\u0e1b\u0e01\u0e32\u0e23\u0e30\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e1a\u0e34\u0e14\u0e32-\u0e21\u0e32\u0e23\u0e14\u0e32 \u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49 \u0e2b\u0e31\u0e01\u0e44\u0e14\u0e49\u0e04\u0e19\u0e25\u0e30 30,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "total_spouse_parent_exemption",
+   "fieldtype": "Currency",
+   "label": "Total Spouse Parent Exemption"
+  },
+  {
+   "fieldname": "7_life_insurance_column",
+   "fieldtype": "Column Break",
+   "label": "7. Life Insurance"
+  },
+  {
+   "fieldname": "10_retirement_mutual_fund_investment_column",
+   "fieldtype": "Column Break",
+   "label": "10. Retirement Mutual Fund Investment"
+  },
+  {
+   "fieldname": "13_social_security_column",
+   "fieldtype": "Column Break",
+   "label": "13. Social Security"
+  },
+  {
+   "fieldname": "4_parents_support_column",
+   "fieldtype": "Column Break",
+   "label": "4. Parents Support"
+  },
+  {
+   "fieldname": "6_insurance_for_parents_column",
+   "fieldtype": "Column Break",
+   "label": "6. Insurance for Parents"
+  },
+  {
+   "description": "\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "column_break_mupw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e2b\u0e23\u0e37\u0e2d\u0e04\u0e19\u0e17\u0e38\u0e1e\u0e1e\u0e25\u0e20\u0e32\u0e1e\u0e43\u0e19\u0e01\u0e32\u0e23\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39",
+   "fieldname": "disable_persons_in_support",
+   "fieldtype": "Select",
+   "label": "Disable Persons in Support",
+   "options": "\n1\n2\n3\n4\n5\n6\n7\n8"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e2d\u0e38\u0e1b\u0e01\u0e32\u0e23\u0e30\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e2b\u0e23\u0e37\u0e2d\u0e04\u0e19\u0e17\u0e38\u0e1e\u0e1e\u0e25\u0e20\u0e32\u0e1e \u0e04\u0e19\u0e25\u0e30 60,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "total_disable_person_support",
+   "fieldtype": "Currency",
+   "label": "Total Disable Person Support"
+  },
+  {
+   "description": "\u0e23\u0e30\u0e1a\u0e38\u0e01\u0e32\u0e23\u0e1a\u0e23\u0e34\u0e08\u0e32\u0e04\u0e2d\u0e37\u0e48\u0e19\u0e46",
+   "fieldname": "detail_of_other_donation",
+   "fieldtype": "Data",
+   "label": "Detail of Other Donation"
+  },
+  {
+   "fieldname": "section_break_sfvf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e0b\u0e37\u0e49\u0e2d\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19 ThaiESG (Thailand ESG Fund) \u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 30% \u0e02\u0e2d\u0e07\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49 \u0e2a\u0e39\u0e07\u0e2a\u0e38\u0e14\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 100,000 \u0e1a\u0e32\u0e17\u0e15\u0e48\u0e2d\u0e1b\u0e35",
+   "fieldname": "thai_esg_investment",
+   "fieldtype": "Currency",
+   "label": "Thai ESG Investment"
+  },
+  {
+   "fieldname": "column_break_asfw",
+   "fieldtype": "Column Break",
+   "label": "17. Economic Stimulus Allowance"
+  },
+  {
+   "fieldname": "column_break_igrh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "16_thai_esg_column",
+   "fieldtype": "Column Break",
+   "label": "16. Thai ESG"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e0b\u0e37\u0e49\u0e2d\u0e2a\u0e34\u0e19\u0e04\u0e49\u0e32\u0e2b\u0e23\u0e37\u0e2d\u0e1a\u0e23\u0e34\u0e01\u0e32\u0e23 \u0e15\u0e32\u0e21\u0e21\u0e32\u0e15\u0e23\u0e01\u0e32\u0e23 \u0e42\u0e04\u0e23\u0e07\u0e01\u0e32\u0e23 Easy E-Receipt (\u0e08\u0e33\u0e19\u0e27\u0e19\u0e40\u0e07\u0e34\u0e19\u0e2a\u0e39\u0e07\u0e2a\u0e38\u0e14 50,000 \u0e1a\u0e32\u0e17)",
+   "fieldname": "economic_stimulus_allowance",
+   "fieldtype": "Currency",
+   "label": "Economic Stimulus Allowance"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "remember_last_selected_value": 1
+  },
+  {
+   "fetch_from": "company.default_currency",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-11-02 12:37:03.846767",
+ "modified_by": "Administrator",
+ "module": "Thai Payroll",
+ "name": "Lor Yor 01",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

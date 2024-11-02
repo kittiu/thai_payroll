@@ -1,8 +1,17 @@
 import frappe
 from frappe.utils import cint, flt, getdate, rounded
 from hrms.payroll.doctype.salary_slip.salary_slip import SalarySlip
+from thai_payroll.custom.employee_tax_exemption_declaration import (
+    get_employee_yearly_pvd_contribution,
+    get_employee_yearly_salary
+)
+
 
 class SalarySlipThaiPayroll(SalarySlip):
+
+	def validate(self):
+		auto_revise_tax_exemption_declaration(self)
+		super().validate()
 
 	@property
 	def relieving_date(self):
@@ -164,3 +173,41 @@ def make_withholding_tax_cert_employee(source_name, target_doc=None):
 	)
 
 	return doclist
+
+
+def auto_revise_tax_exemption_declaration(doc):
+	auto_revise = frappe.get_cached_value("Company", doc.company, "custom_auto_revise_tax_exemption_declaration")
+	if not auto_revise:
+		return
+
+	# Get existing salary and pvd
+	tax_exempt = frappe.db.get_value(
+		"Employee Tax Exemption Declaration",
+		{"employee": doc.employee, "payroll_period": doc.payroll_period.name, "docstatus": 1},
+		["name", "custom_is_opening_entry", "custom_opening_entry_date", "custom_yearly_salary", "custom_pvd_contribution"],
+		as_dict=1,
+		cache=True,
+	)
+	if not tax_exempt:
+		return
+	# Get new salary and pvd
+	params = {
+		"company": doc.company,
+		"payroll_period": doc.payroll_period,
+		"employee": doc.employee,
+		"is_opening_entry": tax_exempt.custom_is_opening_entry,
+		"opening_entry_date": tax_exempt.custom_opening_entry_date
+	}
+	new_salary = get_employee_yearly_salary(**params)
+	new_pvd = get_employee_yearly_pvd_contribution(**params)
+	# If diff, do the revision
+	if new_salary != tax_exempt.custom_yearly_salary or new_pvd != tax_exempt.custom_pvd_contribution:
+		old_doc = frappe.get_cached_doc("Employee Tax Exemption Declaration", tax_exempt.name)
+		old_doc.cancel()
+		new_doc = frappe.copy_doc(old_doc)
+		new_doc.docstatus = 0
+		new_doc.custom_yearly_salary = new_salary
+		new_doc.custom_pvd_contribution = new_pvd
+		new_doc.amended_from = old_doc.name
+		new_doc.save()
+		new_doc.submit()
