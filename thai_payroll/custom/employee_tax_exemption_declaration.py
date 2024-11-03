@@ -10,6 +10,10 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def calculate_thai_tax_exemption(doc, method):
 	if not doc.custom_use_thai_pit_calculation:
 		return
+	
+	# Auto fetch yearly salary and pvd contribution?
+	auto_get_latest_salary(doc)
+
 	# -- Exemption before calc total yearly income
 	_total_first_exemption = calc_total_first_exemption(doc)
 	# Total income per year
@@ -60,6 +64,23 @@ def calculate_thai_tax_exemption(doc, method):
 	doc.declarations = []
 	compute_exemption_declarations(doc)
 	doc.validate()
+
+
+def auto_get_latest_salary(doc):
+	auto_get_salary = frappe.get_cached_value(
+		"Company", doc.company, "custom_auto_get_latest_salary_for_tax_exemption"
+	)
+	if auto_get_salary:
+		doc.custom_yearly_salary = get_employee_yearly_salary(
+			doc.company, doc.payroll_period, doc.employee,
+			is_opening_entry=doc.custom_is_opening_entry,
+			opening_entry_date=doc.custom_opening_entry_date
+		)
+		doc.custom_pvd_contribution = get_employee_yearly_pvd_contribution(
+			doc.company, doc.payroll_period, doc.employee,
+			is_opening_entry=doc.custom_is_opening_entry,
+			opening_entry_date=doc.custom_opening_entry_date
+		)
 
 
 def calc_total_first_exemption(doc):

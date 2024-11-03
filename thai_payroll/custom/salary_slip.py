@@ -176,8 +176,11 @@ def make_withholding_tax_cert_employee(source_name, target_doc=None):
 
 
 def auto_revise_tax_exemption_declaration(doc):
-	auto_revise = frappe.get_cached_value("Company", doc.company, "custom_auto_revise_tax_exemption_declaration")
-	if not auto_revise:
+	use_thai_pit, auto_revise = frappe.get_cached_value(
+		"Company", doc.company,
+		["custom_use_thai_pit_calculation", "custom_use_thai_pit_calculation"]
+	)
+	if not (use_thai_pit and auto_revise):
 		return
 
 	# Get existing salary and pvd
