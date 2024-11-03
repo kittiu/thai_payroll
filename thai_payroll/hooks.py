@@ -38,6 +38,7 @@ fixtures = [
                     "Company-custom_company_address_on_withholding_tax_cert",
                     "Company-custom_column_break_4lgs1",
                     "Company-custom_auto_revise_tax_exemption_declaration",
+                    "Company-custom_auto_get_latest_salary_for_tax_exemption",
                     "Salary Slip-custom_connections",
                     "Salary Slip-custom_employee_status",
                     "Salary Slip-custom_allow_salary_slip",
