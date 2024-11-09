@@ -6,152 +6,6 @@ app_email = "kittiu@ecosoft.co.th"
 app_license = "mit"
 required_apps = ["erpnext", "hrms"]
 
-fixtures = [
-	{
-		"doctype": "Income Tax Slab",
-		"filters": [["name", "in", (
-            "Thai PIT (2556)",
-            "Thai PIT for Severance Pay (2556)",
-        )]]
-	},
-    {
-		"doctype": "Property Setter",
-        "filters": [["name", "in", (
-            "Salary Slip-custom_connections-show_dashboard",
-            "Withholding Tax Cert Employee-main-default_print_format",
-            "Employee Tax Exemption Declaration-declarations-allow_on_submit",
-            "Employee Tax Exemption Declaration-total_exemption_amount-allow_on_submit",
-            "Employee Tax Exemption Declaration-total_declared_amount-allow_on_submit",
-            "Employee Tax Exemption Declaration Category-main-field_order",
-            "Employee Tax Exemption Declaration Category-max_amount-in_list_view",
-        )]]
-	},
-	{
-		"doctype": "Custom Field",
-		"filters": [
-			[
-				"name",
-				"in",
-				(
-					"Company-custom_use_thai_pit_calculation",
-					"Company-custom_thai_payroll",
-                    "Company-custom_company_address_on_withholding_tax_cert",
-                    "Company-custom_column_break_4lgs1",
-                    "Company-custom_auto_revise_tax_exemption_declaration",
-                    "Company-custom_auto_get_latest_salary_for_tax_exemption",
-                    "Salary Slip-custom_connections",
-                    "Salary Slip-custom_employee_status",
-                    "Salary Slip-custom_allow_salary_slip",
-                    "Salary Slip-custom_latest_slip",
-                    "Salary Slip-custom_payroll_period",
-                    "Employee-custom_citizen_id",
-                    "Employee-custom_severance_tax_amount",
-					"Employee-custom_severance_pay_amount",
-					"Employee-custom_column_break_zaf2m",
-					"Employee-custom_column_break_nnjsi",
-					"Employee-custom_employee_severance_pay",
-					"Employee-custom_severance_pay",
-                    "Employee-custom_pvd_type",
-                    "Employee-custom_pvd_employee",
-                    "Employee-custom_pvd_company",
-					"Employee Tax Exemption Declaration-custom_column_break_se1vc",
-					"Employee Tax Exemption Declaration-custom_column_break_ofxie",
-					"Employee Tax Exemption Declaration-custom_exemption_group_5",
-					"Employee Tax Exemption Declaration-custom_exemption_group_4",
-					"Employee Tax Exemption Declaration-custom_exemption_group_3",
-					"Employee Tax Exemption Declaration-custom_exemption_group_2",
-					"Employee Tax Exemption Declaration-custom_exemption_group_1",
-					"Employee Tax Exemption Declaration-custom_column_break_ajygm",
-					"Employee Tax Exemption Declaration-custom_column_break_rzpq0",
-					"Employee Tax Exemption Declaration-custom_yearly_total_exemption",
-					"Employee Tax Exemption Declaration-custom_column_break_lacao",
-					"Employee Tax Exemption Declaration-custom_exemption_from_donation",
-					"Employee Tax Exemption Declaration-custom_exemption_from_government_economic_stimulus",
-					"Employee Tax Exemption Declaration-custom_column_break_jbejz",
-					"Employee Tax Exemption Declaration-custom_exemption_from_housing_and_government_policy",
-					"Employee Tax Exemption Declaration-custom_compensation_by_labor_law",
-					"Employee Tax Exemption Declaration-custom_column_break_eqffq",
-					"Employee Tax Exemption Declaration-custom_use_thai_pit_calculation",
-					"Employee Tax Exemption Declaration-custom_donation_for_political_party",
-					"Employee Tax Exemption Declaration-custom_total_exemption",
-					"Employee Tax Exemption Declaration-custom_yearly_income_after_exemption",
-					"Employee Tax Exemption Declaration-custom_child_born_from_2561",
-					"Employee Tax Exemption Declaration-custom_child_born_before_2561",
-					"Employee Tax Exemption Declaration-custom_total_yearly_income",
-					"Employee Tax Exemption Declaration-custom_column_break_p78nx",
-					"Employee Tax Exemption Declaration-custom_yearly_bonus",
-					"Employee Tax Exemption Declaration-custom_column_break_t2icj",
-					"Employee Tax Exemption Declaration-custom_yearly_salary",
-					"Employee Tax Exemption Declaration-custom_yearly_income",
-					"Employee Tax Exemption Declaration-custom_column_break_9w5os",
-					"Employee Tax Exemption Declaration-custom_other_donation",
-					"Employee Tax Exemption Declaration-custom_economic_stimulus_allowance",
-					"Employee Tax Exemption Declaration-custom_donation_for_education",
-					"Employee Tax Exemption Declaration-custom_column_break_c59yc",
-					"Employee Tax Exemption Declaration-custom_invest_in_thai_esg",
-					"Employee Tax Exemption Declaration-custom_invest_in_auunity",
-					"Employee Tax Exemption Declaration-custom_invest_in_ssf",
-					"Employee Tax Exemption Declaration-custom_invest_in_rmf",
-                    "Employee Tax Exemption Declaration-custom_pension_life_insurance",
-					"Employee Tax Exemption Declaration-custom_column_break_szhdn",
-					"Employee Tax Exemption Declaration-custom_health_insurance_for_parents",
-					"Employee Tax Exemption Declaration-custom_health_insurance",
-					"Employee Tax Exemption Declaration-custom_life_insurance",
-					"Employee Tax Exemption Declaration-custom_spouse_life_insurance",
-					"Employee Tax Exemption Declaration-custom_column_break_8ugeq",
-					"Employee Tax Exemption Declaration-custom_interest_paid_for_housing_loan",
-					"Employee Tax Exemption Declaration-custom_pvd_contribution",
-                    "Employee Tax Exemption Declaration-custom_school_contribution",
-                    "Employee Tax Exemption Declaration-custom_gpf_contribution",
-                    "Employee Tax Exemption Declaration-custom_total_contribution",
-                    "Employee Tax Exemption Declaration-custom_maternity_expense",
-					"Employee Tax Exemption Declaration-custom_pvd_housing_loan_insurance_investment_donations",
-					"Employee Tax Exemption Declaration-custom_column_break_wmbpx",
-					"Employee Tax Exemption Declaration-custom_disable_person_support",
-                    "Employee Tax Exemption Declaration-custom_own_father_exemption",
-                    "Employee Tax Exemption Declaration-custom_own_mother_exemption",
-                    "Employee Tax Exemption Declaration-custom_spouse_father_exemption",
-                    "Employee Tax Exemption Declaration-custom_spouse_mother_exemption",
-					"Employee Tax Exemption Declaration-custom_total_fathermother_exemption",
-					"Employee Tax Exemption Declaration-custom_column_break_p5f1h",
-					"Employee Tax Exemption Declaration-custom_total_child_exemption",
-					"Employee Tax Exemption Declaration-custom_spouse_exemption",
-					"Employee Tax Exemption Declaration-custom_exemption",
-					"Employee Tax Exemption Declaration-custom_expense",
-					"Employee Tax Exemption Declaration-custom_expense_and_exemption",
-					"Employee Tax Exemption Declaration-custom_tab_4",
-                    "Employee Tax Exemption Declaration-custom_social_security",
-                    "Employee Tax Exemption Declaration-custom_get_yearly_salary",
-                    "Employee Tax Exemption Declaration-custom_elderly_exemption",
-                    "Employee Tax Exemption Declaration-custom_elderly_spouse_exemption",
-                    "Employee Tax Exemption Declaration Category-custom_input_amount",
-                    "Employee Tax Exemption Declaration-custom_disable_person_exemption",
-                    "Employee Tax Exemption Declaration-custom_is_opening_entry",
-                    "Employee Tax Exemption Declaration-custom_opening_entry_date",
-                    "Employee Tax Exemption Declaration-custom_get_yearly_pvd_contribution",
-					"Payroll Period-custom_status",
-					"Payroll Period-custom_error_message",
-					"Payroll Period-custom_failure_details",
-					"Payroll Period-custom_employees",
-					"Payroll Period-custom_section_break_mr4ch",
-					"Payroll Period-custom_tab_3",
-					"Payroll Period-custom_number_of_employees",
-					"Payroll Period-custom_grade",
-					"Payroll Period-custom_designation",
-					"Payroll Period-custom_column_break_r7sls",
-					"Payroll Period-custom_department",
-					"Payroll Period-custom_branch",
-					"Payroll Period-custom_filter_employees",
-                    "Payroll Period-custom_is_opening_period",
-                    "Payroll Period-custom_opening_period_date",
-                    "Salary Component-custom_base_on_30_days",
-                    "Salary Structure Assignment-custom_pvd_contribution_till_date",
-                    "Salary Structure-custom_pvd_component",
-				),
-			]
-		],
-	},
-]
 
 # Includes in <head>
 # ------------------
@@ -223,12 +77,13 @@ doctype_list_js = {
 # ------------
 
 # before_install = "thai_payroll.install.before_install"
-# after_install = "thai_payroll.install.after_install"
+after_install = "thai_payroll.install.after_install"
+# after_migrate = "thai_payroll.setup.after_migrate"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "thai_payroll.uninstall.before_uninstall"
+before_uninstall = "thai_payroll.setup.before_uninstall"
 # after_uninstall = "thai_payroll.uninstall.after_uninstall"
 
 # Integration Setup
