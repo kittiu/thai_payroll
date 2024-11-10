@@ -84,6 +84,15 @@ class SalarySlipThaiPayroll(SalarySlip):
 
 		return amount, additional_amount
 
+	def get_opening_for(self, field_to_select, start_date, end_date):
+		# Only if this is an opening period, otherwise do not use opening field
+		filters = {"start_date": ["<=", end_date], "end_date": [">=", end_date]},
+		opening_period = frappe.db.get_value("Payroll Period", filters, "custom_is_opening_period")
+		if opening_period:
+			return super().get_opening_for(field_to_select, start_date, end_date)
+		else:
+			return 0
+
 
 def onload(doc, method):
 	wht_cert = frappe.get_all(

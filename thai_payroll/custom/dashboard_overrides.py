@@ -5,8 +5,9 @@ def get_dashboard_data_for_payroll_period(data):
 	data["non_standard_fieldnames"].update({
 		"Salary Slip": "custom_payroll_period",
 		"Withholding Tax Cert Employee": "payroll_period",
+		"Lor Yor 01": "payroll_period",
 	})
 	data["transactions"].append({
-		"items": ["Salary Slip", "Withholding Tax Cert Employee"]
+		"items": ["Salary Slip", "Withholding Tax Cert Employee", "Lor Yor 01"]
 	})
 	return data

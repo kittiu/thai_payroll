@@ -37,6 +37,7 @@ doctype_js = {
 	"Payroll Period": "public/js/payroll_period.js",
 }
 doctype_list_js = {
+	"Employee Tax Exemption Declaration": "public/js/employee_tax_exemption_declaration_list.js",
 	"Salary Slip": "public/js/salary_slip_list.js",
 }
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -127,6 +128,7 @@ before_uninstall = "thai_payroll.setup.before_uninstall"
 override_doctype_class = {
     "Salary Slip": "thai_payroll.custom.salary_slip.SalarySlipThaiPayroll",
     "Payroll Period": "thai_payroll.custom.payroll_period.PayrollPeriodThaiPayroll",
+    "Employee Tax Exemption Declaration": "thai_payroll.custom.employee_tax_exemption_declaration.EmployeeTaxExemptionDeclarationThaiPayroll",
 }
 
 # Document Events

@@ -12,8 +12,11 @@
   "designation",
   "section_break_ostt",
   "has_salary_structure_assignment",
-  "has_tax_exemption_declaration",
   "column_break_dgbf",
+  "has_lor_yor_01",
+  "recent_lor_yor_01",
+  "column_break_hjqq",
+  "has_tax_exemption_declaration",
   "recent_tax_exemption"
  ],
  "fields": [
@@ -69,7 +72,6 @@
    "description": "Recent Employee Tax Exemption Declaration, if exists, will be used when create new one.",
    "fieldname": "recent_tax_exemption",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Recent Tax Exemption Declaration",
    "options": "Employee Tax Exemption Declaration"
   },
@@ -80,12 +82,31 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Has Salary Structure Assignment"
+  },
+  {
+   "default": "0",
+   "description": "Has active Lor Yor 01 for this period.",
+   "fieldname": "has_lor_yor_01",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Has Lor Yor 01"
+  },
+  {
+   "description": "Recent Lor Yor 01, if exists, will be used when create new one.",
+   "fieldname": "recent_lor_yor_01",
+   "fieldtype": "Link",
+   "label": "Recent Lor Yor 01",
+   "options": "Lor Yor 01"
+  },
+  {
+   "fieldname": "column_break_hjqq",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-13 20:16:41.881392",
+ "modified": "2024-11-10 13:05:02.920360",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Payroll Period Employees",

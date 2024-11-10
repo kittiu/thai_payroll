@@ -4,15 +4,27 @@ frappe.ui.form.on("Payroll Period", {
 
 		frm.page.clear_primary_action();
 
+		frappe.db.get_value("Company", {name: frm.doc.company}, "tax_exemption_doctype",
+			(r) => {
+				if ((frm.doc.custom_employees || []).length) {
+					if (r.tax_exemption_doctype == "Lor Yor 01") {
+						frm.add_custom_button(__("Create Lor Yor 01"), function () {
+							frm.call("create_tax_exemption_document", {doctype: r.tax_exemption_doctype});
+						}).addClass("btn-primary");
+					}
+					if (r.tax_exemption_doctype == "Employee Tax Exemption Declaration") {
+						frm.add_custom_button(__("Create Tax Exemption Declaration"), function () {
+							frm.call("create_tax_exemption_document", {doctype: r.tax_exemption_doctype});
+						}).addClass("btn-primary");
+					}
+				}
+			}
+		);
+
 		frm.add_custom_button(__("Show Active Employees"), function () {
 			frm.events.get_payroll_period_employees(frm);
 		}).toggleClass("btn-primary", !(frm.doc.custom_employees || []).length);
 
-		if ((frm.doc.custom_employees || []).length) {
-			frm.add_custom_button(__("Create Tax Exemption Declarations"), function () {
-				frm.call("create_tax_exemption_declarations");
-			}).addClass("btn-primary");
-		}
 		// Child Table > 50 Rows
 		frm.get_field("custom_employees").grid.grid_pagination.page_length = 1000;
 	},

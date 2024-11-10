@@ -1,25 +1,36 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-11-01 13:44:01.579659",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "employee",
   "employee_name",
   "citizen_id",
+  "create_tax_exemption_on_submit",
   "column_break_mupw",
   "company",
-  "currency",
   "payroll_period",
+  "currency",
+  "total_amount",
   "section_break_zzgn",
   "1_personal_column",
   "personal_status",
   "marital_status",
   "personal_exemption",
+  "elderly",
+  "elderly_exemption",
+  "disabled",
+  "disabled_exemption",
   "column_break_jqur",
   "spouse_financial_status",
   "spouse_exemption",
+  "elderly_spouse",
+  "elderly_spouse_exemption",
   "3_children_column",
   "total_children",
   "child_exemption_1",
@@ -35,8 +46,8 @@
   "spouse_mother_exemption",
   "total_spouse_parent_exemption",
   "column_break_nhhr",
-  "disable_persons_in_support",
-  "total_disable_person_support",
+  "disabled_persons_in_support",
+  "total_disabled_person_support",
   "6_insurance_for_parents_column",
   "insurance_own_father",
   "insurance_own_mother",
@@ -50,11 +61,13 @@
   "health_insurance",
   "column_break_sztd",
   "pvd_contribution",
+  "annuity",
   "section_break_qtea",
   "10_retirement_mutual_fund_investment_column",
   "rmf_investment",
   "column_break_bqnn",
   "ssf_investment",
+  "pension_life_insurance",
   "column_break_aspw",
   "interest_paid_for_housing_loan",
   "section_break_whec",
@@ -92,6 +105,8 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Employee",
    "options": "Employee",
    "reqd": 1
@@ -106,8 +121,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Personal Status",
-   "options": "\n\u0e42\u0e2a\u0e14\n\u0e2a\u0e21\u0e23\u0e2a\n\u0e2b\u0e21\u0e49\u0e32\u0e22\n\u0e15\u0e32\u0e22\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35",
-   "reqd": 1
+   "options": "\n\u0e42\u0e2a\u0e14\n\u0e2a\u0e21\u0e23\u0e2a\n\u0e2b\u0e21\u0e49\u0e32\u0e22\n\u0e15\u0e32\u0e22\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e1b\u0e35\u0e20\u0e32\u0e29\u0e35"
   },
   {
    "fieldname": "column_break_jqur",
@@ -289,12 +303,12 @@
   {
    "fieldname": "column_break_sztd",
    "fieldtype": "Column Break",
-   "label": "9. Provident Fund"
+   "label": "9. Provident Fund / Annuities"
   },
   {
    "fieldname": "column_break_bqnn",
    "fieldtype": "Column Break",
-   "label": "11. Long Term Equity Fund Investment"
+   "label": "11. Long Term Investment"
   },
   {
    "fieldname": "column_break_aspw",
@@ -373,7 +387,7 @@
   {
    "fieldname": "column_break_nhhr",
    "fieldtype": "Column Break",
-   "label": "5. Disable Person Support"
+   "label": "5. Disabled Person Support"
   },
   {
    "bold": 1,
@@ -413,27 +427,13 @@
    "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Employee Name"
   },
   {
    "fieldname": "column_break_mupw",
    "fieldtype": "Column Break"
-  },
-  {
-   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e2b\u0e23\u0e37\u0e2d\u0e04\u0e19\u0e17\u0e38\u0e1e\u0e1e\u0e25\u0e20\u0e32\u0e1e\u0e43\u0e19\u0e01\u0e32\u0e23\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39",
-   "fieldname": "disable_persons_in_support",
-   "fieldtype": "Select",
-   "label": "Disable Persons in Support",
-   "options": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9"
-  },
-  {
-   "bold": 1,
-   "description": "\u0e04\u0e48\u0e32\u0e2d\u0e38\u0e1b\u0e01\u0e32\u0e23\u0e30\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e2b\u0e23\u0e37\u0e2d\u0e04\u0e19\u0e17\u0e38\u0e1e\u0e1e\u0e25\u0e20\u0e32\u0e1e \u0e04\u0e19\u0e25\u0e30 60,000 \u0e1a\u0e32\u0e17",
-   "fieldname": "total_disable_person_support",
-   "fieldtype": "Currency",
-   "label": "Total Disable Person Support",
-   "options": "currency",
-   "read_only": 1
   },
   {
    "description": "\u0e23\u0e30\u0e1a\u0e38\u0e01\u0e32\u0e23\u0e1a\u0e23\u0e34\u0e08\u0e32\u0e04\u0e2d\u0e37\u0e48\u0e19\u0e46",
@@ -500,13 +500,15 @@
   {
    "fieldname": "payroll_period",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Payroll Period",
    "options": "Payroll Period",
+   "read_only_depends_on": "eval:!doc.__unsaved;",
    "reqd": 1
   },
   {
    "bold": 1,
-   "default": "60000",
    "description": "\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e2a\u0e48\u0e27\u0e19\u0e15\u0e31\u0e27 (60,000)",
    "fieldname": "personal_exemption",
    "fieldtype": "Currency",
@@ -519,15 +521,118 @@
    "fieldtype": "Currency",
    "label": "Spouse Exemption",
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "no_copy": 1,
+   "options": "LY01-.{payroll_period}.-.{employee}.-.##",
+   "print_hide": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Tax Exemption",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "description": "Auto create draft Employee Tax Exemption Declaration on submit. But if the Tax Exemption Declaration already exists for this period it will be cancelled before create.",
+   "fieldname": "create_tax_exemption_on_submit",
+   "fieldtype": "Check",
+   "label": "Create Employee Tax Exemption on Submit"
+  },
+  {
+   "default": "0",
+   "description": "\u0e1c\u0e39\u0e49\u0e2a\u0e39\u0e07\u0e27\u0e31\u0e22 (\u0e2d\u0e32\u0e22\u0e38\u0e40\u0e01\u0e34\u0e19 65 \u0e1b\u0e35)",
+   "fieldname": "elderly",
+   "fieldtype": "Check",
+   "label": "Elderly"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e1c\u0e39\u0e49\u0e2a\u0e39\u0e07\u0e27\u0e31\u0e22 (190,000)",
+   "fieldname": "elderly_exemption",
+   "fieldtype": "Currency",
+   "label": "Elderly Exemption",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e2a\u0e39\u0e07\u0e27\u0e31\u0e22 (\u0e2d\u0e32\u0e22\u0e38\u0e40\u0e01\u0e34\u0e19 65 \u0e1b\u0e35) \u0e22\u0e37\u0e48\u0e19\u0e20\u0e32\u0e29\u0e35\u0e23\u0e27\u0e21",
+   "fieldname": "elderly_spouse",
+   "fieldtype": "Check",
+   "label": "Elderly Spouse"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e2a\u0e39\u0e07\u0e27\u0e31\u0e22 (190,000)",
+   "fieldname": "elderly_spouse_exemption",
+   "fieldtype": "Currency",
+   "label": "Elderly Spouse Exemption",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "\u0e40\u0e1b\u0e47\u0e19\u0e1c\u0e38\u0e49\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e41\u0e25\u0e30\u0e21\u0e35\u0e2d\u0e32\u0e22\u0e38\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 65 \u0e1b\u0e35",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e1c\u0e39\u0e49\u0e1e\u0e34\u0e01\u0e32\u0e23 (190,000)",
+   "fieldname": "disabled_exemption",
+   "fieldtype": "Currency",
+   "label": "Disabled Exemption",
+   "read_only": 1
+  },
+  {
+   "description": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e2b\u0e23\u0e37\u0e2d\u0e04\u0e19\u0e17\u0e38\u0e1e\u0e1e\u0e25\u0e20\u0e32\u0e1e\u0e43\u0e19\u0e01\u0e32\u0e23\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39",
+   "fieldname": "disabled_persons_in_support",
+   "fieldtype": "Select",
+   "label": "Disabled Persons in Support",
+   "options": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e2d\u0e38\u0e1b\u0e01\u0e32\u0e23\u0e30\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e2b\u0e23\u0e37\u0e2d\u0e04\u0e19\u0e17\u0e38\u0e1e\u0e1e\u0e25\u0e20\u0e32\u0e1e \u0e04\u0e19\u0e25\u0e30 60,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "total_disabled_person_support",
+   "fieldtype": "Currency",
+   "label": "Total Disable Person Support",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "description": "\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19\u0e01\u0e32\u0e23\u0e2d\u0e2d\u0e21\u0e41\u0e2b\u0e48\u0e07\u0e0a\u0e32\u0e15\u0e34 \u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e44\u0e14\u0e49\u0e15\u0e32\u0e21\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07 \u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 13,200 \u0e1a\u0e32\u0e17 \u0e17\u0e31\u0e49\u0e07\u0e19\u0e35\u0e49 \u0e41\u0e25\u0e30\u0e23\u0e27\u0e21\u0e2a\u0e48\u0e27\u0e19\u0e19\u0e35\u0e49\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 500,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "annuity",
+   "fieldtype": "Currency",
+   "label": "Annuity",
+   "options": "currency"
+  },
+  {
+   "bold": 1,
+   "description": "\u0e04\u0e48\u0e32\u0e40\u0e1a\u0e35\u0e49\u0e22\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e0a\u0e35\u0e27\u0e34\u0e15\u0e41\u0e1a\u0e1a\u0e1a\u0e33\u0e19\u0e32\u0e0d \u0e2b\u0e31\u0e01\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e43\u0e19\u0e2d\u0e31\u0e15\u0e23\u0e32\u0e23\u0e49\u0e2d\u0e22\u0e25\u0e30 15 \u0e02\u0e2d\u0e07\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e17\u0e35\u0e48\u0e19\u0e33\u0e21\u0e32\u0e40\u0e2a\u0e35\u0e22\u0e20\u0e32\u0e29\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e43\u0e19\u0e41\u0e15\u0e48\u0e25\u0e30\u0e1b\u0e35 \u0e41\u0e15\u0e48\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 200,000 \u0e1a\u0e32\u0e17\u0e15\u0e48\u0e2d\u0e1b\u0e35 \u0e41\u0e25\u0e30\u0e23\u0e27\u0e21\u0e2a\u0e48\u0e27\u0e19\u0e19\u0e35\u0e49\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 500,000 \u0e1a\u0e32\u0e17",
+   "fieldname": "pension_life_insurance",
+   "fieldtype": "Currency",
+   "label": "Pension Life Insurance",
+   "options": "currency"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-11-03 15:21:16.974688",
+ "modified": "2024-11-12 15:19:55.017195",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Lor Yor 01",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

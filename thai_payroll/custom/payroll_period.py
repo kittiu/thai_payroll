@@ -2,7 +2,6 @@ import json
 import frappe
 from frappe import _
 from hrms.payroll.doctype.payroll_period.payroll_period import PayrollPeriod
-from thai_payroll.custom.employee_tax_exemption_declaration import get_employee_yearly_salary
 from frappe.utils import get_link_to_form
 from frappe.query_builder import Order
 
@@ -39,10 +38,14 @@ class PayrollPeriodThaiPayroll(PayrollPeriod):
 
 
 	@frappe.whitelist()
-	def create_tax_exemption_declarations(self):
+	def create_tax_exemption_document(self, doctype):
 		"""
 		Creates tax exemption for employee if not already created.
 		"""
+		check_has_doc = {
+			"Employee Tax Exemption Declaration": "has_tax_exemption_declaration",
+			"Lor Yor 01": "has_lor_yor_01",
+		}
 		self.check_permission("write")
 		emp_without_ssa = [
 			"{}: {}".format(emp.employee, emp.employee_name)
@@ -52,7 +55,7 @@ class PayrollPeriodThaiPayroll(PayrollPeriod):
 			emp.employee for emp in self.custom_employees
 			if (
 				emp.has_salary_structure_assignment
-				and not emp.has_tax_exemption_declaration
+				and not emp.as_dict().get(check_has_doc[doctype])
 			)
 		]
 		if emp_to_create:
@@ -60,7 +63,6 @@ class PayrollPeriodThaiPayroll(PayrollPeriod):
 				{
 					"company": self.company,
 					"payroll_period": self.name,
-					"custom_use_thai_pit_calculation": 1,
 				}
 			)
 			if len(emp_to_create) > 30 or frappe.flags.enqueue_payroll_period:
@@ -68,20 +70,23 @@ class PayrollPeriodThaiPayroll(PayrollPeriod):
 				frappe.enqueue(
 					create_tax_exemption_for_employees,
 					timeout=3000,
+					doctype=doctype,
 					employees=self.custom_employees,
 					emp_to_create=emp_to_create,
 					args=args,
 					publish_progress=True,
 				)
 			else:
-				create_tax_exemption_for_employees(
+				count = create_tax_exemption_for_employees(
+					doctype=doctype,
 					employees=self.custom_employees,
 					emp_to_create=emp_to_create,
 					args=args,
 					publish_progress=False
 				)
+				frappe.msgprint(_("Successfully created {} for {} employees").format(doctype, count))
 		else:
-			frappe.msgprint(_("No Tax Exemption Declaration created"))
+			frappe.msgprint(_("No Tax Exemption Document created"))
 			self.custom_number_of_employees = 0
 			self.custom_employees = []
 			self.save()
@@ -119,8 +124,7 @@ def get_filtered_employees(filters):
 	return query.run(as_dict=True)
 
 
-def check_emp_recent_tax_exemption(filters, emp_list):
-	# Find previous payroll period
+def get_previous_period(filters):
 	prev_period = frappe.db.get_value(
 		"Payroll Period",
 		{
@@ -130,12 +134,13 @@ def check_emp_recent_tax_exemption(filters, emp_list):
 		"name",
 		order_by="end_date desc",
 	)
-	if not prev_period:
-		return
-	# Find all previous period tax exemption declaration
-	employees = [emp.employee for emp in emp_list]
-	emp_with_ted = frappe.get_list(
-		"Employee Tax Exemption Declaration",
+	return prev_period
+
+
+def get_emp_with_recent_doc(employees, doctype, prev_period):
+	print(doctype)
+	emp_with_doc = frappe.get_list(
+		doctype,
 		filters={
 			"employee": ("in", employees),
 			"payroll_period": prev_period,
@@ -143,9 +148,23 @@ def check_emp_recent_tax_exemption(filters, emp_list):
 		},
 		fields=["employee", "name"],
 	)
-	emp_with_ted = {emp["employee"]: emp["name"] for emp in emp_with_ted}
-	for emp in emp_list:
-		emp["recent_tax_exemption"] = emp_with_ted.get(emp.employee)
+	return {emp["employee"]: emp["name"] for emp in emp_with_doc}
+
+
+def check_emp_recent_tax_exemption(filters, emp_list):
+	check_doctypes = {
+		"Employee Tax Exemption Declaration": "recent_tax_exemption",
+		"Lor Yor 01": "recent_lor_yor_01"
+	}
+	prev_period = get_previous_period(filters)
+	if not prev_period:
+		return
+	employees = [emp.employee for emp in emp_list]
+	# Find all previous period tax exempt doctypes
+	for doctype, docfield in check_doctypes.items():
+		emp_with_doc = get_emp_with_recent_doc(employees, doctype, prev_period)
+		for emp in emp_list:
+			emp[docfield] = emp_with_doc.get(emp.employee)
 
 
 def check_emp_salary_assignment_exists(payroll_period, emp_list):
@@ -175,21 +194,26 @@ def check_emp_salary_assignment_exists(payroll_period, emp_list):
 
 
 def check_emp_tax_exemption_exists(payroll_period, emp_list):
+	check_doctypes = {
+		"Employee Tax Exemption Declaration": "has_tax_exemption_declaration",
+		"Lor Yor 01": "has_lor_yor_01"
+	}
 	employees = [emp.employee for emp in emp_list]
-	emp_with_ete = frappe.get_list(
-		"Employee Tax Exemption Declaration",
-		filters={
-			"employee": ("in", employees),
-			"docstatus": ["!=", 2],
-			"payroll_period": payroll_period,
-		},
-		fields=["employee"],
-		pluck="employee",
-	)
-	emp_list = [emp for emp in emp_list if emp.employee in emp_with_ete]
-	for emp in emp_list:
-		emp["has_tax_exemption_declaration"] = 1
-	return emp_with_ete
+	for doctype, docfield in check_doctypes.items():
+
+		emp_with_doc = frappe.get_list(
+			doctype,
+			filters={
+				"employee": ("in", employees),
+				"docstatus": ["!=", 2],
+				"payroll_period": payroll_period,
+			},
+			fields=["employee"],
+			pluck="employee",
+		)
+		emp_list = [emp for emp in emp_list if emp.employee in emp_with_doc]
+		for emp in emp_list:
+			emp[docfield] = 1
 
 
 def set_filter_conditions(query, filters, qb_object):
@@ -203,42 +227,36 @@ def set_filter_conditions(query, filters, qb_object):
 
 
 def create_tax_exemption_for_employees(
+		doctype,
 		employees,
 		emp_to_create,
 		args,
 		publish_progress=True
 	):
+	check_recent_doc = {
+		"Employee Tax Exemption Declaration": "recent_tax_exemption",
+		"Lor Yor 01": "recent_lor_yor_01",
+	}
 	payroll_period = frappe.get_cached_doc("Payroll Period", args.payroll_period)
 	try:
 		employees = {
-			emp.employee: emp.recent_tax_exemption
-			for emp in employees if emp.recent_tax_exemption
+			emp.employee: emp[check_recent_doc[doctype]]
+			for emp in employees if emp.as_dict().get(check_recent_doc[doctype])
 		}
 		count = 0
 		for emp in emp_to_create:
 			doc = args.copy()
-			if employees.get(emp):  # Use recent tax exemption declaration if exists
-				recent_doc = frappe.get_cached_doc(
-					"Employee Tax Exemption Declaration",
-					employees[emp]
-				).as_dict()
+			if employees.get(emp):  # Use recent tax exemption document if exists
+				recent_doc = frappe.get_cached_doc(doctype, employees[emp]).as_dict()
 				recent_doc.update(doc)
 				doc = recent_doc
-			else:  # Create new tax exemption declaration
-				doc.update({
-					"doctype": "Employee Tax Exemption Declaration",
-					"employee": emp
-				})
-			# Reset yearly salary based on latest exemption if exists
-			yearly_salary = get_employee_yearly_salary(args.company, args.payroll_period, emp)
+			else:  # Create new tax exemption document
+				doc.update({"doctype": doctype, "employee": emp})
 			doc.update({
 				"name": None,
 				"amended_from": None,
 				"docstatus": 0,
-				"custom_yearly_salary": yearly_salary,
 				"custom_yearly_bonus": 0,
-				"custom_is_opening_entry": 0,  # Not an opening entry
-				"custom_opening_entry_date": 0,
 				"declarations": []
 			})
 			frappe.get_doc(doc).insert()
@@ -246,10 +264,11 @@ def create_tax_exemption_for_employees(
 			if publish_progress:
 				frappe.publish_progress(
 					count * 100 / len(emp_to_create),
-					title=_("Creating Employee Tax Exemption Declaration..."),
+					title=_("Creating Employee Tax Exemption Document..."),
 				)
 			frappe.db.commit()
 		payroll_period.db_set({"custom_error_message": "", "custom_status": ""})
+		return count
 	except Exception as e:
 		frappe.db.rollback()
 		log_period_failure("creation", payroll_period, e)
@@ -260,7 +279,7 @@ def create_tax_exemption_for_employees(
 
 def log_period_failure(process, payroll_period, error):
 	error_log = frappe.log_error(
-		title=_("Employee Tax Exemption Declaration {0} failed for Payroll Period {1}").format(process, payroll_period.name)
+		title=_("Employee Tax Exemption Document {0} failed for Payroll Period {1}").format(process, payroll_period.name)
 	)
 	message_log = frappe.message_log.pop() if frappe.message_log else str(error)
 	try:

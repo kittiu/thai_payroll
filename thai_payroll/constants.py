@@ -3,22 +3,44 @@ CUSTOM_FIELDS = {
 		{
 			"fieldname": "custom_thai_payroll",
 			"fieldtype": "Tab Break",
-			"insert_after": "default_operating_cost_account",
 			"label": "Thai Payroll",
+			"insert_after": "default_operating_cost_account",
 		},
 		{
-			"description": "Enable Thai PIT Calculation in Employee Tax Exemption Declaration",
+			"fieldname": "section_break_pit",
+			"fieldtype": "Section Break",
+			"insert_after": "custom_thai_payroll",
+		},
+		{
+			"fieldname": "column_break_pit_tax_exemption_option",
+			"fieldtype": "Column Break",
+            "label": "Tax Exemptions",
+			"insert_after": "section_break_pit",
+		},
+		{
 			"fieldname": "custom_use_thai_pit_calculation",
 			"fieldtype": "Check",
-			"insert_after": "custom_thai_payroll",
-			"label": "Use Thai PIT Calculation on Tax Exemption Declaration",
+			"label": "Use Thai PIT Calculation",
+    		"description": "Enable Thai PIT Calculation in Employee Tax Exemption Declaration",
+			"insert_after": "column_break_pit_tax_exemption_option",
+		},
+		{
+			"depends_on": "eval:doc.custom_use_thai_pit_calculation",
+			"description": "Choose between Lor Yor 01 (ลย.01) or Employee Tax Exemption Declaration. "
+            "Lor Yor 01 is aimed for employee to fill in their own tax exemption, if used, "
+            "Employee Tax Exemption Declaration will be created when submit Lor Yor 01",
+			"fieldname": "tax_exemption_doctype",
+			"fieldtype": "Select",
+			"insert_after": "custom_use_thai_pit_calculation",
+			"label": "Enable mass creation of Tax Exemption Doctype from Payroll Period",
+            "options": "\nLor Yor 01\nEmployee Tax Exemption Declaration",
 		},
 		{
 			"depends_on": "eval:doc.custom_use_thai_pit_calculation",
 			"description": "On create/update Employee Tax exemption Declaration, auto fetch latest information about yearly salary and contributions (i.e., PVD)",
 			"fieldname": "custom_auto_get_latest_salary_for_tax_exemption",
 			"fieldtype": "Check",
-			"insert_after": "custom_use_thai_pit_calculation",
+			"insert_after": "tax_exemption_doctype",
 			"label": "Auto get latest salary and contributions for Tax Exemption",
 		},
 		{
@@ -32,14 +54,45 @@ CUSTOM_FIELDS = {
 		{
 			"fieldname": "custom_column_break_4lgs1",
 			"fieldtype": "Column Break",
+            "label": "Emailing",
 			"insert_after": "custom_auto_revise_tax_exemption_declaration",
 		},
 		{
+			"fieldname": "thai_payroll_email_sender",
+			"fieldtype": "Link",
+			"label": "Email Sender",
+			"options": "Contact",
+            "insert_after": "custom_column_break_4lgs1",
+            "description": "Note: If the Email Sender is not specified, system will use email from default outgoing email account instead"
+		},
+		{
+			"fieldname": "email_template_for_lor_yor_01",
+			"fieldtype": "Link",
+			"label": "Email Template for Lor Yor 01",
+			"options": "Email Template",
+            "description": "Allow mass email sending on Lor Yor 01 list view",
+			"insert_after": "thai_payroll_email_sender"
+		},
+		{
+			"fieldname": "email_template_for_tax_exempt_declaration",
+			"fieldtype": "Link",
+			"label": "Email Template for Employee Tax Exemption Declaration",
+			"options": "Email Template",
+            "description": "Allow mass email sending on Employee Tax Exemption Declaratoin list view",
+			"insert_after": "email_template_for_lor_yor_01",
+		},
+        {
+            "fieldname": "section_break_wht_cert_employee",
+            "fieldtype": "Section Break",
+            "label": "Employee Withholding Tax Cert.",
+            "insert_after": "email_template_for_tax_exempt_declaration",
+        },
+		{
 			"fieldname": "custom_company_address_on_withholding_tax_cert",
 			"fieldtype": "Link",
-			"insert_after": "custom_email_template_for_employee_tax_exempt_declaration",
 			"label": "Company Address On Withholding Tax Cert",
-			"options": "Address"
+			"options": "Address",
+			"insert_after": "section_break_wht_cert_employee"
 		}
 	],
 	"Salary Slip": [
@@ -202,7 +255,7 @@ CUSTOM_FIELDS = {
 			"fieldname": "custom_tab_3",
 			"fieldtype": "Tab Break",
 			"insert_after": "periods",
-			"label": "Create - Employee Tax Exemption Declaration",
+			"label": "Create - Tax Exemption Document",
 		},
 		{
 			"description": "Show active employees and allow mass creation of Employee Tax Exemption Declarations if not already exists. Recent tax exemption will be used if avaliable.",
@@ -325,6 +378,15 @@ CUSTOM_FIELDS = {
             "label": "Opening Entry Date",
             "mandatory_depends_on": "eval:doc.custom_is_opening_entry",
         },
+		{
+			"fieldname": "ref_lor_yor_01",
+			"fieldtype": "Link",
+			"insert_after": "currency",
+			"label": "Reference: Lor Yor 01",
+			"options": "Lor Yor 01",
+            "read_only": 1,
+            "no_copy": 1,
+		},
         {
             "depends_on": "eval:doc.custom_use_thai_pit_calculation==1",
             "fieldname": "custom_tab_4",
@@ -566,7 +628,7 @@ CUSTOM_FIELDS = {
         },
         {
             "description": "กองทุนการออมแห่งชาติ ลดหย่อนได้ตามที่จ่ายจริง แต่ไม่เกิน 13,200 บาท ทั้งนี้ และรวมส่วนนี้ทั้งหมดไม่เกิน 500,000 บาท",
-            "fieldname": "custom_invest_in_auunity",
+            "fieldname": "custom_invest_in_annuity",
             "fieldtype": "Float",
             "insert_after": "custom_column_break_c59yc",
             "label": "Invest in Auunity",
@@ -575,7 +637,7 @@ CUSTOM_FIELDS = {
             "description": "ลดหย่อนตามที่จ่ายจริงแต่ไม่เกิน 30% ของเงินได้ และรวมส่วนนี้ทั้งหมดไม่เกิน 500,000 บาท",
             "fieldname": "custom_invest_in_rmf",
             "fieldtype": "Float",
-            "insert_after": "custom_invest_in_auunity",
+            "insert_after": "custom_invest_in_annuity",
             "label": "Invest in RMF",
         },
         {

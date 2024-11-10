@@ -4,7 +4,14 @@ import urllib3
 from frappe import _
 from frappe.utils import ceil, getdate
 from hrms.payroll.doctype.payroll_entry.payroll_entry import get_start_end_dates
+from hrms.payroll.doctype.employee_tax_exemption_declaration.employee_tax_exemption_declaration import EmployeeTaxExemptionDeclaration
+from thai_payroll.mixins.thai_payroll_mixin import ThaiPayrollMixin
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
+class EmployeeTaxExemptionDeclarationThaiPayroll(EmployeeTaxExemptionDeclaration, ThaiPayrollMixin):
+	"""Extnd ThaiPayrollMixin"""
+	pass
 
 
 def calculate_thai_tax_exemption(doc, method):
@@ -142,7 +149,7 @@ def calc_total_saving_invest_insurance(doc):
 		"custom_gpf_contribution": 0.15 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_rmf": 0.3 * (doc.custom_total_yearly_income or 0),
 		"custom_invest_in_ssf": 0.3 * (doc.custom_total_yearly_income or 0),
-		"custom_invest_in_auunity": 132000,
+		"custom_invest_in_annuity": 132000,
 		"custom_pension_life_insurance": min(0.15 * (doc.custom_total_yearly_income or 0), 200000),
 	}
 	total_invest = 0
@@ -186,7 +193,7 @@ def calc_total_saving_invest_insurance(doc):
 		doc._custom_gpf_contribution or 0,
 		doc._custom_invest_in_rmf or 0,
 		doc._custom_invest_in_ssf or 0,
-		doc._custom_invest_in_auunity or 0,
+		doc._custom_invest_in_annuity or 0,
 		doc._custom_pension_life_insurance or 0,
 		doc._custom_social_security or 0,
 		doc._custom_maternity_expense or 0,
@@ -255,7 +262,7 @@ EXEMPTIONS = {
 		"กองทุนบําเหน็จบํานาญข้าราชการ": "custom_gpf_contribution",
 		"กองทุน RMF": "custom_invest_in_rmf", 
 		"กองทุน SSF": "custom_invest_in_ssf",
-		"กองทุนการออมแห่งชาติ": "custom_invest_in_auunity",
+		"กองทุนการออมแห่งชาติ": "custom_invest_in_annuity",
 		"ค่าเบี้ยประกันชีวิตแบบบำนาญ": "custom_pension_life_insurance",
 		"เงินสมทบกองทุนประกันสังคม": "custom_social_security",
 		"ค่าฝากครรภ์และค่าคลอดบุตร": "custom_maternity_expense",
@@ -397,3 +404,27 @@ def get_employee_yearly_pvd_contribution(company, payroll_period, employee, is_o
 	return (
 		prev_period_pvd_amount + current_period_pvd_amount + future_period_pvd_amount + pvd_contribution_till_date
 	) or 0
+
+
+@frappe.whitelist()
+def enqueue_email_tax_exemptions(names) -> None:
+	import json
+	if isinstance(names, str):
+		names = json.loads(names)
+	
+	email_templates = frappe.get_list("Company", {"email_template_for_tax_exempt_declaration": ["not in", [0, None, ""]]})
+	if not email_templates:
+		frappe.throw(_("No email template has been setup!"))
+
+	frappe.enqueue(email_tax_exemptions, names=names)
+	frappe.msgprint(
+		_("Employee Tax Exemption Declaration emails have been enqueued for sending. Check {0} for status.").format(
+			f"""<a href='{frappe.utils.get_url_to_list("Email Queue")}' target='blank'>Email Queue</a>"""
+		)
+	)
+
+
+def email_tax_exemptions(names) -> None:
+	for name in names:
+		tax_exempt = frappe.get_doc("Employee Tax Exemption Declaration", name)
+		tax_exempt.send_enqueue_email()
