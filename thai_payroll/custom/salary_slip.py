@@ -187,7 +187,7 @@ def make_withholding_tax_cert_employee(source_name, target_doc=None):
 def auto_revise_tax_exemption_declaration(doc):
 	use_thai_pit, auto_revise = frappe.get_cached_value(
 		"Company", doc.company,
-		["custom_use_thai_pit_calculation", "custom_use_thai_pit_calculation"]
+		["custom_use_thai_pit_calculation", "custom_auto_revise_tax_exemption_declaration"]
 	)
 	if not (use_thai_pit and auto_revise):
 		return
@@ -213,7 +213,10 @@ def auto_revise_tax_exemption_declaration(doc):
 	new_salary = get_employee_yearly_salary(**params)
 	new_pvd = get_employee_yearly_pvd_contribution(**params)
 	# If diff, do the revision
-	if new_salary != tax_exempt.custom_yearly_salary or new_pvd != tax_exempt.custom_pvd_contribution:
+	if (
+		flt(new_salary, 2) != flt(tax_exempt.custom_yearly_salary, 2)
+		or flt(new_pvd, 2) != flt(tax_exempt.custom_pvd_contribution, 2)
+	):
 		old_doc = frappe.get_cached_doc("Employee Tax Exemption Declaration", tax_exempt.name)
 		old_doc.cancel()
 		new_doc = frappe.copy_doc(old_doc)
