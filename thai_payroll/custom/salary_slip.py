@@ -88,10 +88,21 @@ class SalarySlipThaiPayroll(SalarySlip):
 		# Only if this is an opening period, otherwise do not use opening field
 		filters = {"start_date": ["<=", end_date], "end_date": [">=", end_date]},
 		opening_period = frappe.db.get_value("Payroll Period", filters, "custom_is_opening_period")
-		if opening_period:
-			return super().get_opening_for(field_to_select, start_date, end_date)
-		else:
+		if not opening_period:
 			return 0
+		# kittiu: the upstream code is not fixed yet, uncomment this otherwise
+		# return super().get_opening_for(field_to_select, start_date, end_date)
+		ssa_opening = frappe.db.get_value(
+			"Salary Structure Assignment",
+			{
+				"employee": self.employee,
+				"docstatus": 1,
+				field_to_select: [">", 0],
+			},
+			field_to_select,
+			order_by="from_date asc",
+		)
+		return ssa_opening or 0
 
 
 def onload(doc, method):

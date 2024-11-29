@@ -334,13 +334,16 @@ def parepare_salary_slip(company, payroll_period, employee, is_opening_entry=Non
 		# Go back in time, normally used for project go live
 		dates.append(getdate(opening_entry_date))
 	# Find most updated last slip date in this period
-	last_slip_date = frappe.db.get_value(
+	slip_date = frappe.db.get_value(
 		"Salary Slip", {"employee": employee, "end_date": ["<=", pp.end_date], "docstatus": 1},
 		"end_date",
 		order_by="end_date DESC"
 	)
-	if last_slip_date:
-		dates.append(last_slip_date)
+	if slip_date:
+		# If not last month, use next month date
+		if getdate(slip_date) < getdate(pp.end_date):
+			slip_date = getdate(slip_date) + timedelta(days=1)
+		dates.append(slip_date)
 	# Use the most recent date possible
 	ss.start_date = max(dates)
 	ss.salary_structure = ss.check_sal_struct()
