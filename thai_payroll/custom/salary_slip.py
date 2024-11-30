@@ -86,7 +86,7 @@ class SalarySlipThaiPayroll(SalarySlip):
 		return amount, additional_amount
 
 	def get_opening_for(self, field_to_select, start_date, end_date):
-		# Only if salary slip is same period as the first salary slip to use optning amount
+		# Only if salary slip is same period as the first salary slip to use opening amount
 		first_ss = frappe.db.get_value(
 			"Salary Slip",
 			{
@@ -97,10 +97,11 @@ class SalarySlipThaiPayroll(SalarySlip):
 			"name",
 			order_by="start_date asc",
 		)
-		doc = frappe.get_doc("Salary Slip", first_ss)
-		if self.payroll_period != doc.payroll_period:
-			return 0
-		# Otherwise, find amount from  first SSA which has opening balance
+		if first_ss:
+			doc = frappe.get_cached_doc("Salary Slip", first_ss)
+			if self.payroll_period != doc.payroll_period:
+				return 0
+		# Otherwise, find amount from first SSA which has opening balance
 		ssa_opening = frappe.db.get_value(
 			"Salary Structure Assignment",
 			{
