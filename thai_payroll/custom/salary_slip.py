@@ -5,6 +5,7 @@ from thai_payroll.custom.employee_tax_exemption_declaration import (
     get_employee_yearly_pvd_contribution,
     get_employee_yearly_salary
 )
+from hrms.payroll.doctype.payroll_period.payroll_period import get_payroll_period
 
 
 class SalarySlipThaiPayroll(SalarySlip):
@@ -85,18 +86,27 @@ class SalarySlipThaiPayroll(SalarySlip):
 		return amount, additional_amount
 
 	def get_opening_for(self, field_to_select, start_date, end_date):
-		# Only if this is an opening period, otherwise do not use opening field
-		filters = {"start_date": ["<=", end_date], "end_date": [">=", end_date]},
-		opening_period = frappe.db.get_value("Payroll Period", filters, "custom_is_opening_period")
-		if not opening_period:
+		# Only if salary slip is same period as the first salary slip to use optning amount
+		first_ss = frappe.db.get_value(
+			"Salary Slip",
+			{
+				"employee": self.employee,
+				"docstatus": 1,
+				"company": self.company,
+			},
+			"name",
+			order_by="start_date asc",
+		)
+		doc = frappe.get_doc("Salary Slip", first_ss)
+		if self.payroll_period != doc.payroll_period:
 			return 0
-		# kittiu: the upstream code is not fixed yet, uncomment this otherwise
-		# return super().get_opening_for(field_to_select, start_date, end_date)
+		# Otherwise, find amount from  first SSA which has opening balance
 		ssa_opening = frappe.db.get_value(
 			"Salary Structure Assignment",
 			{
 				"employee": self.employee,
 				"docstatus": 1,
+				"company": self.company,
 				field_to_select: [">", 0],
 			},
 			field_to_select,
