@@ -93,6 +93,20 @@ CUSTOM_FIELDS = {
 			"label": "Company Address On Withholding Tax Cert",
 			"options": "Address",
 			"insert_after": "section_break_wht_cert_employee"
+		},
+        {
+            "fieldname": "section_other_settings",
+            "fieldtype": "Section Break",
+            "label": "Other Settings",
+            "insert_after": "custom_company_address_on_withholding_tax_cert",
+        },
+		{
+			"fieldname": "no_salary_recompute_on_submit",
+			"fieldtype": "Check",
+			"label": "Do not recompute salary slip on submit",
+			"description": "Submit salary slip should not recompute earnings and deductions (skip validate function). "
+            "To ensure that once calculated as draft, it will not change on submit even employee info changes.",
+			"insert_after": "section_other_settings"
 		}
 	],
 	"Salary Slip": [

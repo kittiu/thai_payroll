@@ -12,6 +12,11 @@ class SalarySlipThaiPayroll(SalarySlip):
 
 	def validate(self):
 		auto_revise_tax_exemption_declaration(self)
+		skip_validate = frappe.get_cached_value(
+			"Company", self.company, "no_salary_recompute_on_submit"
+		)
+		if self._action == "submit" and skip_validate:
+			return
 		super().validate()
 
 	@property
