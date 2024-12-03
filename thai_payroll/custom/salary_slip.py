@@ -87,6 +87,7 @@ class SalarySlipThaiPayroll(SalarySlip):
 
 	def get_opening_for(self, field_to_select, start_date, end_date):
 		# Only if salary slip is same period as the first salary slip to use opening amount
+		# Issue https://github.com/frappe/hrms/issues/2468 and PR https://github.com/frappe/hrms/pull/2469
 		first_ss = frappe.db.get_value(
 			"Salary Slip",
 			{
