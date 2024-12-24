@@ -107,6 +107,14 @@ CUSTOM_FIELDS = {
 			"description": "Submit salary slip should not recompute earnings and deductions (skip validate function). "
             "To ensure that once calculated as draft, it will not change on submit even employee info changes.",
 			"insert_after": "section_other_settings"
+		},
+		{
+			"fieldname": "do_not_use_tax_exemption_proof",
+			"fieldtype": "Check",
+			"label": "Do not use Tax Exemption Proof",
+			"description": "Always use normal Emloyee Exemption Declaration "
+            "even on last period salary and disregard Tax Exemption Proof.",
+			"insert_after": "no_salary_recompute_on_submit"
 		}
 	],
 	"Salary Slip": [

@@ -120,6 +120,14 @@ class SalarySlipThaiPayroll(SalarySlip):
 			order_by="from_date asc",
 		)
 		return ssa_opening or 0
+    
+	def get_total_exemption_amount(self):
+		do_not_use_tax_exemption_proof = frappe.get_cached_value(
+			"Company", self.company, "do_not_use_tax_exemption_proof"
+		)
+		if do_not_use_tax_exemption_proof:
+			self.deduct_tax_for_unsubmitted_tax_exemption_proof = 0
+		return super().get_total_exemption_amount()
 
 
 def onload(doc, method):
