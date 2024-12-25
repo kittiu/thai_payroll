@@ -380,12 +380,13 @@ def get_employee_yearly_pvd_contribution(company, payroll_period, employee, is_o
 	pvd_component = ss._salary_structure_doc.get("custom_pvd_component")
 
 	# Previous period pvd amount
-	prev_period_pvd_amount = ss.get_salary_slip_details(
-		pp.start_date,
-		ss.start_date,
-		parentfield="deductions",
-		salary_component=pvd_component,
-	)
+	if pvd_component:
+		prev_period_pvd_amount = ss.get_salary_slip_details(
+			pp.start_date,
+			ss.start_date,
+			parentfield="deductions",
+			salary_component=pvd_component,
+		)
 
 	# Current period pvd amount
 	for d in ss.get("deductions"):
