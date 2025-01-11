@@ -227,54 +227,54 @@ def set_filter_conditions(query, filters, qb_object):
 
 
 def create_tax_exemption_for_employees(
-		doctype,
-		employees,
-		emp_to_create,
-		args,
-		publish_progress=True
-	):
-	check_recent_doc = {
-		"Employee Tax Exemption Declaration": "recent_tax_exemption",
-		"Lor Yor 01": "recent_lor_yor_01",
-	}
-	payroll_period = frappe.get_cached_doc("Payroll Period", args.payroll_period)
-	try:
-		employees = {
-			emp.employee: emp[check_recent_doc[doctype]]
-			for emp in employees if emp.as_dict().get(check_recent_doc[doctype])
-		}
-		count = 0
-		for emp in emp_to_create:
-			doc = args.copy()
-			if employees.get(emp):  # Use recent tax exemption document if exists
-				recent_doc = frappe.get_cached_doc(doctype, employees[emp]).as_dict()
-				recent_doc.update(doc)
-				doc = recent_doc
-			else:  # Create new tax exemption document
-				doc.update({"doctype": doctype, "employee": emp})
-			doc.update({
-				"name": None,
-				"amended_from": None,
-				"docstatus": 0,
-				"custom_yearly_bonus": 0,
-				"declarations": []
-			})
-			frappe.get_doc(doc).insert()
-			count += 1
-			if publish_progress:
-				frappe.publish_progress(
-					count * 100 / len(emp_to_create),
-					title=_("Creating Employee Tax Exemption Document..."),
-				)
-			frappe.db.commit()
-		payroll_period.db_set({"custom_error_message": "", "custom_status": ""})
-		return count
-	except Exception as e:
-		frappe.db.rollback()
-		log_period_failure("creation", payroll_period, e)
-	finally:
-		frappe.db.commit()  # nosemgrep
-		frappe.publish_realtime("completed_tax_exemption_creation", user=frappe.session.user)
+        doctype,
+        employees,
+        emp_to_create,
+        args,
+        publish_progress=True
+    ):
+    check_recent_doc = {
+        "Employee Tax Exemption Declaration": "recent_tax_exemption",
+        "Lor Yor 01": "recent_lor_yor_01",
+    }
+    payroll_period = frappe.get_cached_doc("Payroll Period", args.payroll_period)
+    try:
+        employees = {}
+        for emp in employees:
+            if check_recent_doc[doctype] in emp and emp[check_recent_doc[doctype]]:
+                employees[emp.employee] = emp[check_recent_doc[doctype]]
+        count = 0
+        for emp in emp_to_create:
+            doc = args.copy()
+            if employees.get(emp):  # Use recent tax exemption document if exists
+                recent_doc = frappe.get_cached_doc(doctype, employees[emp]).as_dict()
+                recent_doc.update(doc)
+                doc = recent_doc
+            else:  # Create new tax exemption document
+                doc.update({"doctype": doctype, "employee": emp})
+            doc.update({
+                "name": None,
+                "amended_from": None,
+                "docstatus": 0,
+                "custom_yearly_bonus": 0,
+                "declarations": []
+            })
+            frappe.get_doc(doc).insert()
+            count += 1
+            if publish_progress:
+                frappe.publish_progress(
+                    count * 100 / len(emp_to_create),
+                    title=_("Creating Employee Tax Exemption Document..."),
+                )
+            frappe.db.commit()
+        payroll_period.db_set({"custom_error_message": "", "custom_status": ""})
+        return count
+    except Exception as e:
+        frappe.db.rollback()
+        log_period_failure("creation", payroll_period, e)
+    finally:
+        frappe.db.commit()  # nosemgrep
+        frappe.publish_realtime("completed_tax_exemption_creation", user=frappe.session.user)
 
 
 def log_period_failure(process, payroll_period, error):
