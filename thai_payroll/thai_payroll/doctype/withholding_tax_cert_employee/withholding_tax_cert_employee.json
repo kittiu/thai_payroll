@@ -25,6 +25,10 @@
   "payroll_period",
   "section_break_11",
   "withholding_tax_items",
+  "section_break_oawi",
+  "sso_contribution",
+  "column_break_apsi",
+  "pvd_contribution",
   "section_break_12",
   "voucher_type",
   "column_break_15",
@@ -178,12 +182,30 @@
    "no_copy": 1,
    "options": "User",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_oawi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sso_contribution",
+   "fieldtype": "Float",
+   "label": "SSO Contribution"
+  },
+  {
+   "fieldname": "column_break_apsi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pvd_contribution",
+   "fieldtype": "Float",
+   "label": "PVD Contribution"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-11 15:22:20.360418",
+ "modified": "2025-01-11 21:50:31.430312",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Withholding Tax Cert Employee",

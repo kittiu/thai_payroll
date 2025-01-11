@@ -179,49 +179,85 @@ def update_last_submitted_slip(doc, method):
 
 @frappe.whitelist()
 def make_withholding_tax_cert_employee(source_name, target_doc=None):
-	from frappe.model.mapper import get_mapped_doc
+    from frappe.model.mapper import get_mapped_doc
 
-	def set_missing_values(source, target):
-		target.run_method("validate")
-		target.company_address = frappe.db.get_value(
-		    "Company", source.company, "custom_company_address_on_withholding_tax_cert"
-	    )
-		target.income_tax_form = "PND1a"
-		target.voucher_type = "Salary Slip"
-		target.payroll_period = source.custom_payroll_period
+    def set_missing_values(source, target):
+        target.run_method("validate")
+        target.company_address = frappe.db.get_value(
+            "Company", source.company, "custom_company_address_on_withholding_tax_cert"
+        )
+        target.income_tax_form = "PND1a"
+        target.voucher_type = "Salary Slip"
+        target.payroll_period = source.custom_payroll_period
+        target.pvd_contribution = get_pvd_contribution(source)
+        # TODO:
+        # target.sso_contribution = get_sso_contribution(source)
+        # --
         # Get Opening from SSA
-		open_earning = source.get_opening_for("taxable_earnings_till_date", source.start_date, source.end_date)
-		open_tax = source.get_opening_for("tax_deducted_till_date", source.start_date, source.end_date)
-		# --
-		target.append(
-			"withholding_tax_items",
-			dict(
-				type_of_income="1",
-				description="เงินเดือน ค่าจ้าง ฯลฯ 40(1)",
-				tax_base=(source.gross_year_to_date+open_earning),
-				tax_amount=(source.income_tax_deducted_till_date+open_tax)
-			),
+        open_earning = source.get_opening_for("taxable_earnings_till_date", source.start_date, source.end_date)
+        open_tax = source.get_opening_for("tax_deducted_till_date", source.start_date, source.end_date)
+        # --
+        target.append(
+            "withholding_tax_items",
+            dict(
+                type_of_income="1",
+                description="เงินเดือน ค่าจ้าง ฯลฯ 40(1)",
+                tax_base=(source.gross_year_to_date + open_earning),
+                tax_amount=(source.income_tax_deducted_till_date + open_tax)
+            ),
+        )
+
+    doclist = get_mapped_doc(
+        "Salary Slip",
+        source_name,
+        {
+            "Salary Slip": {
+                "doctype": "Withholding Tax Cert Employee",
+                "field_map": {
+                    "employee": "employee",
+                    "name": "voucher_no",
+                    "end_date": "date"
+                },
+                "validation": {"docstatus": ["=", 1]},
+            },
+        },
+        target_doc,
+        set_missing_values,
+    )
+
+    return doclist
+
+
+def get_pvd_contribution(salary_slip):
+    prev_period_pvd_amount = 0
+    current_period_pvd_amount = 0
+
+    ss = salary_slip
+    pp = frappe.get_cached_doc("Payroll Period", ss.custom_payroll_period)
+    st = frappe.get_cached_doc("Salary Structure", ss.salary_structure)
+
+    pvd_component = st.custom_pvd_component
+
+	# Previous period pvd amount
+    if pvd_component:
+        prev_period_pvd_amount = salary_slip.get_salary_slip_details(
+			pp.start_date,
+			salary_slip.start_date,
+			parentfield="deductions",
+			salary_component=pvd_component,
 		)
 
-	doclist = get_mapped_doc(
-		"Salary Slip",
-		source_name,
-		{
-			"Salary Slip": {
-				"doctype": "Withholding Tax Cert Employee",
-				"field_map": {
-					"employee": "employee",
-					"name": "voucher_no",
-					"end_date": "date"
-				},
-				"validation": {"docstatus": ["=", 1]},
-			},
-		},
-		target_doc,
-		set_missing_values,
-	)
+	# Current period pvd amount
+    for d in ss.get("deductions"):
+        if d.salary_component == pvd_component:
+            current_period_pvd_amount += d.amount
 
-	return doclist
+    # Opening entry pvd amount
+    pvd_contribution_till_date = ss.get_opening_for("custom_pvd_contribution_till_date", ss.start_date, ss.end_date)
+
+    return (
+		prev_period_pvd_amount + current_period_pvd_amount + pvd_contribution_till_date
+	) or 0
 
 
 def auto_revise_tax_exemption_declaration(doc):
