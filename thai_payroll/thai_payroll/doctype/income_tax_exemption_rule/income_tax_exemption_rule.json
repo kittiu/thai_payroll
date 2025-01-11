@@ -1,0 +1,288 @@
+{
+ "actions": [],
+ "autoname": "field:payroll_period",
+ "creation": "2025-01-11 09:13:07.373903",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "maximum_exemption_amount_section",
+  "payroll_period",
+  "start_date",
+  "section_break_gtgg",
+  "elderly_exemption",
+  "elderly_spouse_exemption",
+  "column_break_ljbx",
+  "disable_person_exemption",
+  "compensation_by_labor_law",
+  "section_break_mczt",
+  "exemption",
+  "spouse_exemption",
+  "child_born_before_2561",
+  "child_born_from_2561",
+  "column_break_pngm",
+  "own_father_exemption",
+  "own_mother_exemption",
+  "spouse_father_exemption",
+  "spouse_mother_exemption",
+  "disable_person_support",
+  "section_break_nqwi",
+  "pension_life_insurance",
+  "total_contribution",
+  "social_security",
+  "maternity_expense",
+  "column_break_robb",
+  "life_insurance",
+  "spouse_life_insurance",
+  "health_insurance",
+  "health_insurance_for_parents",
+  "invest_in_thai_esg",
+  "section_break_qjzt",
+  "interest_paid_for_housing_loan",
+  "column_break_dunp",
+  "donation_for_political_party",
+  "section_break_ycnq",
+  "expense"
+ ],
+ "fields": [
+  {
+   "fieldname": "invest_in_thai_esg",
+   "fieldtype": "Float",
+   "label": "Invest In Thai ESG"
+  },
+  {
+   "fieldname": "payroll_period",
+   "fieldtype": "Link",
+   "label": "Payroll Period",
+   "options": "Payroll Period",
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_gtgg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e2d\u0e32\u0e22\u0e38 \u0e40\u0e01\u0e34\u0e19 65 \u0e1b\u0e35\u0e02\u0e36\u0e49\u0e19\u0e44\u0e1b\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e22\u0e01\u0e40\u0e27\u0e49\u0e19",
+   "fieldname": "elderly_exemption",
+   "fieldtype": "Float",
+   "label": "Elderly Exemption"
+  },
+  {
+   "fieldname": "section_break_nqwi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e0a\u0e35\u0e27\u0e34\u0e15",
+   "fieldname": "column_break_robb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e2d\u0e32\u0e22\u0e38\u0e40\u0e01\u0e34\u0e19 65 \u0e1b\u0e35\u0e02\u0e36\u0e49\u0e19\u0e44\u0e1b\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e22\u0e01\u0e40\u0e27\u0e49\u0e19",
+   "fieldname": "elderly_spouse_exemption",
+   "fieldtype": "Float",
+   "label": "Elderly Spouse Exemption"
+  },
+  {
+   "fieldname": "column_break_ljbx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e1c\u0e39\u0e49\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49\u0e40\u0e1b\u0e47\u0e19\u0e1c\u0e38\u0e49\u0e1e\u0e34\u0e01\u0e32\u0e23\u0e41\u0e25\u0e30\u0e21\u0e35\u0e2d\u0e32\u0e22\u0e38\u0e44\u0e21\u0e48\u0e40\u0e01\u0e34\u0e19 65 \u0e1b\u0e35\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e22\u0e01\u0e40\u0e27\u0e49\u0e19",
+   "fieldname": "disable_person_exemption",
+   "fieldtype": "Float",
+   "label": "Disable Person Exemption"
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e04\u0e48\u0e32\u0e0a\u0e14\u0e40\u0e0a\u0e22\u0e17\u0e35\u0e48\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e15\u0e32\u0e21\u0e01\u0e0e\u0e2b\u0e21\u0e32\u0e22\u0e41\u0e23\u0e07\u0e07\u0e32\u0e19\u0e44\u0e14\u0e49\u0e23\u0e31\u0e1a\u0e01\u0e32\u0e23\u0e22\u0e01\u0e40\u0e27\u0e49\u0e19 (\u0e01\u0e23\u0e13\u0e35\u0e19\u0e33\u0e21\u0e32\u0e23\u0e27\u0e21\u0e04\u0e33\u0e19\u0e27\u0e13\u0e20\u0e32\u0e29\u0e35)",
+   "fieldname": "compensation_by_labor_law",
+   "fieldtype": "Float",
+   "label": "Compensation By Labor Law"
+  },
+  {
+   "fieldname": "section_break_mczt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e2a\u0e48\u0e27\u0e19\u0e15\u0e31\u0e27",
+   "fieldname": "exemption",
+   "fieldtype": "Float",
+   "label": "Personal Exemption"
+  },
+  {
+   "description": "\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e01\u0e23\u0e13\u0e35\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e44\u0e21\u0e48\u0e21\u0e35\u0e23\u0e32\u0e22\u0e44\u0e14\u0e49",
+   "fieldname": "spouse_exemption",
+   "fieldtype": "Float",
+   "label": "Spouse Exemption"
+  },
+  {
+   "description": "\u0e1a\u0e38\u0e15\u0e23\u0e27\u0e31\u0e22\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e01\u0e34\u0e14\u0e01\u0e48\u0e2d\u0e19\u0e1b\u0e35 2561",
+   "fieldname": "child_born_before_2561",
+   "fieldtype": "Float",
+   "label": "Child Born Before 2561"
+  },
+  {
+   "description": "\u0e1a\u0e38\u0e15\u0e23\u0e27\u0e31\u0e22\u0e40\u0e23\u0e35\u0e22\u0e19\u0e40\u0e01\u0e34\u0e14\u0e43\u0e19\u0e2b\u0e23\u0e37\u0e2d\u0e2b\u0e25\u0e31\u0e07 2561\n",
+   "fieldname": "child_born_from_2561",
+   "fieldtype": "Float",
+   "label": "Child Born From 2561"
+  },
+  {
+   "description": "\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e1a\u0e34\u0e14\u0e32\u0e01\u0e23\u0e13\u0e35\u0e44\u0e21\u0e48\u0e21\u0e35\u0e23\u0e32\u0e22\u0e44\u0e14\u0e49",
+   "fieldname": "own_father_exemption",
+   "fieldtype": "Float",
+   "label": "Own Father Exemption"
+  },
+  {
+   "description": "\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e1a\u0e34\u0e14\u0e32\u0e21\u0e32\u0e23\u0e14\u0e32\u0e01\u0e23\u0e13\u0e35\u0e44\u0e21\u0e48\u0e21\u0e35\u0e23\u0e32\u0e22\u0e44\u0e14\u0e49",
+   "fieldname": "own_mother_exemption",
+   "fieldtype": "Float",
+   "label": "Own Mother Exemption"
+  },
+  {
+   "description": "\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e1a\u0e34\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a \u0e01\u0e23\u0e13\u0e35\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e44\u0e21\u0e48\u0e21\u0e35\u0e23\u0e32\u0e22\u0e44\u0e14\u0e49",
+   "fieldname": "spouse_father_exemption",
+   "fieldtype": "Float",
+   "label": "Spouse Father Exemption"
+  },
+  {
+   "description": "\u0e40\u0e25\u0e35\u0e49\u0e22\u0e07\u0e14\u0e39\u0e21\u0e32\u0e23\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a \u0e01\u0e23\u0e13\u0e35\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e44\u0e21\u0e48\u0e21\u0e35\u0e23\u0e32\u0e22\u0e44\u0e14\u0e49",
+   "fieldname": "spouse_mother_exemption",
+   "fieldtype": "Float",
+   "label": "Spouse Mother Exemption"
+  },
+  {
+   "description": "\u0e40\u0e1b\u0e47\u0e19\u0e1c\u0e39\u0e49\u0e14\u0e39\u0e41\u0e25\u0e43\u0e19\u0e1a\u0e31\u0e15\u0e23\u0e1b\u0e23\u0e30\u0e08\u0e33\u0e15\u0e31\u0e27\u0e02\u0e2d\u0e07\u0e04\u0e19\u0e1e\u0e34\u0e01\u0e32\u0e23 (\u0e04\u0e19\u0e25\u0e30)",
+   "fieldname": "disable_person_support",
+   "fieldtype": "Float",
+   "label": "Disable Person Support"
+  },
+  {
+   "fieldname": "column_break_pngm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e23\u0e27\u0e21\u0e01\u0e2d\u0e07\u0e17\u0e38\u0e19",
+   "fieldname": "total_contribution",
+   "fieldtype": "Float",
+   "label": "Total Contribution"
+  },
+  {
+   "description": "\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e2a\u0e31\u0e07\u0e04\u0e21",
+   "fieldname": "social_security",
+   "fieldtype": "Float",
+   "label": "Social Security"
+  },
+  {
+   "description": "\u0e04\u0e48\u0e32\u0e1d\u0e32\u0e01\u0e04\u0e23\u0e23\u0e20\u0e4c\u0e41\u0e25\u0e30\u0e04\u0e48\u0e32\u0e04\u0e25\u0e2d\u0e14\u0e1a\u0e38\u0e15\u0e23 \u0e2b\u0e31\u0e01\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e40\u0e17\u0e48\u0e32\u0e17\u0e35\u0e48\u0e08\u0e48\u0e32\u0e22\u0e08\u0e23\u0e34\u0e07 \u0e41\u0e15\u0e48\u0e25\u0e30\u0e04\u0e23\u0e32\u0e27",
+   "fieldname": "maternity_expense",
+   "fieldtype": "Float",
+   "label": "Maternity Expense"
+  },
+  {
+   "fieldname": "life_insurance",
+   "fieldtype": "Float",
+   "label": "Life Insurance"
+  },
+  {
+   "description": "\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e0a\u0e35\u0e27\u0e34\u0e15\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a",
+   "fieldname": "spouse_life_insurance",
+   "fieldtype": "Float",
+   "label": "Spouse Life Insurance"
+  },
+  {
+   "description": "\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e2a\u0e38\u0e02\u0e20\u0e32\u0e1e",
+   "fieldname": "health_insurance",
+   "fieldtype": "Float",
+   "label": "Health Insurance"
+  },
+  {
+   "description": "\u0e1b\u0e23\u0e30\u0e01\u0e31\u0e19\u0e2a\u0e38\u0e02\u0e20\u0e32\u0e1e \u0e1a\u0e34\u0e14\u0e32/\u0e21\u0e32\u0e23\u0e14\u0e32\u0e02\u0e2d\u0e07\u0e15\u0e19 \u0e41\u0e25\u0e30\u0e1a\u0e34\u0e14\u0e32/\u0e21\u0e32\u0e23\u0e14\u0e32 \u0e02\u0e2d\u0e07\u0e04\u0e39\u0e48\u0e2a\u0e21\u0e23\u0e2a\u0e17\u0e35\u0e48\u0e44\u0e21\u0e48\u0e21\u0e35\u0e40\u0e07\u0e34\u0e19\u0e44\u0e14\u0e49",
+   "fieldname": "health_insurance_for_parents",
+   "fieldtype": "Float",
+   "label": "Health Insurance For Parents"
+  },
+  {
+   "fieldname": "section_break_qjzt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "\u0e14\u0e2d\u0e01\u0e40\u0e1a\u0e37\u0e49\u0e22\u0e40\u0e07\u0e34\u0e19\u0e01\u0e39\u0e49\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48\u0e2d\u0e32\u0e28\u0e31\u0e22",
+   "fieldname": "interest_paid_for_housing_loan",
+   "fieldtype": "Float",
+   "label": "Interest Paid For Housing Loan"
+  },
+  {
+   "fieldname": "column_break_dunp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "\u0e40\u0e07\u0e34\u0e19\u0e1a\u0e23\u0e34\u0e08\u0e32\u0e04\u0e1e\u0e23\u0e23\u0e04\u0e01\u0e32\u0e23\u0e40\u0e21\u0e37\u0e2d\u0e07",
+   "fieldname": "donation_for_political_party",
+   "fieldtype": "Float",
+   "label": "Donation For Political Party"
+  },
+  {
+   "description": "\u0e40\u0e1a\u0e35\u0e49\u0e22\u0e1a\u0e33\u0e19\u0e32\u0e0d",
+   "fieldname": "pension_life_insurance",
+   "fieldtype": "Float",
+   "label": "Pension Life Insurance"
+  },
+  {
+   "description": "\u0e15\u0e31\u0e49\u0e07\u0e04\u0e48\u0e32\u0e25\u0e14\u0e2b\u0e22\u0e48\u0e2d\u0e19\u0e43\u0e19\u0e2b\u0e21\u0e27\u0e14\u0e15\u0e48\u0e32\u0e07\u0e46\u0e2a\u0e33\u0e2b\u0e23\u0e31\u0e1a\u0e01\u0e32\u0e23\u0e04\u0e33\u0e19\u0e27\u0e19 Employee Tax Exemption Delaration",
+   "fieldname": "maximum_exemption_amount_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "payroll_period.start_date",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Period Start Date"
+  },
+  {
+   "fieldname": "section_break_ycnq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "\u0e2b\u0e31\u0e01\u0e04\u0e48\u0e32\u0e43\u0e0a\u0e49\u0e08\u0e48\u0e32\u0e22",
+   "fieldname": "expense",
+   "fieldtype": "Float",
+   "label": "Expense"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-11 16:40:36.447242",
+ "modified_by": "Administrator",
+ "module": "Thai Payroll",
+ "name": "Income Tax Exemption Rule",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Admin",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

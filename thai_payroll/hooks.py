@@ -6,6 +6,20 @@ app_email = "kittiu@ecosoft.co.th"
 app_license = "mit"
 required_apps = ["erpnext", "hrms"]
 
+fixtures = [
+    {
+        "doctype": "Income Tax Exemption Rule",
+        "filters": [
+            [
+                "name",
+                "in",
+                (
+                    "2024",
+                )
+            ]
+        ]
+    },
+]
 
 # Includes in <head>
 # ------------------

@@ -22,3 +22,9 @@ class WithholdingTaxCertEmployee(Document):
 					frappe.bold(wht_cert), frappe.bold(self.voucher_no)
 				)
 			)
+
+	def before_insert(self):
+		self.submitted_by = None
+
+	def before_submit(self):
+		self.submitted_by = frappe.session.user

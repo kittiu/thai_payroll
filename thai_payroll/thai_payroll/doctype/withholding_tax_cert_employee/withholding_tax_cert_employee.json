@@ -11,6 +11,7 @@
   "company",
   "company_tax_id",
   "company_address",
+  "submitted_by",
   "column_break_3",
   "employee",
   "employee_name",
@@ -168,12 +169,21 @@
    "label": "Payroll Period",
    "options": "Payroll Period",
    "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "submitted_by",
+   "fieldtype": "Link",
+   "label": "Submitted By",
+   "no_copy": 1,
+   "options": "User",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-19 12:24:54.845294",
+ "modified": "2025-01-11 15:22:20.360418",
  "modified_by": "Administrator",
  "module": "Thai Payroll",
  "name": "Withholding Tax Cert Employee",
