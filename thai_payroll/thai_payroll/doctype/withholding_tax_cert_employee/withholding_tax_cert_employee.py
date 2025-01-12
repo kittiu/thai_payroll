@@ -9,6 +9,8 @@ from frappe.model.document import Document
 class WithholdingTaxCertEmployee(Document):
 
 	def validate(self):
+		if not self.voucher_no:
+			return
 		wht_cert = frappe.db.exists(
 			"Withholding Tax Cert Employee", {
 				"voucher_type": "Salary Slip",
