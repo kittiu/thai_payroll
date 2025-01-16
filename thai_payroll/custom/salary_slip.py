@@ -195,7 +195,6 @@ def make_withholding_tax_cert_employee(source_name, target_doc=None):
         # --
         # Get Opening from SSA
         open_earning = source.get_opening_for("taxable_earnings_till_date", source.start_date, source.end_date)
-        open_tax = source.get_opening_for("tax_deducted_till_date", source.start_date, source.end_date)
         # --
         target.append(
             "withholding_tax_items",
@@ -203,7 +202,7 @@ def make_withholding_tax_cert_employee(source_name, target_doc=None):
                 type_of_income="1",
                 description="เงินเดือน ค่าจ้าง ฯลฯ 40(1)",
                 tax_base=(source.gross_year_to_date + open_earning),
-                tax_amount=(source.income_tax_deducted_till_date + open_tax)
+                tax_amount=(source.income_tax_deducted_till_date)
             ),
         )
 
