@@ -18,6 +18,16 @@ class LorYor01(Document, ThaiPayrollMixin):
 			self.cancel_exiting_emp_tax_exemption()
 			self.create_emp_tax_exemption()
 
+	# On cancel of Lor Yor 01, delete any Draft Employee Tax Exemption Declaration linked to it
+	def on_cancel(self):
+		doc = frappe.db.get_value(
+			"Employee Tax Exemption Declaration",
+			{"ref_lor_yor_01": self.name, "docstatus": 0},
+			"name"
+		)
+		if doc:
+			frappe.delete_doc("Employee Tax Exemption Declaration", doc)
+
 	def check_existing(self):
 		ly01 = frappe.qb.DocType("Lor Yor 01")
 		query = (
