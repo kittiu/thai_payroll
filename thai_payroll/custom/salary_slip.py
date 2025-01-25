@@ -25,6 +25,10 @@ class SalarySlipThaiPayroll(SalarySlip):
 			return None
 		return super().relieving_date
 
+	@property
+	def pvd_contribution_till_date(self):
+		return get_pvd_contribution(self)
+
 	def get_amount_based_on_payment_days(self, row):
 		base_30_days = frappe.db.get_value(
 			"Salary Component",
