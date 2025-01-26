@@ -121,7 +121,7 @@ class LorYor01(Document, ThaiPayrollMixin):
 		doc.custom_invest_in_thai_esg = self.thai_esg_investment
 		doc.custom_economic_stimulus_allowance = self.economic_stimulus_allowance
 		# --
-		doc.save()
+		doc.save(ignore_permissions=True)
 
 	def cancel_exiting_emp_tax_exemption(self):
 		existing_doc = frappe.db.get_value(
