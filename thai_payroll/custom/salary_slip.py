@@ -236,6 +236,8 @@ def get_pvd_contribution(salary_slip):
     current_period_pvd_amount = 0
 
     ss = salary_slip
+    if not ss.custom_payroll_period:
+        return 0
     pp = frappe.get_cached_doc("Payroll Period", ss.custom_payroll_period)
     st = frappe.get_cached_doc("Salary Structure", ss.salary_structure)
 
