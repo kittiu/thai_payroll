@@ -338,7 +338,7 @@ def create_exemption_categ():
 			doc.insert(ignore_permissions=True, ignore_if_duplicate=True)
 
 
-def parepare_salary_slip(company, payroll_period, employee, is_opening_entry=None, opening_entry_date=None):
+def prepare_salary_slip(company, payroll_period, employee, is_opening_entry=None, opening_entry_date=None):
 	emp = frappe.get_cached_doc("Employee", employee)
 	pp = frappe.get_cached_doc("Payroll Period", payroll_period)
 	ss = frappe.new_doc("Salary Slip")
@@ -382,7 +382,7 @@ def parepare_salary_slip(company, payroll_period, employee, is_opening_entry=Non
 @frappe.whitelist()
 def get_employee_yearly_salary(company, payroll_period, employee, is_opening_entry=None, opening_entry_date=None):
 	""" Find most up to date yearly salary, except when on_date is specified """
-	ss = parepare_salary_slip(company, payroll_period, employee, is_opening_entry, opening_entry_date)
+	ss = prepare_salary_slip(company, payroll_period, employee, is_opening_entry, opening_entry_date)
 	return ss.ctc
 
 
@@ -393,7 +393,7 @@ def get_employee_yearly_pvd_contribution(company, payroll_period, employee, is_o
 	future_period_pvd_amount = 0
 
 	pp = frappe.get_cached_doc("Payroll Period", payroll_period)
-	ss = parepare_salary_slip(company, payroll_period, employee, is_opening_entry, opening_entry_date)
+	ss = prepare_salary_slip(company, payroll_period, employee, is_opening_entry, opening_entry_date)
 
 	pvd_component = ss._salary_structure_doc.get("custom_pvd_component")
 
@@ -407,18 +407,17 @@ def get_employee_yearly_pvd_contribution(company, payroll_period, employee, is_o
 		)
 
 	# Current period pvd amount
-	for d in ss.get("deductions"):
-		if d.salary_component == pvd_component:
-			current_period_pvd_amount += d.amount
-
-	# Future period pvd amount
 	for d in ss._salary_structure_doc.get("deductions"):
 		if d.salary_component == pvd_component:
 			if d.amount_based_on_formula:
-				for sub_period in range(1, ceil(ss.remaining_sub_periods)):
-					future_period_pvd_amount += ss.get_amount_from_formula(d, sub_period)
+				current_period_pvd_amount += ss.get_amount_from_formula(d, 0)
 			else:
-				future_period_pvd_amount += d.amount * (ceil(ss.remaining_sub_periods) - 1)
+				current_period_pvd_amount += d.amount
+
+	# Future period pvd amount
+	for d in ss.get("deductions"):
+		if d.salary_component == pvd_component:
+			future_period_pvd_amount += d.amount * (ceil(ss.remaining_sub_periods) - 1)
 
 	# Opening entry pvd amount
 	pvd_contribution_till_date = ss.get_opening_for("custom_pvd_contribution_till_date", ss.start_date, ss.end_date)
