@@ -383,7 +383,7 @@ def prepare_salary_slip(company, payroll_period, employee, is_opening_entry=None
 def get_employee_yearly_salary(company, payroll_period, employee, is_opening_entry=None, opening_entry_date=None):
 	""" Find most up to date yearly salary, except when on_date is specified """
 	ss = prepare_salary_slip(company, payroll_period, employee, is_opening_entry, opening_entry_date)
-	return ss.ctc
+	return ss.ctc-ss.non_taxable_earnings
 
 
 @frappe.whitelist()
